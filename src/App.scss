@@ -1,5 +1,13 @@
+@import "~normalize.css";
+@import "./components/Forms/AddAuthor/AddAuthor";
+
+
 .App {
-
+  width: 100vw;
+  height: 100vh;
+  background: cornsilk;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 

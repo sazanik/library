@@ -1,15 +1,62 @@
-import React from 'react';
-import { DataGrid, GridColDef, GridRenderCellParams, GridValueFormatterParams } from '@mui/x-data-grid';
+import React, { ReactEventHandler } from 'react';
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRenderCellParams,
+  GridValueFormatterParams, MuiEvent,
+} from '@mui/x-data-grid';
 import { authors } from './authorsData';
-import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, IconButton } from '@mui/material';
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
+
+const cellClickHandler = (params: GridCellParams, event: any) => {
+  if (params.field !== 'edit') return;
+  console.log('id', params.id);
+};
+
+const iconClickHandler = (event: any) => {
+  const action = event.currentTarget.ariaLabel;
+  switch (action) {
+    case 'add' :
+      console.log('nav Add');
+      break
+
+    case 'edit' :
+      console.log('nav Edit');
+      break
+
+    case 'delete' :
+      console.log('Delete');
+      break
+  }
+};
+
+const editingCell = (params: GridRenderCellParams) => {
+  return (
+    <>
+      <IconButton onClick={iconClickHandler} aria-label="add">
+        <AddIcon fontSize="small" color="success" />
+      </IconButton>
+      <IconButton onClick={iconClickHandler} aria-label="edit">
+        <EditIcon fontSize="small" />
+      </IconButton>
+      <IconButton onClick={iconClickHandler} aria-label="delete">
+        <DeleteIcon fontSize="small" color="error" />
+      </IconButton>
+    </>
+  );
+};
 
 const columns: GridColDef[] = [
   {
     field: 'id',
     headerName: 'ID',
-    width: 50,
+    width: 20,
   },
   {
     field: 'firstName',
@@ -39,37 +86,44 @@ const columns: GridColDef[] = [
     headerName: 'Books',
     width: 200,
     flex: 1,
-    renderCell: (params: GridRenderCellParams) => (
-      <Button
+    renderCell: (params: GridRenderCellParams) => (<Button
         variant="contained"
         color="primary"
         size="small"
-        style={{marginLeft: 16}}
       >
         {params.value}
       </Button>
     ),
   },
+  {
+    field: 'edit',
+    headerName: 'Edit',
+    width: 120,
+    renderCell: editingCell,
+  },
 ];
 
-function AuthorsTable() {
+const styles = {
+  container: {
+    height: '100%',
+    width: '100%',
+    alignSelf: 'flex-start',
+  },
+};
+
+export default function AuthorsTable() {
   return (
-    <div style={{height: '100vh', width: '100%'}}>
+    <div style={styles.container}>
       <DataGrid
         rows={authors}
         columns={columns}
         pageSize={15}
         rowsPerPageOptions={[15]}
-        // disableSelectionOnClick
-        componentsProps={{
-          cell: {
-            // onMouseEnter: () => console.log('ENTER'),
-            // onMouseLeave: () => console.log('LEAVE'),
-          },
-        }}
+        disableSelectionOnClick
+        componentsProps={{}}
+        onCellClick={cellClickHandler}
       />
     </div>
   );
 }
 
-export default AuthorsTable;
