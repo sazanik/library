@@ -1,16 +1,18 @@
-import React, { ReactEventHandler } from 'react';
+import React from 'react';
 import {
   DataGrid,
   GridCellParams,
   GridColDef,
   GridRenderCellParams,
-  GridValueFormatterParams, MuiEvent,
+  GridValueFormatterParams,
 } from '@mui/x-data-grid';
-import { authors } from './authorsData';
+
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { selectAuthors } from '../../features/authors/authorsSlice';
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
@@ -112,6 +114,8 @@ const styles = {
 };
 
 export default function AuthorsTable() {
+  const authors = useSelector(selectAuthors)
+
   return (
     <div style={styles.container}>
       <DataGrid

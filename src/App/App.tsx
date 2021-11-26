@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.scss';
-import AuthorsTable from './screens/AuthorsTable/AuthorsTable';
-import AddAuthor from './components/Forms/AddAuthor/AddAuthor';
-import BooksTable from './screens/BooksTable/BooksTable';
+import AuthorsTable from '../screens/AuthorsTable/AuthorsTable';
+import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
 
 
 function App() {

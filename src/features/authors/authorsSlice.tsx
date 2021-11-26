@@ -9,10 +9,10 @@ function createAuthors(
   id = (count++).toString(),
 ) {
 
-  return {firstName, lastName, birthDate, countryOfBirth, books, id};
+  return { firstName, lastName, birthDate, countryOfBirth, books, id };
 }
 
-export const authors = [
+const initialState = [
   createAuthors('Author', '1', '1999/12/31', 'Armenia', 'Empty'),
   createAuthors('Author', '2', '1999/12/31', 'Belarus', 'Empty'),
   createAuthors('Author', '3', '1999/12/31', 'England', 'Empty'),
@@ -49,3 +49,14 @@ export const authors = [
   createAuthors('Author', '34', '1999/12/31', 'Belarus', 'Empty'),
   createAuthors('Author', '35', '1999/12/31', 'England', 'Empty'),
 ];
+
+export const authorsReducer = (state = initialState, action: { type: string, payload: any }): any => {
+  const { type, payload } = action;
+  switch (type) {
+
+    default:
+      return state;
+  }
+};
+
+export const selectAuthors = (state: any) => state.authors
