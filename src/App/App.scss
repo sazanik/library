@@ -1,6 +1,5 @@
 @import "~normalize.css";
-@import "../components/Forms/AddAuthor/_AddAuthor.css";
-
+@import './src/components/Forms/AddAuthor/AddAuthor';
 
 .App {
   width: 100vw;

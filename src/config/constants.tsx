@@ -1,0 +1,5 @@
+export default {
+  ADD_AUTHOR: 'ADD_AUTHOR',
+  CHANGE_COUNTRY: 'CHANGE_COUNTRY'
+}
+
