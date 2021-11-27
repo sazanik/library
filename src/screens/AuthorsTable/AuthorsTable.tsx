@@ -30,8 +30,6 @@ const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsTable() {
   const authors = useSelector(selectAuthors);
-  const dispatch = useDispatch();
-
   const columns: GridColDef[] = [
     {
       field: 'firstName',
@@ -77,9 +75,21 @@ export default function AuthorsTable() {
       renderCell: editingCell,
     },
   ];
+  const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [id, setId] = useState(0);
+  const [author, setAuthor] = useState({
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      country: '',
+      books: [],
+      id: -Infinity,
+    },
+  );
+
+  const dispatch = useDispatch();
+
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -90,28 +100,29 @@ export default function AuthorsTable() {
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    setId(+params.id);
+    setAuthor(params.row);
   };
 
   const clickHandler = (event: any) => {
     const action = event.currentTarget.ariaLabel;
     switch (action) {
       case 'add' :
+        setEdit(false);
         return handleOpenModal();
 
       case 'edit' :
-        return;
+        setEdit(true);
+        return handleOpenModal();
 
       case 'remove' :
-
-        return handleOpenDialog()
+        return handleOpenDialog();
     }
   };
 
   const handleClickDelete = () => {
-    dispatch(removeAuthor(id))
-    handleCloseDialog()
-  }
+    dispatch(removeAuthor(author));
+    handleCloseDialog();
+  };
 
   function editingCell() {
     return (
@@ -154,7 +165,7 @@ export default function AuthorsTable() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.modal}>
-          <AddAuthor />
+          <AddAuthor edit={edit} author={author} closeModal={handleCloseModal} />
         </Box>
       </Modal>
       <Dialog

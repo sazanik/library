@@ -17,7 +17,7 @@ export type Country = {
 
 export type AuthorActions = {
   type: AuthorActionTypes,
-  payload: Author | AuthorData
+  payload: Author
 }
 
 export type BookActions = {
@@ -30,15 +30,6 @@ export type Author = {
   lastName: string,
   birthDate: string | number,
   country: string,
-  books?: Book[],
-  id?: number
-}
-
-export type AuthorData = {
-  firstName?: string,
-  lastName?: string,
-  birthDate?: string | number,
-  country?: string,
   books?: Book[],
   id?: number
 }
