@@ -3,14 +3,14 @@ import { useForm } from 'react-hook-form';
 import './AddAuthor.scss';
 import { useDispatch } from 'react-redux';
 import { countries } from './countriesData';
-import { createAuthor } from '../../../features/authors/authorsSlice';
+import { addAuthor } from '../../../features/authors/authorsSlice';
 
 export default function AddAuthor() {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: any) => {
     console.log({...data, id: Math.random()});
-    dispatch(createAuthor({...data, books: 'empty', id: Math.random()}))
+    dispatch(addAuthor({...data, books: [], id: Math.random()}))
   }
 
   return (

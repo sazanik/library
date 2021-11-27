@@ -1,15 +1,9 @@
-import constants from '../../config/constants';
+import { IAction, IAuthor, AuthorsActions as Actions } from '../../config/constants';
 
-
-const initialState: any = [{
-  firstName: 'Author', lastName: '20', birthDate: '1999/12/31', country: 'England', books: 'Empty', id: '0',
-}];
-
-export const authorsReducer = (state = initialState, action: { type: string, payload: any }): any => {
+export const authorsReducer = (state = [], action: IAction): any => {
   const { type, payload } = action;
   switch (type) {
-
-    case constants.ADD_AUTHOR:
+    case Actions.Add:
       return [
         ...state,
         payload,
@@ -20,8 +14,6 @@ export const authorsReducer = (state = initialState, action: { type: string, pay
   }
 };
 
-
-export const createAuthor = (newAuthor: any) => ({ type: constants.ADD_AUTHOR, payload: newAuthor });
-
+export const addAuthor = (newAuthor: IAuthor) => ({ type: Actions.Add, payload: newAuthor });
 
 export const selectAuthors = (state: any) => state.authors;
