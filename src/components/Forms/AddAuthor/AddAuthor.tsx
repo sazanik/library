@@ -4,12 +4,14 @@ import './AddAuthor.scss';
 import { useDispatch } from 'react-redux';
 import { countries } from './countriesData';
 import { addAuthor } from '../../../features/authors/authorsSlice';
+import { Author } from '../../../config/constants';
 
 export default function AddAuthor() {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
-    console.log({...data, id: Math.random()});
+
+  const onSubmit = (data: Author) => {
+    console.log(data);
     dispatch(addAuthor({...data, books: [], id: Math.random()}))
   }
 

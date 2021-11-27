@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -10,9 +10,19 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton, Modal, Box } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { selectAuthors } from '../../features/authors/authorsSlice';
+import {
+  Button,
+  IconButton,
+  Modal,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeAuthor, selectAuthors } from '../../features/authors/authorsSlice';
 import AddAuthor from '../../components/Forms/AddAuthor/AddAuthor';
 import './AuthorsTable.scss';
 
@@ -20,6 +30,8 @@ const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsTable() {
   const authors = useSelector(selectAuthors);
+  const dispatch = useDispatch();
+
   const columns: GridColDef[] = [
     {
       field: 'firstName',
@@ -65,33 +77,43 @@ export default function AuthorsTable() {
       renderCell: editingCell,
     },
   ];
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [id, setId] = useState(0);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const handleOpenDialog = () => setOpenDialog(true);
+  const handleCloseDialog = () => setOpenDialog(false);
 
 
-  const cellClickHandler = (params: GridCellParams, event: any) => {
+  const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    console.log('id', params.id);
+    setId(+params.id);
   };
 
   const clickHandler = (event: any) => {
-
     const action = event.currentTarget.ariaLabel;
     switch (action) {
       case 'add' :
-        return handleOpen();
+        return handleOpenModal();
 
       case 'edit' :
+        return;
 
-        break;
+      case 'remove' :
 
-      case 'delete' :
-        break;
+        return handleOpenDialog()
     }
   };
 
-  function editingCell(params: GridRenderCellParams) {
+  const handleClickDelete = () => {
+    dispatch(removeAuthor(id))
+    handleCloseDialog()
+  }
+
+  function editingCell() {
     return (
       <>
         <IconButton onClick={clickHandler} aria-label="add">
@@ -100,7 +122,7 @@ export default function AuthorsTable() {
         <IconButton onClick={clickHandler} aria-label="edit">
           <EditIcon fontSize="small" />
         </IconButton>
-        <IconButton onClick={clickHandler} aria-label="delete">
+        <IconButton onClick={clickHandler} aria-label="remove">
           <DeleteIcon fontSize="small" color="error" />
         </IconButton>
       </>
@@ -126,8 +148,8 @@ export default function AuthorsTable() {
         />
       }
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openModal}
+        onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -135,6 +157,27 @@ export default function AuthorsTable() {
           <AddAuthor />
         </Box>
       </Modal>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Are you sure you want to remove the current author?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            The author and his books will be removed from the database.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleClickDelete} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

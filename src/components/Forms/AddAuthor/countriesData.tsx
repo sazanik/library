@@ -1,7 +1,4 @@
-interface Country {
-  code: string;
-  label: string;
-}
+import { Country } from '../../../config/constants';
 
 export const countries: Country[] = [
   {code: 'AD', label: 'Andorra'},

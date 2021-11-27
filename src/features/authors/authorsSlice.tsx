@@ -1,19 +1,38 @@
-import { IAction, IAuthor, AuthorsActions as Actions } from '../../config/constants';
+import {
+  AuthorActionTypes as types,
+  Author,
+  AuthorData,
+  AuthorActions,
+  State,
+} from '../../config/constants';
 
-export const authorsReducer = (state = [], action: IAction): any => {
+const initialState: Author[] = [{
+  firstName: 'Test',
+  lastName: 'Author',
+  birthDate: 19991212,
+  country: 'Belarus',
+  books: [],
+  id: 1,
+}];
+
+export const authorsReducer = (state = initialState, action: AuthorActions): (Author | AuthorData)[] => {
   const { type, payload } = action;
   switch (type) {
-    case Actions.Add:
+    case types.Add:
       return [
         ...state,
         payload,
       ];
+
+    case types.Remove:
+      return state.filter(author => author.id !== payload);
 
     default:
       return state;
   }
 };
 
-export const addAuthor = (newAuthor: IAuthor) => ({ type: Actions.Add, payload: newAuthor });
+export const addAuthor = (newAuthor: Author) => ({ type: types.Add, payload: newAuthor });
+export const removeAuthor = (id: number) => ({ type: types.Remove, payload: id });
 
-export const selectAuthors = (state: any) => state.authors;
+export const selectAuthors = (state: State): Author[] => state.authors;

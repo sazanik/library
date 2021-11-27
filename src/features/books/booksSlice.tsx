@@ -1,7 +1,9 @@
-const initialState: any = [];
+import { Book } from '../../config/constants';
 
-export const booksReducer = (state = initialState, action: { type: string, payload: any }): any => {
-  const { type, payload } = action;
+const initialState: Book[] = [];
+
+export const booksReducer = (state = initialState, action: { type: string, payload: Book }): Book[] => {
+  const { type } = action;
   switch (type) {
 
     default:
