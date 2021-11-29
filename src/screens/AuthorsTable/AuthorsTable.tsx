@@ -22,13 +22,14 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeAuthor, selectAuthors } from '../../features/authors/authorsSlice';
+import { actions, selectAuthors } from '../../features/authors/authorsSlice';
 import AddAuthor from '../../components/Forms/AddAuthor/AddAuthor';
 import './AuthorsTable.scss';
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsTable() {
+  const { removeAuthor } = actions;
   const authors = useSelector(selectAuthors);
   const columns: GridColDef[] = [
     {

@@ -1,9 +1,5 @@
-import {
-  AuthorActionTypes as types,
-  Author,
-  AuthorActions,
-  State,
-} from '../../config/constants';
+import { Author, AuthorActions } from '../../types/author';
+import { State } from '../../types/state';
 
 const initialState: Author[] = [{
   firstName: 'Test',
@@ -14,22 +10,28 @@ const initialState: Author[] = [{
   id: 1,
 }];
 
+export enum Types {
+  Add = 'authors/add',
+  Edit = 'authors/edit',
+  Remove = 'authors/remove',
+}
+
 export const authorsReducer = (state = initialState, action: AuthorActions): Author[] => {
   const { type, payload } = action;
   switch (type) {
-    case types.Add:
+    case Types.Add:
       return [
         ...state,
         payload,
       ];
 
-    case types.Edit:
+    case Types.Edit:
       return [
         ...state.filter(author => author.id !== payload.id),
         payload
       ]
 
-    case types.Remove:
+    case Types.Remove:
       return state.filter(author => author.id !== payload.id);
 
     default:
@@ -37,8 +39,11 @@ export const authorsReducer = (state = initialState, action: AuthorActions): Aut
   }
 };
 
-export const addAuthor = (newAuthor: Author) => ({ type: types.Add, payload: newAuthor });
-export const editAuthor = (author: Author) => ({ type: types.Edit, payload: author });
-export const removeAuthor = (author: Author) => ({ type: types.Remove, payload: author });
+export const actions = {
+  addAuthor: (newAuthor: Author) => ({ type: Types.Add, payload: newAuthor }),
+  editAuthor:  (author: Author) => ({ type: Types.Edit, payload: author }),
+  removeAuthor: (author: Author) => ({ type: Types.Remove, payload: author }),
+}
+
 
 export const selectAuthors = (state: State): Author[] => state.authors;
