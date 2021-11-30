@@ -1,0 +1,48 @@
+.AddBook {
+  max-width: 500px;
+
+  select,
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 20px;
+
+    &:focus {
+      outline: 2px solid darkorange;
+      border: 1px solid #d54d1b;
+      box-shadow: coral 0 0 2px 2px;
+    }
+  }
+
+  input[type="submit"] {
+    width: 100%;
+    opacity: .9;
+    background: #2c2c2c;
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 100;
+    letter-spacing: 4px;
+    appearance: none;
+    border-radius: 4px;
+    transition: 0.3s all;
+    cursor: pointer;
+    &:hover {
+      opacity: .8;
+    }
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+
+
+
+

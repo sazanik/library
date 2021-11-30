@@ -9,8 +9,8 @@ export type AuthorActions = {
 export type Author = {
   firstName: string,
   lastName: string,
-  birthDate: string | number,
+  birthDate: string,
   country: string,
   books?: Book[],
-  id?: number
+  id?: string
 }

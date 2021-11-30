@@ -1,4 +1,3 @@
-import { Author } from './author';
 import { Types } from '../features/books/booksSlice';
 
 export type BookActions = {
@@ -10,9 +9,11 @@ export type Book = {
   title: string,
   description: string,
   code: string,
-  author: Author[],
-  pagesCount: number,
-  year: string
+  pagesCount: string,
+  year: string,
+  id?: string,
+  authorName: string,
+  authorId?: string,
 }
 
 

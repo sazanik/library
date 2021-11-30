@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
   GridColDef,
-  GridRenderCellParams,
-  GridValueFormatterParams,
 } from '@mui/x-data-grid';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -22,55 +20,42 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions, selectAuthors } from '../../features/authors/authorsSlice';
-import AddAuthor from '../../components/Forms/AddAuthor/AddAuthor';
-import BooksOfAuthor from "../../components/Dropdowns/BooksOfAuthor/BooksOfAuthor";
+import { actions, selectBooks } from "../../features/books/booksSlice";
+import AddBook from "../../components/Forms/AddBook/AddBook";
 
-const dateFormatter = (param: GridValueFormatterParams) => param.value;
-
-export default function AuthorsTable() {
-  const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState({
-      firstName: '',
-      lastName: '',
-      birthDate: '',
-      country: '',
-      books: [],
-      id: '',
-    },
-  );
-  const {removeAuthor} = actions;
-  const authors = useSelector(selectAuthors);
-
+export default function BooksTable() {
+  const {removeBook} = actions;
+  const books = useSelector(selectBooks);
   const columns: GridColDef[] = [
     {
-      field: 'firstName',
-      headerName: 'First name',
+      field: 'title',
+      headerName: 'Title',
       flex: 1,
     },
     {
-      field: 'lastName',
-      headerName: 'Last name',
+      field: 'description',
+      headerName: 'Description',
       flex: 1,
     },
     {
-      field: 'birthDate',
-      headerName: 'Birth date',
-      flex: 1,
-      valueFormatter: dateFormatter,
-    },
-    {
-      field: 'country',
-      headerName: 'Country of birth',
+      field: 'code',
+      headerName: 'Code',
       flex: 1,
     },
     {
-      field: 'books',
-      headerName: 'Books',
+      field: 'authorName',
+      headerName: 'Author',
       flex: 1,
-      renderCell: () => <BooksOfAuthor books={author.books} />
+    },
+    {
+      field: 'pagesCount',
+      headerName: 'Pages count',
+      flex: 1,
+    },
+    {
+      field: 'year',
+      headerName: 'Year',
+      flex: 1,
     },
     {
       field: 'edit',
@@ -79,10 +64,22 @@ export default function AuthorsTable() {
       renderCell: editingCell,
     },
   ];
-
+  const [edit, setEdit] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [book, setBook] = useState({
+      title: '',
+      description: '',
+      code: '',
+      authorName: '',
+      pagesCount: '',
+      year: '',
+      id: '',
+      authorId: '',
+    },
+  );
 
   const dispatch = useDispatch();
-
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -90,13 +87,12 @@ export default function AuthorsTable() {
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
 
-
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    setAuthor(params.row);
+    setBook(params.row);
   };
 
-  const clickHandler = (event: any) => {
+  const clickHandler = (event: SyntheticEvent) => {
     const action = event.currentTarget.ariaLabel;
     switch (action) {
       case 'add' :
@@ -113,7 +109,7 @@ export default function AuthorsTable() {
   };
 
   const handleClickDelete = () => {
-    dispatch(removeAuthor(author));
+    dispatch(removeBook(book))
     handleCloseDialog();
   };
 
@@ -135,14 +131,14 @@ export default function AuthorsTable() {
 
   return (
     <div style={styles.container}>
-      {!authors.length
+      {!books.length
         ?
         <Button onClick={clickHandler} aria-label="add" style={styles.btnAddAuthor}>
-          <AddIcon fontSize="large" color="primary" />Add author
+          <AddIcon fontSize="large" color="primary" />Add book
         </Button>
         :
         <DataGrid
-          rows={authors}
+          rows={books}
           columns={columns}
           pageSize={15}
           rowsPerPageOptions={[15]}
@@ -158,7 +154,7 @@ export default function AuthorsTable() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.modal}>
-          <AddAuthor edit={edit} author={author} closeModal={handleCloseModal} />
+          <AddBook edit={edit} book={book} closeModal={handleCloseModal} />
         </Box>
       </Modal>
       <Dialog
@@ -168,11 +164,11 @@ export default function AuthorsTable() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure you want to delete this author?
+          Are you sure you want to delete this book?
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            The author and his books will be removed from the database.
+            The book will be removed from the database.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -188,6 +184,7 @@ export default function AuthorsTable() {
 
 const styles = {
   container: {
+    bgcolor: '#e3c987',
     display: 'flex',
     height: '100%',
     width: '100%',

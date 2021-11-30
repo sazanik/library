@@ -7,14 +7,18 @@ import { Author } from '../../../types/author';
 import { COUNTRIES } from "../../../constants/constants";
 
 
-export default function AddAuthor({edit, author, closeModal}: { edit: boolean, author: Author, closeModal: any }) {
-  const {addAuthor, editAuthor} = actions
+export default function AddBook({edit, author, closeModal}: { edit: boolean, author: Author, closeModal: any }) {
+  const {createAuthor, editAuthor} = actions
   const dispatch = useDispatch();
   const {register, handleSubmit} = useForm();
 
   const onSubmit = (data: Author) => {
-    if (edit) dispatch(editAuthor({...author, ...data}))
-    else dispatch(addAuthor({...data, books: [], id: Math.random()}));
+    if (edit) {
+      dispatch(editAuthor({...author, ...data}))
+    }
+    else {
+      dispatch(createAuthor({...data, books: [], id: Math.random().toString()}));
+    }
     closeModal();
   };
 
