@@ -41,17 +41,14 @@ export const authorsReducer = (state = initialState, action: any): any => {
 
 
     case BookTypes.Edit:
-      let deletedIndex: any;
-      for (const author of cloneState) {
-        author.books.forEach((book: Book, index: number): void => {
-          if (book.id === payload.id) deletedIndex = index;
-        });
-        if (deletedIndex) {
-          author.books.splice(deletedIndex, 1);
-        }
-      }
+      cloneState.forEach((author:Author) => {
+        const updateBooks: Book[] = []
+        let result = author?.books?.filter((book:Book) => book.id !== payload.id)
+        updateBooks.push(...result)
+        author.books = updateBooks
+      })
       const author: any = cloneState.find((author: Author) => author.id === payload.authorId);
-      author.books.push(payload)
+      author?.books?.push(payload)
       return cloneState;
 
     case BookTypes.Delete: {
