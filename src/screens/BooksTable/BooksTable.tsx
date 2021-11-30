@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -20,12 +20,15 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions, selectBooks } from "../../features/books/booksSlice";
 import AddBook from "../../components/Forms/AddBook/AddBook";
+import { actions, selectAuthors } from "../../features/authors/authorsSlice";
+import { Book } from "../../types/book";
 
 export default function BooksTable() {
-  const {removeBook} = actions;
-  const books = useSelector(selectBooks);
+  const authors = useSelector(selectAuthors);
+  const [books, setBooks] = useState<any>([]);
+  const {deleteBook} = actions;
+
   const columns: GridColDef[] = [
     {
       field: 'title',
@@ -109,9 +112,17 @@ export default function BooksTable() {
   };
 
   const handleClickDelete = () => {
-    dispatch(removeBook(book))
+    dispatch(deleteBook(book));
     handleCloseDialog();
   };
+
+  useEffect(() => {
+    let allBooks: Book [] = []
+    for (const author of authors) {
+      allBooks = allBooks.concat(author.books)
+      setBooks(allBooks);
+    }
+  }, [authors]);
 
   function editingCell() {
     return (

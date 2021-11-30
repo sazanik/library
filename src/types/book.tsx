@@ -1,7 +1,7 @@
-import { Types } from '../features/books/booksSlice';
+import { BookTypes } from "../features/authors/authorsSlice";
 
 export type BookActions = {
-  type: Types,
+  type: BookTypes
   payload: Book
 }
 
@@ -11,9 +11,9 @@ export type Book = {
   code: string,
   pagesCount: string,
   year: string,
-  id?: string,
+  id: string,
   authorName: string,
-  authorId?: string,
+  authorId: string,
 }
 
 

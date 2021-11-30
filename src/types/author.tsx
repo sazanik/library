@@ -1,8 +1,8 @@
 import { Book } from './book';
-import { Types } from '../features/authors/authorsSlice';
+import { AuthorTypes } from "../features/authors/authorsSlice";
 
 export type AuthorActions = {
-  type: Types,
+  type: AuthorTypes
   payload: Author
 }
 
@@ -11,6 +11,6 @@ export type Author = {
   lastName: string,
   birthDate: string,
   country: string,
-  books?: Book[],
-  id?: string
+  books: Book[],
+  id: string
 }

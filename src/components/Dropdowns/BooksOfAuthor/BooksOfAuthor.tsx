@@ -16,29 +16,28 @@ export default function BooksOfAuthor({books}: { books: Book[] }) {
   };
 
   return (
-    !books.length
-      ? <p>Empty</p>
-      :
-      <div>
-        <Button
-          id="basic-button"
-          aria-controls="basic-menu"
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          Open list
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >{books.map(book => <MenuItem onClick={handleClose}>{book.title}</MenuItem>)}
-        </Menu>
-      </div>
+    <div>
+      <Button
+        id="basic-button"
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        Open list
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >{books.length
+        ? books.map(book => <MenuItem onClick={handleClose} key={Math.random().toString()}>{book.title}</MenuItem>)
+        : <MenuItem>Empty</MenuItem>}
+      </Menu>
+    </div>
   )
 }

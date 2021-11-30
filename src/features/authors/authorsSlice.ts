@@ -1,50 +1,66 @@
-import { Author } from '../../types/author';
-import { State } from '../../types/state';
-import { Book } from "../../types/book";
+import { Author, AuthorActions } from '../../types/author';
+import { Book, BookActions } from "../../types/book";
 
-const initialState: Author[] = [{
-  firstName: 'Test',
-  lastName: 'Author',
-  birthDate: '19991212',
-  country: 'Belarus',
-  books: [],
-  id: '1',
-}];
+const initialState: Author[] = [];
 
-export enum Types {
-  Create = 'authors/create',
-  Edit = 'authors/edit',
-  Delete = 'authors/delete',
-  AddBook = 'authors/addBook',
-  DeleteBook = 'authors/deleteBook'
+export enum AuthorTypes {
+  Create = 'author/create',
+  Edit = 'author/edit',
+  Delete = 'author/delete',
 }
 
-export const authorsReducer = (state = initialState, action: any): Author[] => {
+export enum BookTypes {
+  Create = 'book/create',
+  Edit = 'book/edit',
+  Delete = 'book/delete',
+}
+
+export const authorsReducer = (state = initialState, action: any): any => {
   const {type, payload} = action;
+  const cloneState = [...state];
   switch (type) {
-    case Types.Create:
+    case AuthorTypes.Create:
       return [
         ...state,
         payload,
       ];
 
-    case Types.Edit:
+    case AuthorTypes.Edit:
       return [
         ...state.filter(author => author.id !== payload.id),
         payload
-      ]
+      ];
 
-    case Types.Delete:
-      return [
-        ...state.filter(author => author.id !== payload.id)
-      ]
+    case AuthorTypes.Delete:
+      return state.filter(author => author.id !== payload.id);
 
-    case Types.AddBook:
-      const cloneState = [...state]
-      cloneState.find(author => author.id === payload.authorId)?.books?.push(payload)
-      return [
-        ...cloneState
-      ]
+
+    case BookTypes.Create:
+      cloneState.find(author => author.id === payload.authorId)?.books?.push(payload);
+      return cloneState;
+
+
+    case BookTypes.Edit:
+      let deletedIndex: any;
+      for (const author of cloneState) {
+        author.books.forEach((book: Book, index: number): void => {
+          if (book.id === payload.id) deletedIndex = index;
+        });
+        if (deletedIndex) {
+          author.books.splice(deletedIndex, 1);
+        }
+      }
+      const author: any = cloneState.find((author: Author) => author.id === payload.authorId);
+      author.books.push(payload)
+      return cloneState;
+
+    case BookTypes.Delete: {
+      const author: any = cloneState.find((author: Author) => author.id === payload.authorId);
+      const updatedBooks: Book[] = author.books.filter((book: Book) => book.id !== payload.id);
+      author.books = [...updatedBooks];
+      return cloneState;
+    }
+
 
     default:
       return state;
@@ -52,10 +68,14 @@ export const authorsReducer = (state = initialState, action: any): Author[] => {
 };
 
 export const actions = {
-  createAuthor: (newAuthor: Author) => ({type: Types.Create, payload: newAuthor}),
-  editAuthor: (author: Author) => ({type: Types.Edit, payload: author}),
-  removeAuthor: (author: Author) => ({type: Types.Delete, payload: author}),
-  addBook: (book: Book) => ({type: Types.AddBook, payload: book})
-}
+  createAuthor: (newAuthor: Author): AuthorActions => ({type: AuthorTypes.Create, payload: newAuthor}),
+  editAuthor: (author: Author): AuthorActions => ({type: AuthorTypes.Edit, payload: author}),
+  deleteAuthor: (author: Author): AuthorActions => ({type: AuthorTypes.Delete, payload: author}),
 
-export const selectAuthors = (state: State): Author[] => state.authors;
+
+  createBook: (newBook: Book): BookActions => ({type: BookTypes.Create, payload: newBook}),
+  editBook: (book: Book): BookActions => ({type: BookTypes.Edit, payload: book}),
+  deleteBook: (book: Book): BookActions => ({type: BookTypes.Delete, payload: book}),
+};
+
+export const selectAuthors = (state: any): Author[] => state.authors;

@@ -3,7 +3,6 @@ import {
   DataGrid,
   GridCellParams,
   GridColDef,
-  GridRenderCellParams,
   GridValueFormatterParams,
 } from '@mui/x-data-grid';
 
@@ -41,7 +40,7 @@ export default function AuthorsTable() {
       id: '',
     },
   );
-  const {removeAuthor} = actions;
+  const {deleteAuthor} = actions;
   const authors = useSelector(selectAuthors);
 
   const columns: GridColDef[] = [
@@ -70,7 +69,7 @@ export default function AuthorsTable() {
       field: 'books',
       headerName: 'Books',
       flex: 1,
-      renderCell: () => <BooksOfAuthor books={author.books} />
+      renderCell: (params) => <BooksOfAuthor books={params.row.books} />
     },
     {
       field: 'edit',
@@ -79,7 +78,6 @@ export default function AuthorsTable() {
       renderCell: editingCell,
     },
   ];
-
 
   const dispatch = useDispatch();
 
@@ -92,8 +90,9 @@ export default function AuthorsTable() {
 
 
   const cellClickHandler = (params: GridCellParams) => {
-    if (params.field !== 'edit') return;
-    setAuthor(params.row);
+    if (params.field === 'edit' || params.field === 'books') {
+      setAuthor(params.row);
+    }
   };
 
   const clickHandler = (event: any) => {
@@ -113,7 +112,7 @@ export default function AuthorsTable() {
   };
 
   const handleClickDelete = () => {
-    dispatch(removeAuthor(author));
+    dispatch(deleteAuthor(author));
     handleCloseDialog();
   };
 
