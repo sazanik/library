@@ -20,14 +20,16 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import AddBook from "../../components/Forms/AddBook/AddBook";
-import { actions, selectAuthors } from "../../features/authors/authorsSlice";
-import { Book } from "../../types/book";
-import { Author } from "../../types/author";
+import AddBook from "../components/Forms/AddBook/AddBook";
+import { actions, selectLibrary } from "../features/library/librarySlice";
+import { Book } from "../types/book";
+import { Author } from "../types/author";
+import { styles } from "./styles";
+import { BOOK_DIALOG_DESCRIPTION, BOOK_DIALOG_TITLE } from "../constants/constants";
 
 export default function BooksTable() {
-  const authors = useSelector(selectAuthors);
-  const [books, setBooks] = useState<any>([]);
+  const authors = useSelector(selectLibrary);
+  const [books, setBooks] = useState(authors[0]?.books);
   const {deleteBook} = actions;
 
   const columns: GridColDef[] = [
@@ -71,8 +73,8 @@ export default function BooksTable() {
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState<any>(undefined)
-  const [book, setBook] = useState<any>(undefined)
+  const [author, setAuthor] = useState<Author>(authors[0]);
+  const [book, setBook] = useState<Book>(authors[0]?.books[0]);
 
   const dispatch = useDispatch();
 
@@ -84,12 +86,16 @@ export default function BooksTable() {
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    const authorId = params.row.authorId
-    const bookId = params.row.id
-    const author = authors.find((author:Author) => author.id === authorId)
-    const book = author?.books?.find((book: Book) => book.id === bookId)
-    setAuthor(author)
-    setBook(book)
+    const authorId = params.row.authorId;
+    const bookId = params.row.id;
+    const author = authors.find((author: Author) => author.id === authorId);
+    const book: Book | undefined = author?.books.find((book: Book) => book.id === bookId);
+    if (author) {
+      setAuthor(author);
+    }
+    if (book) {
+      setBook(book);
+    }
   };
 
   const clickHandler = (event: SyntheticEvent) => {
@@ -114,9 +120,9 @@ export default function BooksTable() {
   };
 
   useEffect(() => {
-    let allBooks: Book [] = []
+    let allBooks: Book [] = [];
     for (const author of authors) {
-      allBooks = allBooks.concat(author.books)
+      allBooks = allBooks.concat(author.books);
       setBooks(allBooks);
     }
   }, [authors]);
@@ -139,9 +145,9 @@ export default function BooksTable() {
 
   return (
     <div style={styles.container}>
-      {!books.length
+      {!books?.length
         ?
-        <Button onClick={clickHandler} aria-label="add" style={styles.btnAddAuthor}>
+        <Button onClick={clickHandler} aria-label="add" style={styles.button}>
           <AddIcon fontSize="large" color="primary" />Add book
         </Button>
         :
@@ -172,11 +178,11 @@ export default function BooksTable() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure you want to delete this book?
+          {BOOK_DIALOG_TITLE}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            The book will be removed from the database.
+            {BOOK_DIALOG_DESCRIPTION}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -189,30 +195,3 @@ export default function BooksTable() {
     </div>
   );
 }
-
-const styles = {
-  container: {
-    bgcolor: '#e3c987',
-    display: 'flex',
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnAddAuthor: {
-    fontSize: '26px',
-  },
-  modal: {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  },
-};
-
-

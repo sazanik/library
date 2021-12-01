@@ -21,27 +21,21 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions, selectAuthors } from '../../features/authors/authorsSlice';
-import AddAuthor from '../../components/Forms/AddAuthor/AddAuthor';
-import BooksOfAuthor from "../../components/Dropdowns/BooksOfAuthor/BooksOfAuthor";
+import { actions, selectLibrary } from '../features/library/librarySlice';
+import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
+import BooksOfAuthor from "../components/Dropdowns/BooksOfAuthor/BooksOfAuthor";
+import { AUTHOR_DIALOG_DESCRIPTION, AUTHOR_DIALOG_TITLE, CANCEL, DELETE } from "../constants/constants";
+import { styles } from "./styles";
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsTable() {
+  const authors = useSelector(selectLibrary);
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState({
-      firstName: '',
-      lastName: '',
-      birthDate: '',
-      country: '',
-      books: [],
-      id: '',
-    },
-  );
+  const [author, setAuthor] = useState(authors[0]);
   const {deleteAuthor} = actions;
-  const authors = useSelector(selectAuthors);
 
   const columns: GridColDef[] = [
     {
@@ -80,11 +74,8 @@ export default function AuthorsTable() {
   ];
 
   const dispatch = useDispatch();
-
-
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
-
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
 
@@ -95,7 +86,7 @@ export default function AuthorsTable() {
     }
   };
 
-  const clickHandler = (event: any) => {
+  const clickHandler = (event: { currentTarget: { ariaLabel: string } }) => {
     const action = event.currentTarget.ariaLabel;
     switch (action) {
       case 'add' :
@@ -136,7 +127,7 @@ export default function AuthorsTable() {
     <div style={styles.container}>
       {!authors.length
         ?
-        <Button onClick={clickHandler} aria-label="add" style={styles.btnAddAuthor}>
+        <Button onClick={clickHandler} aria-label="add" style={styles.button}>
           <AddIcon fontSize="large" color="primary" />Add author
         </Button>
         :
@@ -150,6 +141,7 @@ export default function AuthorsTable() {
           onCellClick={cellClickHandler}
         />
       }
+
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -160,6 +152,7 @@ export default function AuthorsTable() {
           <AddAuthor edit={edit} author={author} closeModal={handleCloseModal} />
         </Box>
       </Modal>
+
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -167,46 +160,22 @@ export default function AuthorsTable() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Are you sure you want to delete this author?
+          {AUTHOR_DIALOG_TITLE}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            The author and his books will be removed from the database.
+            {AUTHOR_DIALOG_DESCRIPTION}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleClickDelete} autoFocus>
-            Delete
-          </Button>
+          <Button onClick={handleCloseDialog}>{CANCEL}</Button>
+          <Button onClick={handleClickDelete} autoFocus>{DELETE}</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
 
-const styles = {
-  container: {
-    display: 'flex',
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnAddAuthor: {
-    fontSize: '26px',
-  },
-  modal: {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  },
-};
+
 
 

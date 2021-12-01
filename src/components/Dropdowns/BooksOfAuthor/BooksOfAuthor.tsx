@@ -2,15 +2,21 @@ import React, { useState } from "react";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { SHOW_LIST, EMPTY } from "../../../constants/constants";
 import { Book } from "../../../types/book";
 
-export default function BooksOfAuthor({books}: { books: Book[] }) {
+export interface IProps {
+  books: Book[]
+}
+
+export default function BooksOfAuthor({books}: IProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -24,7 +30,7 @@ export default function BooksOfAuthor({books}: { books: Book[] }) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Open list
+        {SHOW_LIST}
       </Button>
       <Menu
         id="basic-menu"
@@ -36,8 +42,8 @@ export default function BooksOfAuthor({books}: { books: Book[] }) {
         }}
       >{books.length
         ? books.map(book => <MenuItem onClick={handleClose} key={Math.random().toString()}>{book.title}</MenuItem>)
-        : <MenuItem>Empty</MenuItem>}
+        : <MenuItem>{EMPTY}</MenuItem>}
       </Menu>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
-import AuthorsTable from '../screens/AuthorsTable/AuthorsTable';
-import BooksTable from "../screens/BooksTable/BooksTable";
+import AuthorsTable from '../screens/AuthorsTable';
+import BooksTable from "../screens/BooksTable";
 
 function App() {
   return (

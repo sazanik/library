@@ -2,39 +2,47 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './AddBook.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../../../features/authors/authorsSlice';
+import { selectLibrary } from "../../../features/library/librarySlice";
+import { actions } from '../../../features/library/librarySlice';
 import { Book } from "../../../types/book";
-import { selectAuthors } from "../../../features/authors/authorsSlice";
 import { Author } from "../../../types/author";
 
-export default function AddBook({edit, book, author, closeModal}: { edit: boolean, book: Book, author: Author, closeModal: any }) {
-  const authors = useSelector(selectAuthors);
+interface IProps {
+  edit: boolean,
+  author: Author,
+  book: Book,
+  closeModal: any
+}
+
+export default function AddBook(props: IProps) {
+  const {edit, author, book, closeModal} = props;
+  const authors = useSelector(selectLibrary);
   const {createBook, editBook} = actions;
   const dispatch = useDispatch();
   const {register, handleSubmit} = useForm();
-  const [authorId, setAuthorId] = useState(author?.id || authors[0].id)
+  const [authorId, setAuthorId] = useState(author?.id || authors[0].id);
 
   const onSubmit = (data: Book) => {
+    const id = Math.random().toString();
     if (edit) {
       const updatedBook = {...book, ...data, authorName: getAuthor()};
-      console.log(updatedBook);
       dispatch(editBook(updatedBook));
     } else {
-      const book = {...data, authorName: getAuthor(), id: Math.random().toString()};
+      const book = {...data, authorName: getAuthor(), id};
       dispatch(createBook(book));
     }
     closeModal();
   };
 
-  const getAuthor = (): string  => {
-   const author: Author | undefined = authors.find((author: Author) => author.id === authorId)
-    return author?.firstName + ' ' + author?.lastName
-  }
+  const getAuthor = (): string => {
+    const author: Author | undefined = authors.find((author: Author) => author.id === authorId);
+    return author?.firstName + ' ' + author?.lastName;
+  };
 
   register('authorId', {
     onChange: event => {
       const value = event.currentTarget.value;
-      setAuthorId(value)
+      setAuthorId(value);
     }
   });
 
