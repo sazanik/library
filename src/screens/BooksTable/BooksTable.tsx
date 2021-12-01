@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddBook from "../../components/Forms/AddBook/AddBook";
 import { actions, selectAuthors } from "../../features/authors/authorsSlice";
 import { Book } from "../../types/book";
+import { Author } from "../../types/author";
 
 export default function BooksTable() {
   const authors = useSelector(selectAuthors);
@@ -70,17 +71,8 @@ export default function BooksTable() {
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [book, setBook] = useState({
-      title: '',
-      description: '',
-      code: '',
-      authorName: '',
-      pagesCount: '',
-      year: '',
-      id: '',
-      authorId: '',
-    },
-  );
+  const [author, setAuthor] = useState<any>(undefined)
+  const [book, setBook] = useState<any>(undefined)
 
   const dispatch = useDispatch();
 
@@ -92,7 +84,12 @@ export default function BooksTable() {
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    setBook(params.row);
+    const authorId = params.row.authorId
+    const bookId = params.row.id
+    const author = authors.find((author:Author) => author.id === authorId)
+    const book = author?.books?.find((book: Book) => book.id === bookId)
+    setAuthor(author)
+    setBook(book)
   };
 
   const clickHandler = (event: SyntheticEvent) => {
@@ -165,7 +162,7 @@ export default function BooksTable() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.modal}>
-          <AddBook edit={edit} book={book} closeModal={handleCloseModal} />
+          <AddBook edit={edit} book={book} author={author} closeModal={handleCloseModal} />
         </Box>
       </Modal>
       <Dialog
