@@ -25,31 +25,32 @@ export const authorsReducer = (state = initialState, action: any): any => {
         payload,
       ];
 
-    case AuthorTypes.Edit:
-      return [
-        ...state.filter(author => author.id !== payload.id),
-        payload
-      ];
+    case AuthorTypes.Edit: {
+      const newState = [...state.filter(author => author.id !== payload.id), payload];
+      const author: Author | undefined = newState.find((author: Author) => author.id === payload.id);
+      author?.books.forEach((book: Book) => book.authorName = author?.firstName + ' ' + author?.lastName);
+      return newState;
+    }
 
     case AuthorTypes.Delete:
       return state.filter(author => author.id !== payload.id);
-
 
     case BookTypes.Create:
       cloneState.find(author => author.id === payload.authorId)?.books?.push(payload);
       return cloneState;
 
+    case BookTypes.Edit: {
 
-    case BookTypes.Edit:
-      cloneState.forEach((author:Author) => {
-        const updateBooks: Book[] = []
-        let result = author?.books?.filter((book:Book) => book.id !== payload.id)
-        updateBooks.push(...result)
-        author.books = updateBooks
-      })
+      cloneState.forEach((author: Author) => {
+        const updateBooks: Book[] = [];
+        let result = author?.books?.filter((book: Book) => book.id !== payload.id);
+        updateBooks.push(...result);
+        author.books = updateBooks;
+      });
       const author: any = cloneState.find((author: Author) => author.id === payload.authorId);
-      author?.books?.push(payload)
+      author?.books?.push(payload);
       return cloneState;
+    }
 
     case BookTypes.Delete: {
       const author: any = cloneState.find((author: Author) => author.id === payload.authorId);

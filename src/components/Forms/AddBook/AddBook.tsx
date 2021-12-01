@@ -12,7 +12,7 @@ export default function AddBook({edit, book, author, closeModal}: { edit: boolea
   const {createBook, editBook} = actions;
   const dispatch = useDispatch();
   const {register, handleSubmit} = useForm();
-  const [authorId, setAuthorId] = useState(author.id || authors[0].id)
+  const [authorId, setAuthorId] = useState(author?.id || authors[0].id)
 
   const onSubmit = (data: Book) => {
     if (edit) {
