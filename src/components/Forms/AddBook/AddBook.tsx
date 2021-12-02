@@ -20,7 +20,7 @@ export default function AddBook(props: IProps) {
   const {createBook, editBook} = actions;
   const dispatch = useDispatch();
   const {register, handleSubmit} = useForm();
-  const [authorId, setAuthorId] = useState(author?.id || authors[0].id);
+  const [authorId, setAuthorId] = useState(author?.id || authors[0]?.id);
 
   const onSubmit = (data: Book) => {
     const id = Math.random().toString();

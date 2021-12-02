@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
   GridColDef,
-  GridValueFormatterParams,
 } from '@mui/x-data-grid';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -21,49 +20,48 @@ import {
   DialogActions,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions, selectLibrary } from '../features/library/librarySlice';
-import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
-import BooksOfAuthor from "../components/Dropdowns/BooksOfAuthor/BooksOfAuthor";
-import { AUTHOR_DIALOG_DESCRIPTION, AUTHOR_DIALOG_TITLE, CANCEL, DELETE } from "../constants/constants";
+import AddBook from "../components/Forms/AddBook/AddBook";
+import { actions, selectLibrary } from "../features/library/librarySlice";
+import { Book } from "../types/book";
+import { Author } from "../types/author";
 import { styles } from "./styles";
+import { BOOK_DIALOG_DESCRIPTION, BOOK_DIALOG_TITLE } from "../constants/constants";
 
-const dateFormatter = (param: GridValueFormatterParams) => param.value;
-
-export default function AuthorsTable() {
+export default function BooksPage() {
   const authors = useSelector(selectLibrary);
-  const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState(authors[0]);
-  const {deleteAuthor} = actions;
+  const [books, setBooks] = useState(authors[0]?.books);
+  const {deleteBook} = actions;
 
   const columns: GridColDef[] = [
     {
-      field: 'firstName',
-      headerName: 'First name',
+      field: 'title',
+      headerName: 'Title',
       flex: 1,
     },
     {
-      field: 'lastName',
-      headerName: 'Last name',
+      field: 'description',
+      headerName: 'Description',
       flex: 1,
     },
     {
-      field: 'birthDate',
-      headerName: 'Birth date',
-      flex: 1,
-      valueFormatter: dateFormatter,
-    },
-    {
-      field: 'country',
-      headerName: 'Country of birth',
+      field: 'code',
+      headerName: 'Code',
       flex: 1,
     },
     {
-      field: 'books',
-      headerName: 'Books',
+      field: 'authorName',
+      headerName: 'Author',
       flex: 1,
-      renderCell: (params) => <BooksOfAuthor books={params.row.books} />
+    },
+    {
+      field: 'pagesCount',
+      headerName: 'Pages count',
+      flex: 1,
+    },
+    {
+      field: 'year',
+      headerName: 'Year',
+      flex: 1,
     },
     {
       field: 'edit',
@@ -72,21 +70,35 @@ export default function AuthorsTable() {
       renderCell: editingCell,
     },
   ];
+  const [edit, setEdit] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [author, setAuthor] = useState<Author>(authors[0]);
+  const [book, setBook] = useState<Book>(authors[0]?.books[0]);
 
   const dispatch = useDispatch();
+
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
 
-
   const cellClickHandler = (params: GridCellParams) => {
-    if (params.field === 'edit' || params.field === 'books') {
-      setAuthor(params.row);
+    if (params.field !== 'edit') return;
+    const authorId = params.row.authorId;
+    const bookId = params.row.id;
+    const author = authors.find((author: Author) => author.id === authorId);
+    const book: Book | undefined = author?.books.find((book: Book) => book.id === bookId);
+    if (author) {
+      setAuthor(author);
+    }
+    if (book) {
+      setBook(book);
     }
   };
 
-  const clickHandler = (event: { currentTarget: { ariaLabel: string } }) => {
+  const clickHandler = (event: SyntheticEvent) => {
     const action = event.currentTarget.ariaLabel;
     switch (action) {
       case 'add' :
@@ -103,9 +115,17 @@ export default function AuthorsTable() {
   };
 
   const handleClickDelete = () => {
-    dispatch(deleteAuthor(author));
+    dispatch(deleteBook(book));
     handleCloseDialog();
   };
+
+  useEffect(() => {
+    let allBooks: Book [] = [];
+    for (const author of authors) {
+      allBooks = allBooks.concat(author.books);
+      setBooks(allBooks);
+    }
+  }, [authors]);
 
   function editingCell() {
     return (
@@ -125,14 +145,14 @@ export default function AuthorsTable() {
 
   return (
     <div style={styles.container}>
-      {!authors.length
+      {!books?.length
         ?
         <Button onClick={clickHandler} aria-label="add" style={styles.button}>
-          <AddIcon fontSize="large" color="primary" />Add author
+          <AddIcon fontSize="large" color="primary" />Add book
         </Button>
         :
         <DataGrid
-          rows={authors}
+          rows={books}
           columns={columns}
           pageSize={15}
           rowsPerPageOptions={[15]}
@@ -141,7 +161,6 @@ export default function AuthorsTable() {
           onCellClick={cellClickHandler}
         />
       }
-
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -149,10 +168,9 @@ export default function AuthorsTable() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.modal}>
-          <AddAuthor edit={edit} author={author} closeModal={handleCloseModal} />
+          <AddBook edit={edit} book={book} author={author} closeModal={handleCloseModal} />
         </Box>
       </Modal>
-
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -160,22 +178,20 @@ export default function AuthorsTable() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {AUTHOR_DIALOG_TITLE}
+          {BOOK_DIALOG_TITLE}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {AUTHOR_DIALOG_DESCRIPTION}
+            {BOOK_DIALOG_DESCRIPTION}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>{CANCEL}</Button>
-          <Button onClick={handleClickDelete} autoFocus>{DELETE}</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleClickDelete} autoFocus>
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
-
-
-
-

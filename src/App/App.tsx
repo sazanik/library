@@ -1,13 +1,19 @@
 import React from 'react';
 import './App.scss';
-import AuthorsTable from '../screens/AuthorsTable';
-import BooksTable from "../screens/BooksTable";
+import { Routes, Route, Link } from 'react-router-dom';
+import AuthorsPage from '../pages/AuthorsPage';
+import BooksTable from "../pages/BooksPage";
 
 function App() {
   return (
     <div className="App">
-      <AuthorsTable />
-      <BooksTable />
+      <Link to='/'>Authors</Link>
+      <Link to='/books'>Books</Link>
+      <h1>Welcome to Library App</h1>
+      <Routes>
+        <Route path="/" element={<AuthorsPage />} />
+        <Route path="/books" element={<BooksTable />} />
+      </Routes>
     </div>
   );
 }

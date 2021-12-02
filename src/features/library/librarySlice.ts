@@ -60,7 +60,6 @@ export const actions = {
   editAuthor: (author: Author): AuthorActions => ({type: AuthorTypes.Edit, payload: author}),
   deleteAuthor: (author: Author): AuthorActions => ({type: AuthorTypes.Delete, payload: author}),
 
-
   createBook: (newBook: Book): BooksActions => ({type: BookTypes.Create, payload: newBook}),
   editBook: (book: Book): BooksActions => ({type: BookTypes.Edit, payload: book}),
   deleteBook: (book: Book): BooksActions => ({type: BookTypes.Delete, payload: book}),
