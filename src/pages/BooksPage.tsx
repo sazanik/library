@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -19,18 +19,23 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import AddBook from "../components/Forms/AddBook/AddBook";
-import { actions, selectLibrary } from "../features/library/librarySlice";
-import { Book } from "../types/book";
-import { Author } from "../types/author";
 import { styles } from "./styles";
 import { BOOK_DIALOG_DESCRIPTION, BOOK_DIALOG_TITLE } from "../constants/constants";
+import { removeBook, allBooks, Book } from "../features/books/booksSlice";
+import { allAuthors, Author } from "../features/authors/authorsSlice";
+import { useAppDispatch } from "../App/hooks";
 
 export default function BooksPage() {
-  const authors = useSelector(selectLibrary);
-  const [books, setBooks] = useState(authors[0]?.books);
-  const {deleteBook} = actions;
+  console.log('allBooks', allBooks)
+  console.log('allAuthors', allAuthors)
+
+  const dispatch = useAppDispatch();
+  const [edit, setEdit] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [author, setAuthor] = useState<Author | null>(null);
+  const [book, setBook] = useState<Book | null>(null);
 
   const columns: GridColDef[] = [
     {
@@ -70,26 +75,15 @@ export default function BooksPage() {
       renderCell: editingCell,
     },
   ];
-  const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState<Author>(authors[0]);
-  const [book, setBook] = useState<Book>(authors[0]?.books[0]);
-
-  const dispatch = useDispatch();
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
-
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    const authorId = params.row.authorId;
-    const bookId = params.row.id;
-    const author = authors.find((author: Author) => author.id === authorId);
-    const book: Book | undefined = author?.books.find((book: Book) => book.id === bookId);
+
     if (author) {
       setAuthor(author);
     }
@@ -115,17 +109,11 @@ export default function BooksPage() {
   };
 
   const handleClickDelete = () => {
-    dispatch(deleteBook(book));
-    handleCloseDialog();
-  };
-
-  useEffect(() => {
-    let allBooks: Book [] = [];
-    for (const author of authors) {
-      allBooks = allBooks.concat(author.books);
-      setBooks(allBooks);
+    if (book) {
+      dispatch(removeBook(book?.id));
+      handleCloseDialog();
     }
-  }, [authors]);
+  };
 
   function editingCell() {
     return (
@@ -145,14 +133,14 @@ export default function BooksPage() {
 
   return (
     <div style={styles.container}>
-      {!books?.length
+      {!allBooks?.length
         ?
         <Button onClick={clickHandler} aria-label="add" style={styles.button}>
           <AddIcon fontSize="large" color="primary" />Add book
         </Button>
         :
         <DataGrid
-          rows={books}
+          rows={allBooks}
           columns={columns}
           pageSize={15}
           rowsPerPageOptions={[15]}

@@ -1,5 +1,3 @@
-import { Country } from "../types/country";
-
 export const SHOW_LIST = 'show list'
 export const EMPTY = 'Empty'
 export const AUTHOR_DIALOG_TITLE = 'Are you sure you want to delete this author?'
@@ -10,7 +8,7 @@ export const CANCEL = 'CANCEL'
 export const DELETE = 'DELETE'
 
 
-export const COUNTRIES: Country[] = [
+export const COUNTRIES = [
   {code: 'AD', label: 'Andorra'},
   {code: 'AE', label: 'United Arab Emirates'},
   {code: 'AF', label: 'Afghanistan'},

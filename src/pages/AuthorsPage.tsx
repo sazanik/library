@@ -5,7 +5,6 @@ import {
   GridColDef,
   GridValueFormatterParams,
 } from '@mui/x-data-grid';
-
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,22 +19,23 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { actions, selectLibrary } from '../features/library/librarySlice';
+import { removeAuthor, allAuthors, Author } from '../features/authors/authorsSlice';
 import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
-import BooksOfAuthor from "../components/Dropdowns/BooksOfAuthor/BooksOfAuthor";
 import { AUTHOR_DIALOG_DESCRIPTION, AUTHOR_DIALOG_TITLE, CANCEL, DELETE } from "../constants/constants";
 import { styles } from "./styles";
+import AuthorBooks from "../components/Dropdowns/AuthorBooks/AuthorBooks";
+import { useAppDispatch } from "../App/hooks";
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsPage() {
-  const authors = useSelector(selectLibrary);
+  console.log('allAuthors', allAuthors);
+
+  const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState(authors[0]);
-  const {deleteAuthor} = actions;
+  const [author, setAuthor] = useState<Author | null>(null);
 
   const columns: GridColDef[] = [
     {
@@ -63,7 +63,7 @@ export default function AuthorsPage() {
       field: 'books',
       headerName: 'Books',
       flex: 1,
-      renderCell: (params) => <BooksOfAuthor books={params.row.books} />
+      renderCell: (params) => <AuthorBooks books={params.row.books} />
     },
     {
       field: 'edit',
@@ -73,12 +73,10 @@ export default function AuthorsPage() {
     },
   ];
 
-  const dispatch = useDispatch();
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
-
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field === 'edit' || params.field === 'books') {
@@ -103,8 +101,10 @@ export default function AuthorsPage() {
   };
 
   const handleClickDelete = () => {
-    dispatch(deleteAuthor(author));
-    handleCloseDialog();
+    if (author) {
+      dispatch(removeAuthor(author.id));
+      handleCloseDialog();
+    }
   };
 
   function editingCell() {
@@ -125,14 +125,14 @@ export default function AuthorsPage() {
 
   return (
     <div style={styles.container}>
-      {!authors.length
+      {!allAuthors?.length
         ?
         <Button onClick={clickHandler} aria-label="add" style={styles.button}>
           <AddIcon fontSize="large" color="primary" />Add author
         </Button>
         :
         <DataGrid
-          rows={authors}
+          rows={allAuthors}
           columns={columns}
           pageSize={15}
           rowsPerPageOptions={[15]}

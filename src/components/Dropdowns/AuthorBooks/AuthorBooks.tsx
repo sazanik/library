@@ -3,13 +3,15 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { SHOW_LIST, EMPTY } from "../../../constants/constants";
-import { Book } from "../../../types/book";
+import { Book } from "../../../features/books/booksSlice";
 
-export interface IProps {
+
+export interface Props {
   books: Book[]
 }
 
-export default function BooksOfAuthor({books}: IProps) {
+
+export default function AuthorBooks({books}: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

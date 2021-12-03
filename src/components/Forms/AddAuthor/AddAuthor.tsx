@@ -1,29 +1,27 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import './AddAuthor.scss';
-import { useDispatch } from 'react-redux';
-import { actions } from '../../../features/library/librarySlice';
-import { Author } from '../../../types/author';
 import { COUNTRIES } from "../../../constants/constants";
+import { Author, createAuthor, updateAuthor } from "../../../features/authors/authorsSlice";
+import { useAppDispatch } from "../../../App/hooks";
 
-interface IProps {
+interface Props {
   edit: boolean,
-  author: Author,
+  author: Author | null,
   closeModal: any
 }
 
-export default function AddAuthor(props: IProps) {
-  const {edit, author, closeModal} = props;
-  const {createAuthor, editAuthor} = actions;
-  const dispatch = useDispatch();
-  const {register, handleSubmit} = useForm();
+export default function AddAuthor(props: Props) {
+  const { edit, author, closeModal } = props;
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = (data: Author) => {
-    const id = Math.random().toString();
-    if (edit) {
-      dispatch(editAuthor({...author, ...data}));
+    const id = Date.now().toString().slice(5);
+    if (edit && author) {
+      dispatch(updateAuthor({ id: author.id, changes: { ...data } }));
     } else {
-      dispatch(createAuthor({...data, books: [], id}));
+      dispatch(createAuthor({ ...data, books: [], id }));
     }
     closeModal();
   };
@@ -33,10 +31,10 @@ export default function AddAuthor(props: IProps) {
       className="AddAuthor"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <input {...register('firstName')} placeholder="First name" defaultValue={edit ? author.firstName : ''} />
-      <input {...register('lastName')} placeholder="Last name" defaultValue={edit ? author.lastName : ''} />
-      <input {...register('birthDate')} placeholder="Birth date" defaultValue={edit ? author.birthDate : ''} />
-      <select {...register('country')} defaultValue={edit ? author.country : ''}>
+      <input {...register('firstName')} placeholder="First name" defaultValue={edit ? author?.firstName : ''} />
+      <input {...register('lastName')} placeholder="Last name" defaultValue={edit ? author?.lastName : ''} />
+      <input {...register('birthDate')} placeholder="Birth date" defaultValue={edit ? author?.birthDate : ''} />
+      <select {...register('country')} defaultValue={edit ? author?.country : ''}>
         {COUNTRIES.map(country => <option key={country.code + country.label}
                                           value={country.label}>{country.label}</option>)}
       </select>
