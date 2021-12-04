@@ -1,5 +1,4 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { RootState, store } from "../../App/store";
 
 export interface Author {
   id: string
@@ -10,7 +9,7 @@ export interface Author {
   books: string[]
 }
 
-const authorsAdapter = createEntityAdapter<Author>({
+export const authorsAdapter = createEntityAdapter<Author>({
   selectId: author => author.id,
   sortComparer: (a, b) => a.lastName.localeCompare(b.lastName)
 });
@@ -25,8 +24,5 @@ export const authorsSlice = createSlice({
   }
 });
 
-const authorsSelectors = authorsAdapter.getSelectors<RootState>(state => state.authors)
-
-export const allAuthors = authorsSelectors.selectAll(store?.getState())
 export const { createAuthor, updateAuthor, removeAuthor } = authorsSlice.actions;
-export default authorsSlice.reducer;
+

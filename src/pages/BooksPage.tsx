@@ -22,19 +22,19 @@ import {
 import AddBook from "../components/Forms/AddBook/AddBook";
 import { styles } from "./styles";
 import { BOOK_DIALOG_DESCRIPTION, BOOK_DIALOG_TITLE } from "../constants/constants";
-import { removeBook, allBooks, Book } from "../features/books/booksSlice";
-import { allAuthors, Author } from "../features/authors/authorsSlice";
+import { removeBook, Book } from "../features/books/booksSlice";
+import { Author } from "../features/authors/authorsSlice";
 import { useAppDispatch } from "../App/hooks";
+import { useAllAuthors, useAllBooks } from "../App/store";
 
 export default function BooksPage() {
-  console.log('allBooks', allBooks)
-  console.log('allAuthors', allAuthors)
-
+  const authors = useAllAuthors()
+  const books = useAllBooks()
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState<Author | null>(null);
+  const [author, setAuthor] = useState<Author | null>(authors[0]);
   const [book, setBook] = useState<Book | null>(null);
 
   const columns: GridColDef[] = [
@@ -83,13 +83,7 @@ export default function BooksPage() {
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-
-    if (author) {
-      setAuthor(author);
-    }
-    if (book) {
-      setBook(book);
-    }
+    setBook(params.row)
   };
 
   const clickHandler = (event: SyntheticEvent) => {
@@ -110,7 +104,7 @@ export default function BooksPage() {
 
   const handleClickDelete = () => {
     if (book) {
-      dispatch(removeBook(book?.id));
+      dispatch(removeBook(book.id));
       handleCloseDialog();
     }
   };
@@ -133,14 +127,14 @@ export default function BooksPage() {
 
   return (
     <div style={styles.container}>
-      {!allBooks?.length
+      {!books?.length
         ?
         <Button onClick={clickHandler} aria-label="add" style={styles.button}>
           <AddIcon fontSize="large" color="primary" />Add book
         </Button>
         :
         <DataGrid
-          rows={allBooks}
+          rows={books}
           columns={columns}
           pageSize={15}
           rowsPerPageOptions={[15]}

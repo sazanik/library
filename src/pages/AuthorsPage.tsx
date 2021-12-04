@@ -19,18 +19,18 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import { removeAuthor, allAuthors, Author } from '../features/authors/authorsSlice';
+import { removeAuthor, Author } from '../features/authors/authorsSlice';
 import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
 import { AUTHOR_DIALOG_DESCRIPTION, AUTHOR_DIALOG_TITLE, CANCEL, DELETE } from "../constants/constants";
 import { styles } from "./styles";
 import AuthorBooks from "../components/Dropdowns/AuthorBooks/AuthorBooks";
+import { useAllAuthors } from "../App/store";
 import { useAppDispatch } from "../App/hooks";
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsPage() {
-  console.log('allAuthors', allAuthors);
-
+  const authors = useAllAuthors();
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -123,16 +123,17 @@ export default function AuthorsPage() {
     );
   }
 
+
   return (
     <div style={styles.container}>
-      {!allAuthors?.length
+      {!authors.length
         ?
         <Button onClick={clickHandler} aria-label="add" style={styles.button}>
           <AddIcon fontSize="large" color="primary" />Add author
         </Button>
         :
         <DataGrid
-          rows={allAuthors}
+          rows={authors}
           columns={columns}
           pageSize={15}
           rowsPerPageOptions={[15]}

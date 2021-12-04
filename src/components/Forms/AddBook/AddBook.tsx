@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './AddBook.scss';
-import { useAppDispatch } from "../../../App/hooks";
 import { Book, createBook, updateBook } from "../../../features/books/booksSlice";
-import { allAuthors, Author } from "../../../features/authors/authorsSlice";
+import { Author } from "../../../features/authors/authorsSlice";
+import { useAppDispatch } from "../../../App/hooks";
+import { useAllAuthors, useAllBooks } from "../../../App/store";
 
 interface IProps {
   edit: boolean,
@@ -13,15 +14,18 @@ interface IProps {
 }
 
 export default function AddBook(props: IProps) {
-  const { edit, author, book, closeModal } = props;
-
+  const authors = useAllAuthors();
+  const books = useAllBooks()
   const dispatch = useAppDispatch();
+  const { edit, author, book: propsBook, closeModal } = props;
   const { register, handleSubmit } = useForm();
-  const [authorId, setAuthorId] = useState(author?.id || allAuthors[0]?.id);
+  const [authorId, setAuthorId] = useState(author?.id || authors[0]?.id);
+  const [book, setBook] = useState(propsBook || books[0])
 
   const onSubmit = (data: Book) => {
     const id = Math.random().toString();
-    if (edit && book) {
+    if (edit) {
+      if(!book) return
       const updatedBook = { ...data, authorName: getAuthor() };
       dispatch(updateBook({ id: book.id, changes: { ...updatedBook } }));
     } else {
@@ -32,7 +36,7 @@ export default function AddBook(props: IProps) {
   };
 
   const getAuthor = (): string => {
-    const author: Author | undefined = allAuthors.find((author: Author) => author.id === authorId);
+    const author: Author | undefined = authors.find((author: Author) => author.id === authorId);
     return author?.firstName + ' ' + author?.lastName;
   };
 
@@ -48,17 +52,17 @@ export default function AddBook(props: IProps) {
       className="AddBook"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <input {...register('title')} placeholder="Title" defaultValue={edit ? book?.title : ''} />
-      <input {...register('description')} placeholder="Description" defaultValue={edit ? book?.description : ''} />
-      <input {...register('code')} placeholder="Code" defaultValue={edit ? book?.code : ''} />
+      <input {...register('title')} placeholder="Title" defaultValue={edit ? book.title : ''} />
+      <input {...register('description')} placeholder="Description" defaultValue={edit ? book.description : ''} />
+      <input {...register('code')} placeholder="Code" defaultValue={edit ? book.code : ''} />
       <select {...register('authorId')} value={authorId}>
         <option key={Math.random()} disabled>Select author...</option>
-        {allAuthors.map(author => <option key={Math.random()} value={author.id}>
+        {authors.map(author => <option key={Math.random()} value={author.id}>
           {author.firstName + ' ' + author.lastName}
         </option>)}
       </select>
-      <input {...register('pagesCount')} placeholder="Pages count" defaultValue={edit ? book?.pagesCount : ''} />
-      <input {...register('year')} placeholder="Published year" defaultValue={edit ? book?.year : ''} />
+      <input {...register('pagesCount')} placeholder="Pages count" defaultValue={edit ? book.pagesCount : ''} />
+      <input {...register('year')} placeholder="Published year" defaultValue={edit ? book.year : ''} />
       <input type="submit" value={edit ? 'confirm' : 'add'} />
     </form>
   );

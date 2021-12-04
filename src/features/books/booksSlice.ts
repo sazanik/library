@@ -1,5 +1,4 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { RootState, store } from "../../App/store";
 
 export interface Book {
   id: string
@@ -10,10 +9,9 @@ export interface Book {
   year: string,
   authorId: string,
   authorName: string
-
 }
 
-const booksAdapter = createEntityAdapter<Book>({
+export const booksAdapter = createEntityAdapter<Book>({
   selectId: book => book.id,
   sortComparer: (a, b) => a.title.localeCompare(b.title)
 });
@@ -28,8 +26,4 @@ export const booksSlice = createSlice({
   }
 });
 
-const booksSelectors = booksAdapter.getSelectors<RootState>(state => state.books)
-
-export const allBooks = booksSelectors.selectAll(store.getState())
 export const { createBook, updateBook, removeBook } = booksSlice.actions;
-export default booksSlice.reducer;

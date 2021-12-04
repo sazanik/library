@@ -12,10 +12,9 @@ interface Props {
 }
 
 export default function AddAuthor(props: Props) {
+  const dispatch = useAppDispatch()
   const { edit, author, closeModal } = props;
-  const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm();
-
   const onSubmit = (data: Author) => {
     const id = Date.now().toString().slice(5);
     if (edit && author) {
