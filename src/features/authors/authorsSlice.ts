@@ -6,7 +6,6 @@ export interface Author {
   lastName: string,
   birthDate: string,
   country: string,
-  books: string[]
 }
 
 export const authorsAdapter = createEntityAdapter<Author>({

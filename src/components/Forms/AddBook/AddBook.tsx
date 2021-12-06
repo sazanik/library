@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './AddBook.scss';
 import { Book, createBook, updateBook } from "../../../features/books/booksSlice";
-import { Author, updateAuthor } from "../../../features/authors/authorsSlice";
+import { Author } from "../../../features/authors/authorsSlice";
 import { useAppDispatch } from "../../../App/hooks";
 import { useAllAuthors, store, authorsSelectors } from "../../../App/store";
 
@@ -14,11 +14,10 @@ interface Props {
 }
 
 export default function AddBook(props: Props) {
-  const { edit, author: propsAuthor, book: propsBook, closeModal } = props;
+  const { edit, author: propsAuthor, book: book, closeModal } = props;
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const [author, setAuthor] = useState<Author>(propsAuthor);
-  const [book, setBook] = useState<Book>(propsBook);
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data: Book) => {
@@ -26,12 +25,9 @@ export default function AddBook(props: Props) {
     if (edit) {
       const updatedBook = { ...data, authorName: getAuthorName() };
       dispatch(updateBook({ id: book.id, changes: { ...updatedBook } }));
-
     } else {
       const book = { ...data, authorName: getAuthorName(), id };
       dispatch(createBook(book));
-      console.log(author.books, book.id);
-      dispatch(updateAuthor({ id: author.id, changes: { books: [...author.books, book.id] } }));
     }
     closeModal();
   };
@@ -50,7 +46,6 @@ export default function AddBook(props: Props) {
     }
   });
 
-  console.log(author);
   return (
     <form
       className="AddBook"

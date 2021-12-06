@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function AddAuthor(props: Props) {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const { edit, author, closeModal } = props;
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: Author) => {
@@ -20,7 +20,7 @@ export default function AddAuthor(props: Props) {
     if (edit && author) {
       dispatch(updateAuthor({ id: author.id, changes: { ...data } }));
     } else {
-      dispatch(createAuthor({ ...data, id, books: [] }));
+      dispatch(createAuthor({ ...data, id }));
     }
     closeModal();
   };

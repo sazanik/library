@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -22,14 +22,15 @@ import {
 import AddBook from "../components/Forms/AddBook/AddBook";
 import { styles } from "./styles";
 import { BOOK_DIALOG_DESCRIPTION, BOOK_DIALOG_TITLE } from "../constants/constants";
-import { removeBook, Book } from "../features/books/booksSlice";
+import { removeBook, Book, updateBook } from "../features/books/booksSlice";
 import { Author } from "../features/authors/authorsSlice";
-import { useAppDispatch } from "../App/hooks";
+import { useAppDispatch, useAppSelector } from "../App/hooks";
 import { authorsSelectors, store, useAllAuthors, useAllBooks } from "../App/store";
 
 export default function BooksPage() {
+  const booksState = useAppSelector(state => state.books);
   const authors = useAllAuthors();
-  const books = useAllBooks();
+  const [books, setBooks] = useState<Book[]>(useAllBooks);
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -81,6 +82,19 @@ export default function BooksPage() {
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
 
+  const updateBooks = () => {
+    authors.forEach(author => {
+      books.forEach(book => {
+        if (author.id === book.authorId) {
+          const authorName = author.firstName + ' ' + author.lastName;
+          dispatch(updateBook({
+            id: book.id, changes: { authorName }
+          }));
+        }
+      });
+    });
+  };
+
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
     const book: Book = params.row;
@@ -129,6 +143,14 @@ export default function BooksPage() {
       </>
     );
   }
+
+  useEffect(() => {
+    updateBooks();
+  }, []);
+
+  useEffect(() => {
+    setBooks(useAllBooks);
+  }, [booksState]);
 
   return (
     <div style={styles.container}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -24,18 +24,20 @@ import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
 import { AUTHOR_DIALOG_DESCRIPTION, AUTHOR_DIALOG_TITLE, CANCEL, DELETE } from "../constants/constants";
 import { styles } from "./styles";
 import AuthorBooks from "../components/Dropdowns/AuthorBooks/AuthorBooks";
-import { useAllAuthors } from "../App/store";
+import { useAllAuthors, useAllBooks } from "../App/store";
 import { useAppDispatch } from "../App/hooks";
+import { removeBook } from "../features/books/booksSlice";
 
 const dateFormatter = (param: GridValueFormatterParams) => param.value;
 
 export default function AuthorsPage() {
   const authors = useAllAuthors();
+  const books = useAllBooks();
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState<Author | null>(null);
+  const [author, setAuthor] = useState<Author>(authors[0]);
 
   const columns: GridColDef[] = [
     {
@@ -63,7 +65,7 @@ export default function AuthorsPage() {
       field: 'books',
       headerName: 'Books',
       flex: 1,
-      renderCell: () => <AuthorBooks booksIds={author?.books} />
+      renderCell: () => <AuthorBooks author={author} />
     },
     {
       field: 'edit',
@@ -103,6 +105,11 @@ export default function AuthorsPage() {
   const handleClickDelete = () => {
     if (author) {
       dispatch(removeAuthor(author.id));
+      books.forEach(book => {
+        if (book.authorId === author.id) {
+          dispatch(removeBook(book.id));
+        }
+      });
       handleCloseDialog();
     }
   };
