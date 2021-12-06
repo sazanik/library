@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -63,7 +63,7 @@ export default function AuthorsPage() {
       field: 'books',
       headerName: 'Books',
       flex: 1,
-      renderCell: (params) => <AuthorBooks books={params.row.books} />
+      renderCell: () => <AuthorBooks booksIds={author?.books} />
     },
     {
       field: 'edit',
@@ -122,7 +122,6 @@ export default function AuthorsPage() {
       </>
     );
   }
-
 
   return (
     <div style={styles.container}>

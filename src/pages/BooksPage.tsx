@@ -25,17 +25,17 @@ import { BOOK_DIALOG_DESCRIPTION, BOOK_DIALOG_TITLE } from "../constants/constan
 import { removeBook, Book } from "../features/books/booksSlice";
 import { Author } from "../features/authors/authorsSlice";
 import { useAppDispatch } from "../App/hooks";
-import { useAllAuthors, useAllBooks } from "../App/store";
+import { authorsSelectors, store, useAllAuthors, useAllBooks } from "../App/store";
 
 export default function BooksPage() {
-  const authors = useAllAuthors()
-  const books = useAllBooks()
+  const authors = useAllAuthors();
+  const books = useAllBooks();
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [author, setAuthor] = useState<Author | null>(authors[0]);
-  const [book, setBook] = useState<Book | null>(null);
+  const [author, setAuthor] = useState<Author>(authors[0]);
+  const [book, setBook] = useState<Book>(books[0]);
 
   const columns: GridColDef[] = [
     {
@@ -83,7 +83,12 @@ export default function BooksPage() {
 
   const cellClickHandler = (params: GridCellParams) => {
     if (params.field !== 'edit') return;
-    setBook(params.row)
+    const book: Book = params.row;
+    const author = authorsSelectors.selectById(store.getState(), book.authorId);
+    setBook(book);
+    if (author) {
+      setAuthor(author);
+    }
   };
 
   const clickHandler = (event: SyntheticEvent) => {
@@ -150,7 +155,7 @@ export default function BooksPage() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.modal}>
-          <AddBook edit={edit} book={book} author={author} closeModal={handleCloseModal} />
+          <AddBook edit={edit} author={author} book={book} closeModal={handleCloseModal} />
         </Box>
       </Modal>
       <Dialog

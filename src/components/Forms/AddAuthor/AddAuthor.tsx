@@ -20,7 +20,7 @@ export default function AddAuthor(props: Props) {
     if (edit && author) {
       dispatch(updateAuthor({ id: author.id, changes: { ...data } }));
     } else {
-      dispatch(createAuthor({ ...data, books: [], id }));
+      dispatch(createAuthor({ ...data, id, books: [] }));
     }
     closeModal();
   };

@@ -9,13 +9,12 @@ export const store = configureStore({
   }
 })
 
-console.log(store.getState());
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
-const authorsSelectors = authorsAdapter.getSelectors<RootState>(state => state.authors)
+export const authorsSelectors = authorsAdapter.getSelectors<RootState>(state => state.authors)
 export const useAllAuthors = () => authorsSelectors.selectAll(store.getState())
 
-const booksSelectors = booksAdapter.getSelectors<RootState>(state => state.books)
+export const booksSelectors = booksAdapter.getSelectors<RootState>(state => state.books)
 export const useAllBooks = () => booksSelectors.selectAll(store.getState())

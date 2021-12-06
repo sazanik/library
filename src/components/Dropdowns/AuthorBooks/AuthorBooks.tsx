@@ -3,15 +3,13 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { SHOW_LIST, EMPTY } from "../../../constants/constants";
-import { Book } from "../../../features/books/booksSlice";
-
+import { booksSelectors, store, } from "../../../App/store";
 
 export interface Props {
-  books: Book[]
+  booksIds: string[] | undefined;
 }
 
-
-export default function AuthorBooks({books}: Props) {
+export default function AuthorBooks({ booksIds }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -23,6 +21,13 @@ export default function AuthorBooks({books}: Props) {
     setAnchorEl(null);
   };
 
+  const getBooks = () => {
+    return booksIds?.map(id => {
+      return booksSelectors.selectById(store.getState(), id);
+    });
+  };
+
+  console.log(getBooks());
   return (
     <div>
       <Button
@@ -42,8 +47,8 @@ export default function AuthorBooks({books}: Props) {
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
-      >{books.length
-        ? books.map(book => <MenuItem onClick={handleClose} key={Math.random().toString()}>{book.title}</MenuItem>)
+      >{getBooks()?.length
+        ? getBooks()?.map(book => <MenuItem onClick={handleClose} key={Math.random().toString()}>{book?.title}</MenuItem>)
         : <MenuItem>{EMPTY}</MenuItem>}
       </Menu>
     </div>
