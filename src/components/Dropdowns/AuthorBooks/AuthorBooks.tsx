@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { SHOW_LIST, EMPTY } from "../../../constants/constants";
 import { useAllBooks } from "../../../App/store";
 import { Author } from "../../../features/authors/authorsSlice";
@@ -23,11 +23,7 @@ export default function AuthorBooks({ author }: Props) {
     setAnchorEl(null);
   };
 
-  const getBooks = () => {
-    return books.filter(book => {
-      return book.authorId === author.id;
-    });
-  };
+  const getBooks = () => books.filter((book) => book.authorId === author.id);
 
   return (
     <div>
@@ -35,7 +31,7 @@ export default function AuthorBooks({ author }: Props) {
         id="basic-button"
         aria-controls="basic-menu"
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         {SHOW_LIST}
@@ -46,12 +42,18 @@ export default function AuthorBooks({ author }: Props) {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          "aria-labelledby": "basic-button",
         }}
-      >{getBooks()?.length
-        ? getBooks()?.map(book => <MenuItem onClick={handleClose}
-                                            key={Math.random().toString()}>{book?.title}</MenuItem>)
-        : <MenuItem>{EMPTY}</MenuItem>}
+      >
+        {getBooks()?.length ? (
+          getBooks()?.map((book) => (
+            <MenuItem onClick={handleClose} key={Math.random().toString()}>
+              {book?.title}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem>{EMPTY}</MenuItem>
+        )}
       </Menu>
     </div>
   );
