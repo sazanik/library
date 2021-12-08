@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import './AddAuthor.scss';
+import { useTranslation } from 'react-i18next';
 import { COUNTRIES } from '../../../constants/constants';
 import {
   Author,
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function AddAuthor(props: Props): JSX.Element {
+  const { t } = useTranslation('translations');
   const dispatch = useAppDispatch();
   const { edit, author, closeModal } = props;
   const { register, handleSubmit } = useForm();
@@ -66,7 +68,7 @@ export default function AddAuthor(props: Props): JSX.Element {
           </option>
         ))}
       </select>
-      <input type='submit' value={edit ? 'confirm' : 'add'} />
+      <input type='submit' value={edit ? t('confirm') : t('add')} />
     </form>
   );
 }

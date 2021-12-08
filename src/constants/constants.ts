@@ -1,15 +1,3 @@
-export const SHOW_LIST = 'show list';
-export const EMPTY = 'Empty';
-export const AUTHOR_DIALOG_TITLE =
-  'Are you sure you want to delete this author?';
-export const BOOK_DIALOG_TITLE = 'Are you sure you want to delete this book?';
-export const AUTHOR_DIALOG_DESCRIPTION =
-  'The author and his books will be removed from the database.';
-export const BOOK_DIALOG_DESCRIPTION =
-  'The book will be removed from the database.';
-export const CANCEL = 'CANCEL';
-export const DELETE = 'DELETE';
-
 export const COUNTRIES = [
   {
     code: 'AD',

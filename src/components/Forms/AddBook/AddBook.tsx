@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './AddBook.scss';
+import { useTranslation } from 'react-i18next';
 import {
   Book,
   createBook,
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function AddBook(props: Props): JSX.Element {
+  const { t } = useTranslation('translations');
   const { edit, author: propsAuthor, book, closeModal } = props;
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
@@ -65,22 +67,22 @@ export default function AddBook(props: Props): JSX.Element {
     <form className='AddBook' onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register('title')}
-        placeholder='Title'
+        placeholder={t('title')}
         defaultValue={edit ? book.title : ''}
       />
       <input
         {...register('description')}
-        placeholder='Description'
+        placeholder={t('description')}
         defaultValue={edit ? book.description : ''}
       />
       <input
         {...register('code')}
-        placeholder='Code'
+        placeholder={t('code')}
         defaultValue={edit ? book.code : ''}
       />
       <select {...register('authorId')} value={currentAuthor.id}>
         <option key={Math.random()} disabled>
-          Select author...
+          {t('selectAuthor')}
         </option>
         {authors.map((author) => (
           <option key={Math.random()} value={author.id}>
@@ -90,15 +92,15 @@ export default function AddBook(props: Props): JSX.Element {
       </select>
       <input
         {...register('pagesCount')}
-        placeholder='Pages count'
+        placeholder={t('pagesCount')}
         defaultValue={edit ? book.pagesCount : ''}
       />
       <input
-        {...register('year')}
-        placeholder='Published year'
+        {...register('publishingYear')}
+        placeholder={t('publishingYear')}
         defaultValue={edit ? book.year : ''}
       />
-      <input type='submit' value={edit ? 'confirm' : 'add'} />
+      <input type='submit' value={edit ? t('confirm') : t('add')} />
     </form>
   );
 }

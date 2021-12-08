@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -20,14 +20,9 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { removeAuthor, Author } from '../features/authors/authorsSlice';
 import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
-import {
-  AUTHOR_DIALOG_DESCRIPTION,
-  AUTHOR_DIALOG_TITLE,
-  CANCEL,
-  DELETE,
-} from '../constants/constants';
 import { styles } from './styles';
 import AuthorBooks from '../components/Dropdowns/AuthorBooks/AuthorBooks';
 import { useAllAuthors, useAllBooks } from '../App/store';
@@ -41,6 +36,7 @@ export default function AuthorsPage(): JSX.Element {
   const authors = useAllAuthors();
   const books = useAllBooks();
   const dispatch = useAppDispatch();
+  const { t, i18n } = useTranslation('translations');
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -148,7 +144,7 @@ export default function AuthorsPage(): JSX.Element {
       {!authors.length ? (
         <Button onClick={clickHandler} aria-label='add' style={styles.button}>
           <AddIcon fontSize='large' color='primary' />
-          Add author
+          {t('buttons.addAuthor')}
         </Button>
       ) : (
         <DataGrid

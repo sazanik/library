@@ -1,0 +1,38 @@
+{
+  "buttons": {
+    "addAuthor": "Add author",
+    "addBook": "Add book",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "add": "Add",
+    "confirm": "confirm"
+  },
+  "dialogs": {
+    "titles": {
+      "author": "Are you sure you want to delete this author?",
+      "book": "Are you sure you want to delete this book?"
+    },
+    "descriptions": {
+      "author": "The author and his books will be removed from the database.",
+      "book": "The book will be removed from the database."
+    }
+  },
+  "showList": "Show list",
+  "empty": "Empty",
+  "changeLanguage": "Change language",
+  "authors": "Authors",
+  "books": "Books",
+  "greeting": "Welcome to Library App",
+  "placeholders": {
+    "firstName": "First name",
+    "lastName": "LastName",
+    "birthDate": "BirthDate",
+    "country": "Country",
+    "title": "Title",
+    "description": "Description",
+    "code": "Code",
+    "pagesCount": "Pages count",
+    "publishingYear": "Publishing year",
+    "selectAuthor": "Select author"
+  }
+}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { SHOW_LIST, EMPTY } from '../../../constants/constants';
+import { useTranslation } from 'react-i18next';
 import { useAllBooks } from '../../../App/store';
 import { Author } from '../../../features/authors/authorsSlice';
 import { Book } from '../../../features/books/booksSlice';
@@ -12,6 +12,7 @@ interface Props {
 }
 
 export default function AuthorBooks({ author }: Props): JSX.Element {
+  const { t } = useTranslation('translations');
   const books = useAllBooks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -36,7 +37,7 @@ export default function AuthorBooks({ author }: Props): JSX.Element {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        {SHOW_LIST}
+        {t('showList')}
       </Button>
       <Menu
         id='basic-menu'
@@ -54,7 +55,7 @@ export default function AuthorBooks({ author }: Props): JSX.Element {
             </MenuItem>
           ))
         ) : (
-          <MenuItem>{EMPTY}</MenuItem>
+          <MenuItem>{t('empty')}</MenuItem>
         )}
       </Menu>
     </div>
