@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import select from '../../styles/select';
 import { useTranslation } from 'react-i18next';
 
 export default function Languages(): JSX.Element {
@@ -17,14 +18,12 @@ export default function Languages(): JSX.Element {
   };
 
   return (
-    <Box
-      sx={{
-        width: 180,
-        height: 80,
-      }}
-    >
+    <Box style={select.languages.box}>
       <FormControl fullWidth>
-        <InputLabel id='demo-simple-select-label'>
+        <InputLabel
+          style={select.languages.label}
+          id='demo-simple-select-label'
+        >
           {t('changeLanguage')}
         </InputLabel>
         <Select

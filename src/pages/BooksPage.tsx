@@ -3,21 +3,10 @@ import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Modal,
-} from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import AddBook from '../components/forms/AddBook';
-import { styles } from '../styles/styles';
-import { Book, removeBook, updateBook } from '../features/books/booksSlice';
+import table from '../styles/table';
+import { Book, updateBook } from '../features/books/booksSlice';
 import { Author } from '../features/authors/authorsSlice';
 import { useAppDispatch, useAppSelector } from '../App/hooks';
 import {
@@ -26,6 +15,8 @@ import {
   useAllAuthors,
   useAllBooks,
 } from '../App/store';
+import BookDialog from '../components/dialogs/BookDialog';
+import ModalBookForm from '../components/modals/ModalBookForm';
 
 export default function BooksPage(): JSX.Element {
   const { t } = useTranslation('translation');
@@ -61,7 +52,7 @@ export default function BooksPage(): JSX.Element {
   };
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field !== 'edit') return;
+    if (params.field !== 'editing') return;
     const book: Book = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
@@ -91,12 +82,6 @@ export default function BooksPage(): JSX.Element {
     }
   };
 
-  const handleClickDelete = (): void => {
-    if (!currentBook) return;
-    dispatch(removeBook(currentBook.id));
-    handleCloseDialog();
-  };
-
   function editingCell(): JSX.Element {
     return (
       <>
@@ -116,37 +101,37 @@ export default function BooksPage(): JSX.Element {
   const columns: GridColDef[] = [
     {
       field: 'title',
-      headerName: 'Title',
+      headerName: t('placeholders.title'),
       flex: 1,
     },
     {
       field: 'description',
-      headerName: 'Description',
+      headerName: t('placeholders.description'),
       flex: 1,
     },
     {
       field: 'code',
-      headerName: 'Code',
+      headerName: t('placeholders.code'),
       flex: 1,
     },
     {
       field: 'authorName',
-      headerName: 'Author',
+      headerName: t('placeholders.authorName'),
       flex: 1,
     },
     {
       field: 'pagesCount',
-      headerName: 'Pages count',
+      headerName: t('placeholders.pagesCount'),
       flex: 1,
     },
     {
-      field: 'year',
-      headerName: 'Year',
+      field: 'publishingYear',
+      headerName: t('placeholders.publishingYear'),
       flex: 1,
     },
     {
-      field: 'edit',
-      headerName: 'Edit',
+      field: 'editing',
+      headerName: t('placeholders.editing'),
       width: 120,
       renderCell: editingCell,
     },
@@ -160,9 +145,9 @@ export default function BooksPage(): JSX.Element {
   }, [booksState]);
 
   return (
-    <div style={styles.container}>
+    <div style={table.box}>
       {!books?.length ? (
-        <Button onClick={clickHandler} aria-label='add' style={styles.button}>
+        <Button onClick={clickHandler} aria-label='add' style={table.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons.addBook')}
         </Button>
@@ -173,46 +158,21 @@ export default function BooksPage(): JSX.Element {
           pageSize={15}
           rowsPerPageOptions={[15]}
           disableSelectionOnClick
-          componentsProps={{}}
           onCellClick={cellClickHandler}
         />
       )}
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
-      >
-        <Box sx={styles.modal}>
-          <AddBook
-            edit={edit}
-            author={currentAuthor}
-            book={currentBook}
-            closeModal={handleCloseModal}
-          />
-        </Box>
-      </Modal>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>
-          {t('dialogs.titles.book')}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            {t('dialogs.description.book')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>{t('cancel')}</Button>
-          <Button onClick={handleClickDelete} autoFocus>
-            {t('delete')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ModalBookForm
+        edit={edit}
+        author={currentAuthor}
+        book={currentBook}
+        openModal={openModal}
+        handleCloseModal={handleCloseModal}
+      />
+      <BookDialog
+        book={currentBook}
+        openDialog={openDialog}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 }

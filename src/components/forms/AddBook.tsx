@@ -9,13 +9,14 @@ import { authorsSelectors, store, useAllAuthors } from '../../App/store';
 interface Props {
   edit: boolean;
   author: Author;
-  book: Book;
-  closeModal(): void;
+  book: Book | undefined;
+
+  handleCloseModal(): void;
 }
 
 export default function AddBook(props: Props): JSX.Element {
   const { t } = useTranslation('translation');
-  const { edit, author: propsAuthor, book, closeModal } = props;
+  const { edit, author: propsAuthor, book, handleCloseModal } = props;
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<Author>(propsAuthor);
@@ -26,7 +27,7 @@ export default function AddBook(props: Props): JSX.Element {
 
   const onSubmit = (data: Book): void => {
     const id = Date.now().toString().slice(5);
-    if (edit) {
+    if (edit && book) {
       const updatedBook = {
         ...data,
         authorName: getAuthorName(),
@@ -45,7 +46,7 @@ export default function AddBook(props: Props): JSX.Element {
       };
       dispatch(createBook(newBook));
     }
-    closeModal();
+    handleCloseModal();
   };
 
   register('authorId', {
@@ -58,24 +59,24 @@ export default function AddBook(props: Props): JSX.Element {
     },
   });
 
-  const buttonName: string = edit ? t('confirm') : t('add');
+  const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register('title')}
         placeholder={t('placeholders.title')}
-        defaultValue={edit ? book.title : ''}
+        defaultValue={edit ? book?.title : ''}
       />
       <input
         {...register('description')}
         placeholder={t('placeholders.description')}
-        defaultValue={edit ? book.description : ''}
+        defaultValue={edit ? book?.description : ''}
       />
       <input
         {...register('code')}
         placeholder={t('placeholders.code')}
-        defaultValue={edit ? book.code : ''}
+        defaultValue={edit ? book?.code : ''}
       />
       <select {...register('authorId')} value={currentAuthor.id}>
         <option key={Math.random()} disabled>
@@ -90,12 +91,12 @@ export default function AddBook(props: Props): JSX.Element {
       <input
         {...register('pagesCount')}
         placeholder={t('placeholders.pagesCount')}
-        defaultValue={edit ? book.pagesCount : ''}
+        defaultValue={edit ? book?.pagesCount : ''}
       />
       <input
         {...register('publishingYear')}
         placeholder={t('placeholders.publishingYear')}
-        defaultValue={edit ? book.year : ''}
+        defaultValue={edit ? book?.publishingYear : ''}
       />
       <input type='submit' value={buttonName} />
     </form>

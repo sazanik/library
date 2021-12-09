@@ -24,6 +24,8 @@
   "books": "Books",
   "greeting": "Welcome to Library App",
   "placeholders": {
+    "authorName": "Author",
+    "books": "Books",
     "firstName": "First name",
     "lastName": "Last Name",
     "birthDate": "Birth Date",
@@ -33,6 +35,7 @@
     "code": "Code",
     "pagesCount": "Pages count",
     "publishingYear": "Publishing year",
-    "selectAuthor": "Select author"
+    "selectAuthor": "Select author",
+    "editing": "Editing"
   }
 }

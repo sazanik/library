@@ -24,6 +24,8 @@
   "books": "Книги",
   "greeting": "Добро пожаловать в приложение \"Библиотека\"",
   "placeholders": {
+    "authorName": "Автор",
+    "books": "Книги",
     "firstName": "Имя",
     "lastName": "Фамилия",
     "birthDate": "Дата рождения",
@@ -33,6 +35,7 @@
     "code": "Код",
     "pagesCount": "Количество страниц",
     "publishingYear": "Год публикации",
-    "selectAuthor": "Выберите автора"
+    "selectAuthor": "Выберите автора",
+    "editing": "Редактирование"
   }
 }

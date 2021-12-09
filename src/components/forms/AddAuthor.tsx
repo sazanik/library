@@ -12,13 +12,14 @@ import { useAppDispatch } from '../../App/hooks';
 interface Props {
   edit: boolean;
   author: Author | null;
-  closeModal(): void;
+
+  handleCloseModal(): void;
 }
 
 export default function AddAuthor(props: Props): JSX.Element {
   const { t } = useTranslation('translation');
   const dispatch = useAppDispatch();
-  const { edit, author, closeModal } = props;
+  const { edit, author, handleCloseModal } = props;
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: Author): void => {
     const id = Date.now().toString().slice(5);
@@ -37,10 +38,10 @@ export default function AddAuthor(props: Props): JSX.Element {
         })
       );
     }
-    closeModal();
+    handleCloseModal();
   };
 
-  const buttonName: string = edit ? t('confirm') : t('add');
+  const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>

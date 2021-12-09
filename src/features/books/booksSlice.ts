@@ -6,7 +6,7 @@ export interface Book {
   description: string;
   code: string;
   pagesCount: string;
-  year: string;
+  publishingYear: string;
   authorId: string;
   authorName: string;
 }

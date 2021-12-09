@@ -4,14 +4,15 @@
     "es2021": true
   },
   "extends": [
-    "eslint:recommended",
-    "airbnb",
+    //    "airbnb",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "tsconfig.json",
     "ecmaFeatures": {
       "jsx": true
     },
@@ -22,6 +23,7 @@
     "@typescript-eslint",
     "react",
     "react-hooks",
+    "import",
     "prettier"
   ],
   "rules": {
