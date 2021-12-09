@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -9,43 +9,32 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {
-  Button,
-  IconButton,
-  Modal,
-  Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from '@mui/material';
+import { Box, Button, IconButton, Modal } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { removeAuthor, Author } from '../features/authors/authorsSlice';
-import AddAuthor from '../components/Forms/AddAuthor/AddAuthor';
-import { styles } from './styles';
-import AuthorBooks from '../components/Dropdowns/AuthorBooks/AuthorBooks';
-import { useAllAuthors, useAllBooks } from '../App/store';
-import { useAppDispatch } from '../App/hooks';
-import { removeBook } from '../features/books/booksSlice';
+import { Author } from '../features/authors/authorsSlice';
+import AddAuthor from '../components/forms/AddAuthor';
+import { styles } from '../styles/styles';
+import AuthorBooks from '../components/dropdowns/AuthorBooks';
+import { useAllAuthors } from '../App/store';
+import ConfirmingDialog from '../components/dialogs/ConfirmingDialog';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue =>
   param.value;
 
 export default function AuthorsPage(): JSX.Element {
   const authors = useAllAuthors();
-  const books = useAllBooks();
-  const dispatch = useAppDispatch();
-  const { t, i18n } = useTranslation('translations');
+  const { t } = useTranslation('translation');
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+
   const [author, setAuthor] = useState<Author>(authors[0]);
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = (): void => setOpenDialog(true);
+  const handleCloseDialog = (): void => setOpenDialog(false);
 
   const handleOpenModal = (): void => setOpenModal(true);
   const handleCloseModal = (): void => setOpenModal(false);
-  const handleOpenDialog = (): void => setOpenDialog(true);
-  const handleCloseDialog = (): void => setOpenDialog(false);
 
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field === 'edit' || params.field === 'books') {
@@ -127,18 +116,6 @@ export default function AuthorsPage(): JSX.Element {
     },
   ];
 
-  const handleClickDelete = (): void => {
-    if (author) {
-      dispatch(removeAuthor(author.id));
-      books.forEach((book) => {
-        if (book.authorId === author.id) {
-          dispatch(removeBook(book.id));
-        }
-      });
-      handleCloseDialog();
-    }
-  };
-
   return (
     <div style={styles.container}>
       {!authors.length ? (
@@ -172,26 +149,11 @@ export default function AuthorsPage(): JSX.Element {
           />
         </Box>
       </Modal>
-
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>{AUTHOR_DIALOG_TITLE}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            {AUTHOR_DIALOG_DESCRIPTION}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>{CANCEL}</Button>
-          <Button onClick={handleClickDelete} autoFocus>
-            {DELETE}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmingDialog
+        author={author}
+        openDialog={openDialog}
+        handleCloseDialog={handleCloseDialog}
+      />
     </div>
   );
 }

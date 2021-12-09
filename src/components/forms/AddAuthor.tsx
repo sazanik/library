@@ -1,23 +1,22 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import './AddAuthor.scss';
 import { useTranslation } from 'react-i18next';
-import { COUNTRIES } from '../../../constants/constants';
+import { COUNTRIES } from '../../constants/constants';
 import {
   Author,
   createAuthor,
   updateAuthor,
-} from '../../../features/authors/authorsSlice';
-import { useAppDispatch } from '../../../App/hooks';
+} from '../../features/authors/authorsSlice';
+import { useAppDispatch } from '../../App/hooks';
 
 interface Props {
   edit: boolean;
   author: Author | null;
-  closeModal: any; // todo fix
+  closeModal(): void;
 }
 
 export default function AddAuthor(props: Props): JSX.Element {
-  const { t } = useTranslation('translations');
+  const { t } = useTranslation('translation');
   const dispatch = useAppDispatch();
   const { edit, author, closeModal } = props;
   const { register, handleSubmit } = useForm();
@@ -41,21 +40,23 @@ export default function AddAuthor(props: Props): JSX.Element {
     closeModal();
   };
 
+  const buttonName: string = edit ? t('confirm') : t('add');
+
   return (
-    <form className='AddAuthor' onSubmit={handleSubmit(onSubmit)}>
+    <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register('firstName')}
-        placeholder='First name'
+        placeholder={t('placeholders.firstName')}
         defaultValue={edit ? author?.firstName : ''}
       />
       <input
         {...register('lastName')}
-        placeholder='Last name'
+        placeholder={t('placeholders.lastName')}
         defaultValue={edit ? author?.lastName : ''}
       />
       <input
         {...register('birthDate')}
-        placeholder='Birth date'
+        placeholder={t('placeholders.birthDate')}
         defaultValue={edit ? author?.birthDate : ''}
       />
       <select
@@ -68,7 +69,7 @@ export default function AddAuthor(props: Props): JSX.Element {
           </option>
         ))}
       </select>
-      <input type='submit' value={edit ? t('confirm') : t('add')} />
+      <input type='submit' value={buttonName} />
     </form>
   );
 }

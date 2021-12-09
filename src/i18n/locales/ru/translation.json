@@ -32,7 +32,7 @@
     "description": "Описание",
     "code": "Код",
     "pagesCount": "Количество страниц",
-    "publishingYear": "Год Публикации",
+    "publishingYear": "Год публикации",
     "selectAuthor": "Выберите автора"
   }
 }

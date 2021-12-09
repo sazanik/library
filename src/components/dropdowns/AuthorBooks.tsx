@@ -3,16 +3,16 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useAllBooks } from '../../../App/store';
-import { Author } from '../../../features/authors/authorsSlice';
-import { Book } from '../../../features/books/booksSlice';
+import { useAllBooks } from '../../App/store';
+import { Author } from '../../features/authors/authorsSlice';
+import { Book } from '../../features/books/booksSlice';
 
 interface Props {
   author: Author;
 }
 
 export default function AuthorBooks({ author }: Props): JSX.Element {
-  const { t } = useTranslation('translations');
+  const { t } = useTranslation('translation');
   const books = useAllBooks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

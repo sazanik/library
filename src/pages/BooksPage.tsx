@@ -4,23 +4,20 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-  Button,
-  IconButton,
-  Modal,
   Box,
+  Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
+  DialogTitle,
+  IconButton,
+  Modal,
 } from '@mui/material';
-import AddBook from '../components/Forms/AddBook/AddBook';
-import { styles } from './styles';
-import {
-  BOOK_DIALOG_DESCRIPTION,
-  BOOK_DIALOG_TITLE,
-} from '../constants/constants';
-import { removeBook, Book, updateBook } from '../features/books/booksSlice';
+import { useTranslation } from 'react-i18next';
+import AddBook from '../components/forms/AddBook';
+import { styles } from '../styles/styles';
+import { Book, removeBook, updateBook } from '../features/books/booksSlice';
 import { Author } from '../features/authors/authorsSlice';
 import { useAppDispatch, useAppSelector } from '../App/hooks';
 import {
@@ -31,6 +28,7 @@ import {
 } from '../App/store';
 
 export default function BooksPage(): JSX.Element {
+  const { t } = useTranslation('translation');
   const booksState = useAppSelector((state) => state.books);
   const authors = useAllAuthors();
   const [books, setBooks] = useState<Book[]>(useAllBooks);
@@ -67,9 +65,8 @@ export default function BooksPage(): JSX.Element {
     const book: Book = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
-    if (author) {
-      setCurrentAuthor(author);
-    }
+    if (!author) return;
+    setCurrentAuthor(author);
   };
 
   const clickHandler = (event: SyntheticEvent): void => {
@@ -95,10 +92,9 @@ export default function BooksPage(): JSX.Element {
   };
 
   const handleClickDelete = (): void => {
-    if (currentBook) {
-      dispatch(removeBook(currentBook.id));
-      handleCloseDialog();
-    }
+    if (!currentBook) return;
+    dispatch(removeBook(currentBook.id));
+    handleCloseDialog();
   };
 
   function editingCell(): JSX.Element {
@@ -168,7 +164,7 @@ export default function BooksPage(): JSX.Element {
       {!books?.length ? (
         <Button onClick={clickHandler} aria-label='add' style={styles.button}>
           <AddIcon fontSize='large' color='primary' />
-          Add book
+          {t('buttons.addBook')}
         </Button>
       ) : (
         <DataGrid
@@ -202,16 +198,18 @@ export default function BooksPage(): JSX.Element {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{BOOK_DIALOG_TITLE}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>
+          {t('dialogs.titles.book')}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            {BOOK_DIALOG_DESCRIPTION}
+            {t('dialogs.description.book')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleCloseDialog}>{t('cancel')}</Button>
           <Button onClick={handleClickDelete} autoFocus>
-            Delete
+            {t('delete')}
           </Button>
         </DialogActions>
       </Dialog>

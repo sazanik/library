@@ -25,8 +25,8 @@
   "greeting": "Welcome to Library App",
   "placeholders": {
     "firstName": "First name",
-    "lastName": "LastName",
-    "birthDate": "BirthDate",
+    "lastName": "Last Name",
+    "birthDate": "Birth Date",
     "country": "Country",
     "title": "Title",
     "description": "Description",
