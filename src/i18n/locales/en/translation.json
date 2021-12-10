@@ -24,6 +24,10 @@
   "books": "Books",
   "greeting": "Welcome to Library App",
   "infoBooks": "First, you need to add an author",
+  "library": "LIBRARY",
+  "bookCover": "Book cover",
+  "previousBook": "Previous book",
+  "nextBook": "Next book",
   "placeholders": {
     "authorName": "Author",
     "books": "Books",

@@ -15,10 +15,10 @@ export default function App(): JSX.Element {
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<AuthorsPage />} />
-            <Route path=':id' element={<AuthorPage />} />
-            <Route path='books' element={<BooksPage />} />
-            <Route path='books/:id' element={<BookPage />} />
-            <Route path='*' element={<NotFound />} />
+            <Route path='/:id' element={<AuthorPage />} />
+            <Route path='/books' element={<BooksPage />} />
+            <Route path='/books/id' element={<BookPage />} />
+            <Route path='/*' element={<NotFound />} />
           </Route>
         </Routes>
       </Box>

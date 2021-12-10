@@ -4,4 +4,12 @@ export default {
     flexGrow: 1,
     alignSelf: 'center',
   },
+  text: {
+    minWidth: 140,
+    mr: 2,
+    display: {
+      xs: 'none',
+      md: 'flex',
+    },
+  },
 };

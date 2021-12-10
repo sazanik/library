@@ -8,7 +8,9 @@ export default function Layout(): JSX.Element {
       <header>
         <NavBar />
       </header>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <footer>2021</footer>
     </>
   );

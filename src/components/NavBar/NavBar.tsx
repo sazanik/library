@@ -14,25 +14,14 @@ export default function NavBar(): JSX.Element {
     <Box sx={styles.box}>
       <AppBar position='static'>
         <Toolbar variant='dense'>
-          <Typography
-            variant='h6'
-            noWrap
-            component='div'
-            sx={{
-              minWidth: 100,
-              mr: 2,
-              display: {
-                xs: 'none',
-                md: 'flex',
-              },
-            }}
-          >
-            LIBRARY
+          <Typography variant='h6' noWrap component='div' sx={styles.text}>
+            {t('library')}
           </Typography>
           <Languages />
           <nav>
             <NavLink to='/'>{t('authors')}</NavLink>
             <NavLink to='/books'>{t('books')}</NavLink>
+            <NavLink to='/books/id'>{t('id')}</NavLink>
           </nav>
         </Toolbar>
       </AppBar>
