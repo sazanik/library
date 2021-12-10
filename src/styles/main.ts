@@ -1,7 +1,7 @@
 export default {
   box: {
-    height: window.innerHeight - 210,
-    width: window.innerWidth,
+    width: '100vw',
+    height: '88vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

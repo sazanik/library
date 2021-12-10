@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import table from '../styles/table';
+import styles from '../styles/main';
 import { Book, updateBook } from '../features/books/booksSlice';
 import { Author } from '../features/authors/authorsSlice';
 import { useAppDispatch, useAppSelector } from '../App/hooks';
@@ -145,9 +145,11 @@ export default function BooksPage(): JSX.Element {
   }, [booksState]);
 
   return (
-    <div style={table.box}>
-      {!books?.length ? (
-        <Button onClick={clickHandler} aria-label='add' style={table.button}>
+    <div style={styles.box}>
+      {!authors.length ? (
+        <p>{t('infoBooks')}</p>
+      ) : !books?.length ? (
+        <Button onClick={clickHandler} aria-label='add' style={styles.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons.addBook')}
         </Button>
@@ -155,8 +157,8 @@ export default function BooksPage(): JSX.Element {
         <DataGrid
           rows={books}
           columns={columns}
-          pageSize={15}
-          rowsPerPageOptions={[15]}
+          pageSize={14}
+          rowsPerPageOptions={[14]}
           disableSelectionOnClick
           onCellClick={cellClickHandler}
         />

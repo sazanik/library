@@ -1,10 +1,10 @@
 import { createTheme } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
+import { indigo } from '@mui/material/colors';
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: deepOrange[500],
+      main: indigo[300],
     },
   },
 });

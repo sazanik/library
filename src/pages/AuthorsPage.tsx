@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Author } from '../features/authors/authorsSlice';
-import table from '../styles/table';
+import styles from '../styles/main';
 import AuthorBooks from '../components/dropdowns/AuthorBooks';
 import { useAllAuthors } from '../App/store';
 import AuthorDialog from '../components/dialogs/AuthorDialog';
@@ -103,21 +103,21 @@ export default function AuthorsPage(): JSX.Element {
     {
       field: 'books',
       headerName: t('placeholders.books'),
-      flex: 1,
+      flex: 0.7,
       renderCell: () => <AuthorBooks author={currentAuthor} />,
     },
     {
       field: 'editing',
       headerName: t('placeholders.editing'),
-      flex: 1,
+      flex: 0.5,
       renderCell: editingCell,
     },
   ];
 
   return (
-    <div style={table.box}>
+    <div style={styles.box}>
       {!authors.length ? (
-        <Button onClick={clickHandler} aria-label='add' style={table.button}>
+        <Button onClick={clickHandler} aria-label='add' style={styles.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons.addAuthor')}
         </Button>
@@ -125,8 +125,8 @@ export default function AuthorsPage(): JSX.Element {
         <DataGrid
           rows={authors}
           columns={columns}
-          pageSize={15}
-          rowsPerPageOptions={[15]}
+          pageSize={14}
+          rowsPerPageOptions={[14]}
           disableSelectionOnClick
           onCellClick={cellClickHandler}
         />

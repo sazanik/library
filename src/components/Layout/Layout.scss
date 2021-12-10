@@ -1,0 +1,41 @@
+$primary-color-link: white;
+
+header {
+
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+
+  nav {
+    width: 200px;
+
+    a {
+      display: block;
+      margin: 5px;
+      text-decoration: none;
+      color: darkgray;
+      text-transform: uppercase;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+        color: $primary-color-link;
+      }
+
+      &.active {
+        color: $primary-color-link;
+      }
+    }
+  }
+}
+
+footer {
+  margin-bottom: 5px;
+}
+
+
+
+
+
+
+

@@ -23,6 +23,7 @@
   "authors": "Authors",
   "books": "Books",
   "greeting": "Welcome to Library App",
+  "infoBooks": "First, you need to add an author",
   "placeholders": {
     "authorName": "Author",
     "books": "Books",

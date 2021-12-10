@@ -1,9 +1,9 @@
 export default {
   box: {
-    m: 1,
     display: 'flex',
+    height: '100vh',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   } as const,
 };
