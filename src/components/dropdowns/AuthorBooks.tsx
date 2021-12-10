@@ -6,16 +6,22 @@ import { useTranslation } from 'react-i18next';
 import { useAllBooks } from '../../App/store';
 import { Author } from '../../features/authors/authorsSlice';
 import { Book } from '../../features/books/booksSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   author: Author;
 }
 
 export default function AuthorBooks({ author }: Props): JSX.Element {
+  const navigate = useNavigate();
   const { t } = useTranslation('translation');
   const books = useAllBooks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const selectBook = (id: string): void => {
+    navigate(`/books/${id}`);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -50,7 +56,10 @@ export default function AuthorBooks({ author }: Props): JSX.Element {
       >
         {getBooks()?.length ? (
           getBooks()?.map((book) => (
-            <MenuItem onClick={handleClose} key={Math.random().toString()}>
+            <MenuItem
+              onClick={() => selectBook(book.id)}
+              key={Math.random().toString()}
+            >
               {book?.title}
             </MenuItem>
           ))

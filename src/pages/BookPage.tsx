@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,14 +7,16 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles/book';
-
-import { useAllBooks } from '../App/store';
+import { booksSelectors, store, useAllBooks } from '../App/store';
 import { Book } from '../features/books/booksSlice';
+import { useParams } from 'react-router-dom';
 
 export default function MediaCard(): JSX.Element {
+  const { id } = useParams();
+  console.log(id);
   const { t } = useTranslation('translation');
   const books = useAllBooks();
-  const [book, setBook] = useState<Book>(books[0]);
+  const [book, setBook] = useState<Book | undefined>(books[0]);
 
   const previousBook = (event: MouseEvent<HTMLButtonElement>): void => {
     console.log(event);
@@ -25,6 +27,12 @@ export default function MediaCard(): JSX.Element {
     console.log(event);
     setBook(books[0]);
   };
+
+  useEffect(() => {
+    if (id) {
+      setBook(booksSelectors.selectById(store.getState(), id));
+    }
+  }, [id]);
 
   return (
     <Card style={styles.box}>
