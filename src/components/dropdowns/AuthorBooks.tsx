@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useAllBooks } from '../../App/store';
+import { useAllBooks } from '../../App/hooks';
 import { Author } from '../../features/authors/authorsSlice';
 import { Book } from '../../features/books/booksSlice';
 import { useNavigate } from 'react-router-dom';
@@ -12,9 +12,9 @@ interface Props {
   author: Author;
 }
 
-export default function AuthorBooks({ author }: Props): JSX.Element {
+export default function AuthorBooks({ author }: Props): ReactElement {
   const navigate = useNavigate();
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation('default');
   const books = useAllBooks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -54,8 +54,8 @@ export default function AuthorBooks({ author }: Props): JSX.Element {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {getBooks()?.length ? (
-          getBooks()?.map((book) => (
+        {getBooks().length ? (
+          getBooks().map((book) => (
             <MenuItem
               onClick={() => selectBook(book.id)}
               key={Math.random().toString()}

@@ -4,8 +4,8 @@ import { i18nextPlugin } from 'translation-check';
 import locales from './locales';
 
 const resources = {
-  en: { translation: locales.en },
-  ru: { translation: locales.ru },
+  en: { default: locales.en },
+  ru: { default: locales.ru },
 };
 
 i18n

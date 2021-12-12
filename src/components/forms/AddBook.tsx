@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Book, createBook, updateBook } from '../../features/books/booksSlice';
 import { Author } from '../../features/authors/authorsSlice';
-import { useAppDispatch } from '../../App/hooks';
-import { authorsSelectors, store, useAllAuthors } from '../../App/store';
+import { useAllAuthors, useAppDispatch } from '../../App/hooks';
+import { authorsSelectors, store } from '../../App/store';
 
 interface Props {
   edit: boolean;
   author: Author;
   book: Book | undefined;
 
-  handleCloseModal(): void;
+  setOpenModal(b: boolean): void;
 }
 
-export default function AddBook(props: Props): JSX.Element {
-  const { t } = useTranslation('translation');
-  const { edit, author: propsAuthor, book, handleCloseModal } = props;
+export default function AddBook(props: Props): ReactElement {
+  const { t } = useTranslation('default');
+  const { edit, author: propsAuthor, book, setOpenModal } = props;
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<Author>(propsAuthor);
@@ -46,7 +46,7 @@ export default function AddBook(props: Props): JSX.Element {
       };
       dispatch(createBook(newBook));
     }
-    handleCloseModal();
+    setOpenModal(false);
   };
 
   register('authorId', {

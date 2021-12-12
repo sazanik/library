@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,25 +6,23 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import styles from '../styles/book';
-import { booksSelectors, store, useAllBooks } from '../App/store';
+import styles from './styles';
+import { booksSelectors, store } from '../App/store';
 import { Book } from '../features/books/booksSlice';
 import { useParams } from 'react-router-dom';
+import { useAllBooks } from '../App/hooks';
 
-export default function MediaCard(): JSX.Element {
+export default function BookCard(): ReactElement {
   const { id } = useParams();
-  console.log(id);
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation('default');
   const books = useAllBooks();
   const [book, setBook] = useState<Book | undefined>(books[0]);
 
   const previousBook = (event: MouseEvent<HTMLButtonElement>): void => {
-    console.log(event);
     setBook(books[0]);
   };
 
   const nextBook = (event: MouseEvent<HTMLButtonElement>): void => {
-    console.log(event);
     setBook(books[0]);
   };
 
@@ -35,7 +33,7 @@ export default function MediaCard(): JSX.Element {
   }, [id]);
 
   return (
-    <Card style={styles.box}>
+    <Card style={styles.card}>
       <CardMedia component='img' height='140' image='' alt={t('bookCover')} />
       <CardContent>
         <Typography gutterBottom variant='h5' component='div'>

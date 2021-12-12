@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -12,30 +12,26 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Author } from '../features/authors/authorsSlice';
-import styles from '../styles/main';
+import styles from './styles';
 import AuthorBooks from '../components/dropdowns/AuthorBooks';
-import { useAllAuthors } from '../App/store';
+import { useAllAuthors } from '../App/hooks';
 import AuthorDialog from '../components/dialogs/AuthorDialog';
 import ModalAuthorForm from '../components/modals/ModalAuthorForm';
+import { Actions, Fields } from '../types/enums';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue =>
   param.value;
 
-export default function AuthorsPage(): JSX.Element {
-  const { t } = useTranslation('translation');
+export default function AuthorsTable(): ReactElement {
+  const { t } = useTranslation('default');
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<Author>(authors[0]);
   const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleOpenDialog = (): void => setOpenDialog(true);
-  const handleCloseDialog = (): void => setOpenDialog(false);
-  const handleOpenModal = (): void => setOpenModal(true);
-  const handleCloseModal = (): void => setOpenModal(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field === 'editing' || params.field === 'books') {
+    if (params.field === Fields.Editing || params.field === Fields.Books) {
       setCurrentAuthor(params.row);
     }
   };
@@ -43,20 +39,20 @@ export default function AuthorsPage(): JSX.Element {
   const clickHandler = (event: {
     currentTarget: { ariaLabel: string };
   }): void => {
-    const action = event.currentTarget.ariaLabel;
+    const action: string = event.currentTarget.ariaLabel;
     switch (action) {
-      case 'add':
+      case Actions.Add:
         setEdit(false);
-        handleOpenModal();
+        setOpenModal(true);
         break;
 
-      case 'edit':
+      case Actions.Edit:
         setEdit(true);
-        handleOpenModal();
+        setOpenModal(true);
         break;
 
-      case 'delete':
-        handleOpenDialog();
+      case Actions.Delete:
+        setOpenDialog(true);
         break;
 
       default:
@@ -64,7 +60,7 @@ export default function AuthorsPage(): JSX.Element {
     }
   };
 
-  const editingCell = (): JSX.Element => (
+  const editingCell = (): ReactElement => (
     <>
       <IconButton onClick={clickHandler} aria-label='add'>
         <AddIcon fontSize='small' color='success' />
@@ -135,12 +131,12 @@ export default function AuthorsPage(): JSX.Element {
         edit={edit}
         author={currentAuthor}
         openModal={openModal}
-        handleCloseModal={handleCloseModal}
+        setOpenModal={setOpenModal}
       />
       <AuthorDialog
         author={currentAuthor}
         openDialog={openDialog}
-        handleCloseDialog={handleCloseDialog}
+        setOpenDialog={setOpenDialog}
       />
     </div>
   );
