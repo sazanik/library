@@ -1,5 +1,5 @@
-import en from './en/translation.json';
-import ru from './ru/translation.json';
+import en from './en/default.json';
+import ru from './ru/default.json';
 
 export default {
   en,

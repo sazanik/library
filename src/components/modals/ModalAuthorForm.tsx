@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
-import modal from '../../styles/modal';
+import styles from './styles';
 import AddAuthor from '../forms/AddAuthor';
 import { Author } from '../../features/authors/authorsSlice';
 
@@ -9,28 +9,24 @@ interface Props {
   author: Author;
   openModal: boolean;
 
-  handleCloseModal(): void;
+  setOpenModal(b: boolean): void;
 }
 
 export default function ModalAuthorForm({
   edit,
   author,
   openModal,
-  handleCloseModal,
-}: Props): JSX.Element {
+  setOpenModal,
+}: Props): ReactElement {
   return (
     <Modal
       open={openModal}
-      onClose={handleCloseModal}
+      onClose={() => setOpenModal(false)}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box sx={modal.box}>
-        <AddAuthor
-          edit={edit}
-          author={author}
-          handleCloseModal={handleCloseModal}
-        />
+      <Box sx={styles.box}>
+        <AddAuthor edit={edit} author={author} setOpenModal={setOpenModal} />
       </Box>
     </Modal>
   );

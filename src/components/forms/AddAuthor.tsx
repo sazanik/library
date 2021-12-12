@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { COUNTRIES } from '../../constants/constants';
@@ -13,13 +13,13 @@ interface Props {
   edit: boolean;
   author: Author | null;
 
-  handleCloseModal(): void;
+  setOpenModal(b: boolean): void;
 }
 
-export default function AddAuthor(props: Props): JSX.Element {
-  const { t } = useTranslation('translation');
+export default function AddAuthor(props: Props): ReactElement {
+  const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
-  const { edit, author, handleCloseModal } = props;
+  const { edit, author, setOpenModal } = props;
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: Author): void => {
     const id = Date.now().toString().slice(5);
@@ -38,7 +38,7 @@ export default function AddAuthor(props: Props): JSX.Element {
         })
       );
     }
-    handleCloseModal();
+    setOpenModal(false);
   };
 
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');

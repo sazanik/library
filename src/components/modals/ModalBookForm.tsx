@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
-import modal from '../../styles/modal';
+import styles from './styles';
 import { Author } from '../../features/authors/authorsSlice';
 import AddBook from '../forms/AddBook';
 import { Book } from '../../features/books/booksSlice';
@@ -11,7 +11,7 @@ interface Props {
   book: Book;
   openModal: boolean;
 
-  handleCloseModal(): void;
+  setOpenModal(b: boolean): void;
 }
 
 export default function ModalBookForm({
@@ -19,21 +19,21 @@ export default function ModalBookForm({
   author,
   book,
   openModal,
-  handleCloseModal,
-}: Props): JSX.Element {
+  setOpenModal,
+}: Props): ReactElement {
   return (
     <Modal
       open={openModal}
-      onClose={handleCloseModal}
+      onClose={() => setOpenModal(false)}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box sx={modal.box}>
+      <Box sx={styles.box}>
         <AddBook
           edit={edit}
           author={author}
           book={book}
-          handleCloseModal={handleCloseModal}
+          setOpenModal={setOpenModal}
         />
       </Box>
     </Modal>

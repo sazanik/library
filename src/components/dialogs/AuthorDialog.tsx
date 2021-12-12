@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -11,22 +11,22 @@ import {
 import { Author, removeAuthor } from '../../features/authors/authorsSlice';
 import { removeBook } from '../../features/books/booksSlice';
 import { useAppDispatch } from '../../App/hooks';
-import { useAllBooks } from '../../App/store';
+import { useAllBooks } from '../../App/hooks';
 
 interface Props {
   author: Author;
   openDialog: boolean;
 
-  handleCloseDialog(): void;
+  setOpenDialog(b: boolean): void;
 }
 
 export default function AuthorDialog({
   author,
   openDialog,
-  handleCloseDialog,
-}: Props): JSX.Element {
+  setOpenDialog,
+}: Props): ReactElement {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation('default');
   const books = useAllBooks();
 
   const handleClickDelete = (): void => {
@@ -37,13 +37,13 @@ export default function AuthorDialog({
         dispatch(removeBook(book.id));
       }
     });
-    handleCloseDialog();
+    setOpenDialog(false);
   };
 
   return (
     <Dialog
       open={openDialog}
-      onClose={handleCloseDialog}
+      onClose={setOpenDialog}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
@@ -56,7 +56,9 @@ export default function AuthorDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseDialog}>{t('buttons.cancel')}</Button>
+        <Button onClick={() => setOpenDialog(false)}>
+          {t('buttons.cancel')}
+        </Button>
         <Button onClick={handleClickDelete} autoFocus>
           {t('buttons.delete')}
         </Button>

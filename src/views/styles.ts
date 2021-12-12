@@ -6,6 +6,13 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  card: {
+    width: '70vw',
+    height: '80vh',
+    display: 'flex',
+  },
+
   button: {
     fontSize: '26px',
   },

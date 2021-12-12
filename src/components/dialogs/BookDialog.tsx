@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import {
   Button,
   Dialog,
@@ -15,26 +15,26 @@ interface Props {
   book: Book;
   openDialog: boolean;
 
-  handleCloseDialog(): void;
+  setOpenDialog(b: boolean): void;
 }
 
 export default function BookDialog({
   book,
   openDialog,
-  handleCloseDialog,
-}: Props): JSX.Element {
+  setOpenDialog,
+}: Props): ReactElement {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation('default');
   const handleClickDelete = (): void => {
     if (!book) return;
     dispatch(removeBook(book.id));
-    handleCloseDialog();
+    setOpenDialog(false);
   };
 
   return (
     <Dialog
       open={openDialog}
-      onClose={handleCloseDialog}
+      onClose={() => setOpenDialog(false)}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
@@ -47,7 +47,9 @@ export default function BookDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseDialog}>{t('buttons.cancel')}</Button>
+        <Button onClick={() => setOpenDialog(false)}>
+          {t('buttons.cancel')}
+        </Button>
         <Button onClick={handleClickDelete} autoFocus>
           {t('buttons.delete')}
         </Button>

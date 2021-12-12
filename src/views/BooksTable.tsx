@@ -1,25 +1,26 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { ReactElement, MouseEvent, useEffect, useState } from 'react';
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import styles from '../styles/main';
+import styles from './styles';
 import { Book, updateBook } from '../features/books/booksSlice';
 import { Author } from '../features/authors/authorsSlice';
-import { useAppDispatch, useAppSelector } from '../App/hooks';
 import {
-  authorsSelectors,
-  store,
   useAllAuthors,
   useAllBooks,
-} from '../App/store';
+  useAppDispatch,
+  useAppSelector,
+} from '../App/hooks';
+import { authorsSelectors, store } from '../App/store';
 import BookDialog from '../components/dialogs/BookDialog';
 import ModalBookForm from '../components/modals/ModalBookForm';
+import { Actions, Fields } from '../types/enums';
 
-export default function BooksPage(): JSX.Element {
-  const { t } = useTranslation('translation');
+export default function BooksTable(): ReactElement {
+  const { t } = useTranslation('default');
   const booksState = useAppSelector((state) => state.books);
   const authors = useAllAuthors();
   const [books, setBooks] = useState<Book[]>(useAllBooks);
@@ -29,11 +30,6 @@ export default function BooksPage(): JSX.Element {
   const [openDialog, setOpenDialog] = useState(false);
   const [currentAuthor, setCurrentAuthor] = useState<Author>(authors[0]);
   const [currentBook, setCurrentBook] = useState<Book>(books[0]);
-
-  const handleOpenModal = (): void => setOpenModal(true);
-  const handleCloseModal = (): void => setOpenModal(false);
-  const handleOpenDialog = (): void => setOpenDialog(true);
-  const handleCloseDialog = (): void => setOpenDialog(false);
 
   const updateBooks = (): void => {
     authors.forEach((author) => {
@@ -52,7 +48,7 @@ export default function BooksPage(): JSX.Element {
   };
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field !== 'editing') return;
+    if (params.field !== Fields.Editing) return;
     const book: Book = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
@@ -60,21 +56,21 @@ export default function BooksPage(): JSX.Element {
     setCurrentAuthor(author);
   };
 
-  const clickHandler = (event: SyntheticEvent): void => {
-    const action = event.currentTarget.ariaLabel;
+  const clickHandler = (event: MouseEvent<HTMLButtonElement>): void => {
+    const action: string = event.currentTarget.ariaLabel;
     switch (action) {
-      case 'add':
+      case Actions.Add:
         setEdit(false);
-        handleOpenModal();
+        setOpenModal(true);
         break;
 
-      case 'edit':
+      case Actions.Edit:
         setEdit(true);
-        handleOpenModal();
+        setOpenModal(true);
         break;
 
-      case 'delete':
-        handleOpenDialog();
+      case Actions.Delete:
+        setOpenDialog(true);
         break;
 
       default:
@@ -82,7 +78,7 @@ export default function BooksPage(): JSX.Element {
     }
   };
 
-  function editingCell(): JSX.Element {
+  function editingCell(): ReactElement {
     return (
       <>
         <IconButton onClick={clickHandler} aria-label='add'>
@@ -168,12 +164,12 @@ export default function BooksPage(): JSX.Element {
         author={currentAuthor}
         book={currentBook}
         openModal={openModal}
-        handleCloseModal={handleCloseModal}
+        setOpenModal={setOpenModal}
       />
       <BookDialog
         book={currentBook}
         openDialog={openDialog}
-        handleCloseDialog={handleCloseDialog}
+        setOpenDialog={setOpenDialog}
       />
     </div>
   );
