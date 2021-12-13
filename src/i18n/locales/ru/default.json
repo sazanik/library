@@ -28,6 +28,8 @@
   "bookCover": "Обложка книги",
   "previousBook": "Предыдущая книга",
   "nextBook": "Следующая книга",
+  "previousAuthor": "Предыдущий автор",
+  "nextAuthor": "Следующий автор",
   "placeholders": {
     "authorName": "Автор",
     "books": "Книги",

@@ -4,6 +4,7 @@ import {
   GridCellParams,
   GridCellValue,
   GridColDef,
+  GridRenderCellParams,
   GridValueFormatterParams,
 } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
@@ -18,12 +19,14 @@ import { useAllAuthors } from '../App/hooks';
 import AuthorDialog from '../components/dialogs/AuthorDialog';
 import ModalAuthorForm from '../components/modals/ModalAuthorForm';
 import { Actions, Fields } from '../types/enums';
+import { useNavigate } from 'react-router-dom';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue =>
   param.value;
 
 export default function AuthorsTable(): ReactElement {
   const { t } = useTranslation('default');
+  const navigate = useNavigate();
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<Author>(authors[0]);
   const [edit, setEdit] = useState(false);
@@ -74,16 +77,26 @@ export default function AuthorsTable(): ReactElement {
     </>
   );
 
+  const openAuthor = (event: GridRenderCellParams): void => {
+    navigate(`/${event.id}`);
+  };
+
   const columns: GridColDef[] = [
     {
       field: 'firstName',
       headerName: t('placeholders.firstName'),
       flex: 1,
+      renderCell: (params): ReactElement => (
+        <Button onClick={() => openAuthor(params)}>{params.value}</Button>
+      ),
     },
     {
       field: 'lastName',
       headerName: t('placeholders.lastName'),
       flex: 1,
+      renderCell: (params): ReactElement => (
+        <Button onClick={() => openAuthor(params)}>{params.value}</Button>
+      ),
     },
     {
       field: 'birthDate',

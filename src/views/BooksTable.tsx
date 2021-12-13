@@ -1,5 +1,10 @@
 import React, { ReactElement, MouseEvent, useEffect, useState } from 'react';
-import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRenderCellParams,
+} from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,9 +23,11 @@ import { authorsSelectors, store } from '../App/store';
 import BookDialog from '../components/dialogs/BookDialog';
 import ModalBookForm from '../components/modals/ModalBookForm';
 import { Actions, Fields } from '../types/enums';
+import { useNavigate } from 'react-router-dom';
 
 export default function BooksTable(): ReactElement {
   const { t } = useTranslation('default');
+  const navigate = useNavigate();
   const booksState = useAppSelector((state) => state.books);
   const authors = useAllAuthors();
   const [books, setBooks] = useState<Book[]>(useAllBooks);
@@ -94,11 +101,18 @@ export default function BooksTable(): ReactElement {
     );
   }
 
+  const openBook = (event: GridRenderCellParams): void => {
+    navigate(`/books/${event.id}`);
+  };
+
   const columns: GridColDef[] = [
     {
       field: 'title',
       headerName: t('placeholders.title'),
       flex: 1,
+      renderCell: (params): ReactElement => (
+        <Button onClick={() => openBook(params)}>{params.value}</Button>
+      ),
     },
     {
       field: 'description',

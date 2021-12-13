@@ -21,7 +21,6 @@ export default function NavBar(): ReactElement {
           <nav>
             <NavLink to='/'>{t('authors')}</NavLink>
             <NavLink to='/books'>{t('books')}</NavLink>
-            <NavLink to='/books/id'>{t('id')}</NavLink>
           </nav>
         </Toolbar>
       </AppBar>

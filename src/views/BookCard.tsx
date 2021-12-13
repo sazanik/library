@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,60 +9,91 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles';
 import { booksSelectors, store } from '../App/store';
 import { Book } from '../features/books/booksSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import bookCover from '../assets/images/bookCover.jpg';
+import { Box } from '@mui/material';
 import { useAllBooks } from '../App/hooks';
 
 export default function BookCard(): ReactElement {
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
-  const books = useAllBooks();
-  const [book, setBook] = useState<Book | undefined>(books[0]);
 
-  const previousBook = (event: MouseEvent<HTMLButtonElement>): void => {
-    setBook(books[0]);
+  const books = useAllBooks();
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [book, setBook] = useState<Book | undefined>(
+    booksSelectors.selectById(store.getState(), id)
+  );
+
+  const previousBook = (): void => {
+    const previousId = booksSelectors.selectIds(store.getState())[
+      currentIndex - 1
+    ];
+    navigate(`/books/${previousId}`);
   };
 
-  const nextBook = (event: MouseEvent<HTMLButtonElement>): void => {
-    setBook(books[0]);
+  const nextBook = (): void => {
+    const nextId = booksSelectors.selectIds(store.getState())[currentIndex + 1];
+    navigate(`/books/${nextId}`);
   };
 
   useEffect(() => {
     if (id) {
+      const index = booksSelectors
+        .selectIds(store.getState())
+        .findIndex((idx) => idx === id);
+      setCurrentIndex(index);
       setBook(booksSelectors.selectById(store.getState(), id));
     }
   }, [id]);
 
   return (
-    <Card style={styles.card}>
-      <CardMedia component='img' height='140' image='' alt={t('bookCover')} />
-      <CardContent>
-        <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.title')}: {book?.title}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.description')}: {book?.description}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.authorName')}: {book?.authorName}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.pagesCount')}: {book?.pagesCount}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.publishingYear')}: {book?.publishingYear}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.code')}: {book?.code}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button onClick={previousBook} size='small'>
+    <Box>
+      <Card style={styles.card}>
+        <CardMedia
+          style={styles.image}
+          component='img'
+          height='100%'
+          image={bookCover}
+          alt={t('bookCover')}
+        />
+        <CardContent style={styles.cardContent}>
+          <Typography gutterBottom variant='h5' component='div'>
+            {t('placeholders.title')}: {book?.title}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {t('placeholders.description')}: {book?.description}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {t('placeholders.authorName')}: {book?.authorName}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {t('placeholders.pagesCount')}: {book?.pagesCount}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {t('placeholders.publishingYear')}: {book?.publishingYear}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {t('placeholders.code')}: {book?.code}
+          </Typography>
+        </CardContent>
+      </Card>
+      <CardActions style={styles.cardActions}>
+        <Button
+          disabled={currentIndex === 0}
+          onClick={previousBook}
+          size='small'
+        >
           {t('previousBook')}
         </Button>
-        <Button onClick={nextBook} size='small'>
+        <Button
+          disabled={currentIndex >= books.length - 1}
+          onClick={nextBook}
+          size='small'
+        >
           {t('nextBook')}
         </Button>
       </CardActions>
-    </Card>
+    </Box>
   );
 }
