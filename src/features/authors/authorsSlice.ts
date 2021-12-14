@@ -4,7 +4,7 @@ import {
   EntityState,
 } from '@reduxjs/toolkit';
 
-export interface Author {
+export interface IAuthor {
   id: string;
   firstName: string;
   lastName: string;
@@ -12,12 +12,12 @@ export interface Author {
   country: string;
 }
 
-export const authorsAdapter = createEntityAdapter<Author>({
+export const authorsAdapter = createEntityAdapter<IAuthor>({
   selectId: (author) => author.id,
   sortComparer: (a, b) => a.lastName.localeCompare(b.lastName),
 });
 
-let authors: EntityState<Author>;
+let authors: EntityState<IAuthor>;
 const localData = localStorage.getItem('store');
 if (localData) {
   authors = JSON.parse(localData).authors;

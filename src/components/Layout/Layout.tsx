@@ -11,7 +11,7 @@ export default function Layout(): ReactElement {
       <main>
         <Outlet />
       </main>
-      <footer>2021</footer>
+      <footer>{new Date().getFullYear()}</footer>
     </>
   );
 }

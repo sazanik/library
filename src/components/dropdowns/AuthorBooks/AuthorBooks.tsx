@@ -3,16 +3,16 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useAllBooks } from '../../App/hooks';
-import { Author } from '../../features/authors/authorsSlice';
-import { Book } from '../../features/books/booksSlice';
+import { useAllBooks } from '../../../App/hooks';
+import { IAuthor } from '../../../features/authors/authorsSlice';
+import { IBook } from '../../../features/books/booksSlice';
 import { useNavigate } from 'react-router-dom';
 
-interface Props {
-  author: Author;
+interface IProps {
+  author: IAuthor;
 }
 
-export default function AuthorBooks({ author }: Props): ReactElement {
+export default function AuthorBooks({ author }: IProps): ReactElement {
   const navigate = useNavigate();
   const { t } = useTranslation('default');
   const books = useAllBooks();
@@ -31,7 +31,7 @@ export default function AuthorBooks({ author }: Props): ReactElement {
     setAnchorEl(null);
   };
 
-  const getBooks = (): Book[] =>
+  const getBooks = (): IBook[] =>
     books.filter((book) => book.authorId === author.id);
 
   return (

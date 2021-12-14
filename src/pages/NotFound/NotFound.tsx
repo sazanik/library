@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Box, Typography } from '@mui/material';
-import styles from './styles';
+import styles from '../Authors/styles';
 
 export default function NotFound(): ReactElement {
   return (

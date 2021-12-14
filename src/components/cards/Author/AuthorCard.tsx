@@ -6,13 +6,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import styles from './styles';
-import { authorsSelectors, store } from '../App/store';
+import styles from '../Book/styles';
+import { authorsSelectors, store } from '../../../App/store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { useAllAuthors } from '../App/hooks';
-import { Author } from '../features/authors/authorsSlice';
-import authorPhoto from '../assets/images/authorPhoto.jpg';
+import { useAllAuthors } from '../../../App/hooks';
+import { IAuthor } from '../../../features/authors/authorsSlice';
+import authorPhoto from '../../../assets/images/authorPhoto.jpg';
 
 export default function AuthorCard(): ReactElement {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function AuthorCard(): ReactElement {
 
   const authors = useAllAuthors();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [author, setAuthor] = useState<Author | undefined>(
+  const [author, setAuthor] = useState<IAuthor | undefined>(
     authorsSelectors.selectById(store.getState(), id)
   );
 
@@ -29,14 +29,14 @@ export default function AuthorCard(): ReactElement {
     const previousId = authorsSelectors.selectIds(store.getState())[
       currentIndex - 1
     ];
-    navigate(`/${previousId}`);
+    navigate(`/authors/${previousId}`);
   };
 
   const nextAuthor = (): void => {
     const nextId = authorsSelectors.selectIds(store.getState())[
       currentIndex + 1
     ];
-    navigate(`/${nextId}`);
+    navigate(`/authors/${nextId}`);
   };
 
   useEffect(() => {

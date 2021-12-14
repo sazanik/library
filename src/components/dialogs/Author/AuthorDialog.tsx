@@ -8,13 +8,12 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { Author, removeAuthor } from '../../features/authors/authorsSlice';
-import { removeBook } from '../../features/books/booksSlice';
-import { useAppDispatch } from '../../App/hooks';
-import { useAllBooks } from '../../App/hooks';
+import { IAuthor, removeAuthor } from '../../../features/authors/authorsSlice';
+import { removeBook } from '../../../features/books/booksSlice';
+import { useAllBooks, useAppDispatch } from '../../../App/hooks';
 
-interface Props {
-  author: Author;
+interface IProps {
+  author: IAuthor;
   openDialog: boolean;
 
   setOpenDialog(b: boolean): void;
@@ -24,7 +23,7 @@ export default function AuthorDialog({
   author,
   openDialog,
   setOpenDialog,
-}: Props): ReactElement {
+}: IProps): ReactElement {
   const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
   const books = useAllBooks();

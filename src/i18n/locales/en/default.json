@@ -5,7 +5,8 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "add": "Add",
-    "confirm": "confirm"
+    "confirm": "confirm",
+    "submit": "Submit"
   },
   "dialogs": {
     "titles": {
@@ -31,6 +32,9 @@
   "previousAuthor": "Previous author",
   "nextAuthor": "Next author",
   "placeholders": {
+    "login": "Login",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
     "authorName": "Author",
     "books": "Books",
     "firstName": "First name",

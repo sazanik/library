@@ -1,26 +1,26 @@
 import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
-import { Author } from '../../features/authors/authorsSlice';
-import AddBook from '../forms/AddBook';
-import { Book } from '../../features/books/booksSlice';
+import { IAuthor } from '../../../features/authors/authorsSlice';
+import AddBook from '../../forms/AddBook/AddBook';
+import { IBook } from '../../../features/books/booksSlice';
 
-interface Props {
+interface IProps {
   edit: boolean;
-  author: Author;
-  book: Book;
+  author: IAuthor;
+  book: IBook;
   openModal: boolean;
 
   setOpenModal(b: boolean): void;
 }
 
-export default function ModalBookForm({
+export default function BookModal({
   edit,
   author,
   book,
   openModal,
   setOpenModal,
-}: Props): ReactElement {
+}: IProps): ReactElement {
   return (
     <Modal
       open={openModal}

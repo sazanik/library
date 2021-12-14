@@ -1,4 +1,4 @@
-import React, { ReactElement, MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -10,33 +10,33 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import styles from './styles';
-import { Book, updateBook } from '../features/books/booksSlice';
-import { Author } from '../features/authors/authorsSlice';
+import styles from '../Authors/styles';
+import { IBook, updateBook } from '../../features/books/booksSlice';
+import { IAuthor } from '../../features/authors/authorsSlice';
 import {
   useAllAuthors,
   useAllBooks,
   useAppDispatch,
   useAppSelector,
-} from '../App/hooks';
-import { authorsSelectors, store } from '../App/store';
-import BookDialog from '../components/dialogs/BookDialog';
-import ModalBookForm from '../components/modals/ModalBookForm';
-import { Actions, Fields } from '../types/enums';
+} from '../../App/hooks';
+import { authorsSelectors, store } from '../../App/store';
+import BookDialog from '../../components/dialogs/Book/BookDialog';
+import BookModal from '../../components/modals/Book/BookModal';
+import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 
-export default function BooksTable(): ReactElement {
+export default function Books(): ReactElement {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const booksState = useAppSelector((state) => state.books);
   const authors = useAllAuthors();
-  const [books, setBooks] = useState<Book[]>(useAllBooks);
+  const [books, setBooks] = useState<IBook[]>(useAllBooks);
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [currentAuthor, setCurrentAuthor] = useState<Author>(authors[0]);
-  const [currentBook, setCurrentBook] = useState<Book>(books[0]);
+  const [currentAuthor, setCurrentAuthor] = useState<IAuthor>(authors[0]);
+  const [currentBook, setCurrentBook] = useState<IBook>(books[0]);
 
   const updateBooks = (): void => {
     authors.forEach((author) => {
@@ -56,7 +56,7 @@ export default function BooksTable(): ReactElement {
 
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field !== Fields.Editing) return;
-    const book: Book = params.row;
+    const book: IBook = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
     if (!author) return;
@@ -175,7 +175,7 @@ export default function BooksTable(): ReactElement {
           onCellClick={cellClickHandler}
         />
       )}
-      <ModalBookForm
+      <BookModal
         edit={edit}
         author={currentAuthor}
         book={currentBook}

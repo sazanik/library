@@ -7,12 +7,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import styles from './styles';
-import { booksSelectors, store } from '../App/store';
-import { Book } from '../features/books/booksSlice';
+import { booksSelectors, store } from '../../../App/store';
+import { IBook } from '../../../features/books/booksSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import bookCover from '../assets/images/bookCover.jpg';
 import { Box } from '@mui/material';
-import { useAllBooks } from '../App/hooks';
+import { useAllBooks } from '../../../App/hooks';
+import bookCover from '../../../assets/images/bookCover.jpg';
 
 export default function BookCard(): ReactElement {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function BookCard(): ReactElement {
 
   const books = useAllBooks();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [book, setBook] = useState<Book | undefined>(
+  const [book, setBook] = useState<IBook | undefined>(
     booksSelectors.selectById(store.getState(), id)
   );
 

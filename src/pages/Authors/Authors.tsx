@@ -12,23 +12,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Author } from '../features/authors/authorsSlice';
+import { IAuthor } from '../../features/authors/authorsSlice';
 import styles from './styles';
-import AuthorBooks from '../components/dropdowns/AuthorBooks';
-import { useAllAuthors } from '../App/hooks';
-import AuthorDialog from '../components/dialogs/AuthorDialog';
-import ModalAuthorForm from '../components/modals/ModalAuthorForm';
-import { Actions, Fields } from '../types/enums';
+import AuthorBooks from '../../components/dropdowns/AuthorBooks/AuthorBooks';
+import { useAllAuthors } from '../../App/hooks';
+import AuthorDialog from '../../components/dialogs/Author/AuthorDialog';
+import AuthorModal from '../../components/modals/Author/AuthorModal';
+import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue =>
   param.value;
 
-export default function AuthorsTable(): ReactElement {
+export default function Authors(): ReactElement {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const authors = useAllAuthors();
-  const [currentAuthor, setCurrentAuthor] = useState<Author>(authors[0]);
+  const [currentAuthor, setCurrentAuthor] = useState<IAuthor>(authors[0]);
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -78,7 +78,7 @@ export default function AuthorsTable(): ReactElement {
   );
 
   const openAuthor = (event: GridRenderCellParams): void => {
-    navigate(`/${event.id}`);
+    navigate(`/authors/${event.id}`);
   };
 
   const columns: GridColDef[] = [
@@ -144,7 +144,7 @@ export default function AuthorsTable(): ReactElement {
           onCellClick={cellClickHandler}
         />
       )}
-      <ModalAuthorForm
+      <AuthorModal
         edit={edit}
         author={currentAuthor}
         openModal={openModal}

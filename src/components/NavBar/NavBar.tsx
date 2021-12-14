@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Languages from '../dropdowns/Languages/Languages';
 import { Typography } from '@mui/material';
-import styles from './NavBar.styles';
+import styles from './styles';
 
 export default function NavBar(): ReactElement {
   const { t } = useTranslation('default');
@@ -19,7 +19,7 @@ export default function NavBar(): ReactElement {
           </Typography>
           <Languages />
           <nav>
-            <NavLink to='/'>{t('authors')}</NavLink>
+            <NavLink to='/authors'>{t('authors')}</NavLink>
             <NavLink to='/books'>{t('books')}</NavLink>
           </nav>
         </Toolbar>

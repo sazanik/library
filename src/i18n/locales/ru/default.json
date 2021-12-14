@@ -5,7 +5,8 @@
     "cancel": "Отмена",
     "delete": "Удалить",
     "add": "Добавить",
-    "confirm": "Подтвердить"
+    "confirm": "Подтвердить",
+    "submit": "Отправить"
   },
   "dialogs": {
     "titles": {
@@ -31,6 +32,9 @@
   "previousAuthor": "Предыдущий автор",
   "nextAuthor": "Следующий автор",
   "placeholders": {
+    "login": "Логин",
+    "password": "Пароль",
+    "repeatPassword": "Повторите пароль",
     "authorName": "Автор",
     "books": "Книги",
     "firstName": "Имя",

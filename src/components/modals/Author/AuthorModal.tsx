@@ -1,23 +1,23 @@
 import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
-import AddAuthor from '../forms/AddAuthor';
-import { Author } from '../../features/authors/authorsSlice';
+import AddAuthor from '../../forms/AddAuthor/AddAuthor';
+import { IAuthor } from '../../../features/authors/authorsSlice';
 
-interface Props {
+interface IProps {
   edit: boolean;
-  author: Author;
+  author: IAuthor;
   openModal: boolean;
 
   setOpenModal(b: boolean): void;
 }
 
-export default function ModalAuthorForm({
+export default function AuthorModal({
   edit,
   author,
   openModal,
   setOpenModal,
-}: Props): ReactElement {
+}: IProps): ReactElement {
   return (
     <Modal
       open={openModal}

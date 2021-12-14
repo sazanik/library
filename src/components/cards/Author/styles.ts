@@ -1,12 +1,4 @@
 export default {
-  box: {
-    width: '100vw',
-    height: '88vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
   card: {
     width: '60vw',
     height: '50vh',

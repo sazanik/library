@@ -1,27 +1,27 @@
 import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { COUNTRIES } from '../../constants/constants';
+import { COUNTRIES } from '../../../constants/constants';
 import {
-  Author,
   createAuthor,
+  IAuthor,
   updateAuthor,
-} from '../../features/authors/authorsSlice';
-import { useAppDispatch } from '../../App/hooks';
+} from '../../../features/authors/authorsSlice';
+import { useAppDispatch } from '../../../App/hooks';
 
-interface Props {
+interface IProps {
   edit: boolean;
-  author: Author | null;
+  author: IAuthor | null;
 
   setOpenModal(b: boolean): void;
 }
 
-export default function AddAuthor(props: Props): ReactElement {
+export default function AddAuthor(props: IProps): ReactElement {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data: Author): void => {
+  const onSubmit = (data: IAuthor): void => {
     const id = Date.now().toString().slice(5);
     if (edit && author) {
       dispatch(

@@ -7,12 +7,12 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { Book, removeBook } from '../../features/books/booksSlice';
-import { useAppDispatch } from '../../App/hooks';
+import { IBook, removeBook } from '../../../features/books/booksSlice';
+import { useAppDispatch } from '../../../App/hooks';
 import { useTranslation } from 'react-i18next';
 
-interface Props {
-  book: Book;
+interface IProps {
+  book: IBook;
   openDialog: boolean;
 
   setOpenDialog(b: boolean): void;
@@ -22,7 +22,7 @@ export default function BookDialog({
   book,
   openDialog,
   setOpenDialog,
-}: Props): ReactElement {
+}: IProps): ReactElement {
   const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
   const handleClickDelete = (): void => {
