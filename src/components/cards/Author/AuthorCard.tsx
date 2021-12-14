@@ -11,8 +11,8 @@ import { authorsSelectors, store } from '../../../App/store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useAllAuthors } from '../../../App/hooks';
-import { IAuthor } from '../../../features/authors/authorsSlice';
 import authorPhoto from '../../../assets/images/authorPhoto.jpg';
+import { IAuthor } from '../../../types/inerfaces';
 
 export default function AuthorCard(): ReactElement {
   const navigate = useNavigate();

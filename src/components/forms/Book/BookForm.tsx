@@ -1,14 +1,10 @@
 import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  createBook,
-  IBook,
-  updateBook,
-} from '../../../features/books/booksSlice';
-import { IAuthor } from '../../../features/authors/authorsSlice';
+import { createBook, updateBook } from '../../../features/books/booksSlice';
 import { useAllAuthors, useAppDispatch } from '../../../App/hooks';
 import { authorsSelectors, store } from '../../../App/store';
+import { IAuthor, IBook } from '../../../types/inerfaces';
 
 interface IProps {
   edit: boolean;
@@ -18,7 +14,7 @@ interface IProps {
   setOpenModal(b: boolean): void;
 }
 
-export default function AddBook(props: IProps): ReactElement {
+export default function BookForm(props: IProps): ReactElement {
   const { t } = useTranslation('default');
   const { edit, author: propsAuthor, book, setOpenModal } = props;
   const dispatch = useAppDispatch();

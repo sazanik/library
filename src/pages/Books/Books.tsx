@@ -11,8 +11,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from '../Authors/styles';
-import { IBook, updateBook } from '../../features/books/booksSlice';
-import { IAuthor } from '../../features/authors/authorsSlice';
 import {
   useAllAuthors,
   useAllBooks,
@@ -24,6 +22,8 @@ import BookDialog from '../../components/dialogs/Book/BookDialog';
 import BookModal from '../../components/modals/Book/BookModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
+import { IAuthor, IBook } from '../../types/inerfaces';
+import { updateBook } from '../../features/books/booksSlice';
 
 export default function Books(): ReactElement {
   const { t } = useTranslation('default');

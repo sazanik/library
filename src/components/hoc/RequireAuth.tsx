@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../App/hooks';
 
 interface IProps {
   children: ReactElement;
@@ -7,9 +8,10 @@ interface IProps {
 
 export default function RequireAuth({ children }: IProps): ReactElement {
   const location = useLocation();
-  const auth = false;
 
-  if (!auth) {
+  const { user } = useAuth();
+
+  if (!user) {
     return <Navigate to='/' state={{ from: location }} />;
   }
 

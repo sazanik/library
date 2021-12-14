@@ -12,7 +12,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { IAuthor } from '../../features/authors/authorsSlice';
 import styles from './styles';
 import AuthorBooks from '../../components/dropdowns/AuthorBooks/AuthorBooks';
 import { useAllAuthors } from '../../App/hooks';
@@ -20,6 +19,7 @@ import AuthorDialog from '../../components/dialogs/Author/AuthorDialog';
 import AuthorModal from '../../components/modals/Author/AuthorModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
+import { IAuthor } from '../../types/inerfaces';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue =>
   param.value;

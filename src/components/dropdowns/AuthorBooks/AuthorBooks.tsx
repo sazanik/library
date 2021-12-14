@@ -4,9 +4,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { useAllBooks } from '../../../App/hooks';
-import { IAuthor } from '../../../features/authors/authorsSlice';
-import { IBook } from '../../../features/books/booksSlice';
 import { useNavigate } from 'react-router-dom';
+import { IAuthor, IBook } from '../../../types/inerfaces';
 
 interface IProps {
   author: IAuthor;

@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { COUNTRIES } from '../../../constants/constants';
 import {
   createAuthor,
-  IAuthor,
   updateAuthor,
 } from '../../../features/authors/authorsSlice';
 import { useAppDispatch } from '../../../App/hooks';
+import { IAuthor } from '../../../types/inerfaces';
 
 interface IProps {
   edit: boolean;
@@ -16,7 +16,7 @@ interface IProps {
   setOpenModal(b: boolean): void;
 }
 
-export default function AddAuthor(props: IProps): ReactElement {
+export default function AuthorForm(props: IProps): ReactElement {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;

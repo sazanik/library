@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
-import AddAuthor from '../../forms/AddAuthor/AddAuthor';
-import { IAuthor } from '../../../features/authors/authorsSlice';
+import AuthorForm from '../../forms/Author/AuthorForm';
+import { IAuthor } from '../../../types/inerfaces';
 
 interface IProps {
   edit: boolean;
@@ -26,7 +26,7 @@ export default function AuthorModal({
       aria-describedby='modal-modal-description'
     >
       <Box sx={styles.box}>
-        <AddAuthor edit={edit} author={author} setOpenModal={setOpenModal} />
+        <AuthorForm edit={edit} author={author} setOpenModal={setOpenModal} />
       </Box>
     </Modal>
   );

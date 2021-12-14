@@ -18,6 +18,10 @@
       "book": "The book will be removed from the database."
     }
   },
+  "goSignIn": "Already registered? Click on",
+  "goSignUp": "Not registered yet? Click on",
+  "signIn": "Login",
+  "signUp": "Registration",
   "showList": "Show list",
   "empty": "Empty",
   "changeLanguage": "Change language",

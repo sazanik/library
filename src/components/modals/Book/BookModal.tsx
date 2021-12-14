@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
-import { IAuthor } from '../../../features/authors/authorsSlice';
-import AddBook from '../../forms/AddBook/AddBook';
-import { IBook } from '../../../features/books/booksSlice';
+import BookForm from '../../forms/Book/BookForm';
+import { IAuthor, IBook } from '../../../types/inerfaces';
 
 interface IProps {
   edit: boolean;
@@ -29,7 +28,7 @@ export default function BookModal({
       aria-describedby='modal-modal-description'
     >
       <Box sx={styles.box}>
-        <AddBook
+        <BookForm
           edit={edit}
           author={author}
           book={book}

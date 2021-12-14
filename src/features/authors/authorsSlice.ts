@@ -3,14 +3,7 @@ import {
   createSlice,
   EntityState,
 } from '@reduxjs/toolkit';
-
-export interface IAuthor {
-  id: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  country: string;
-}
+import { IAuthor } from '../../types/inerfaces';
 
 export const authorsAdapter = createEntityAdapter<IAuthor>({
   selectId: (author) => author.id,

@@ -7,9 +7,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { IBook, removeBook } from '../../../features/books/booksSlice';
+import { removeBook } from '../../../features/books/booksSlice';
 import { useAppDispatch } from '../../../App/hooks';
 import { useTranslation } from 'react-i18next';
+import { IBook } from '../../../types/inerfaces';
 
 interface IProps {
   book: IBook;

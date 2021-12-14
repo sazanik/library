@@ -3,17 +3,7 @@ import {
   createSlice,
   EntityState,
 } from '@reduxjs/toolkit';
-
-export interface IBook {
-  id: string;
-  title: string;
-  description: string;
-  code: string;
-  pagesCount: string;
-  publishingYear: string;
-  authorId: string;
-  authorName: string;
-}
+import { IBook } from '../../types/inerfaces';
 
 export const booksAdapter = createEntityAdapter<IBook>({
   selectId: (book) => book.id,
