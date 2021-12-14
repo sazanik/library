@@ -30,4 +30,8 @@ export default {
   button: {
     fontSize: '26px',
   },
+
+  buttonLeft: {
+    justifyContent: 'flex-start',
+  },
 };

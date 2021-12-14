@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+} from '@reduxjs/toolkit';
 
 export interface Book {
   id: string;
@@ -16,9 +20,15 @@ export const booksAdapter = createEntityAdapter<Book>({
   sortComparer: (a, b) => a.title.localeCompare(b.title),
 });
 
+let books: EntityState<Book>;
+const localData = localStorage.getItem('store');
+if (localData) {
+  books = JSON.parse(localData).books;
+}
+
 export const booksSlice = createSlice({
   name: 'books',
-  initialState: booksAdapter.getInitialState(),
+  initialState: booksAdapter.getInitialState(books!),
   reducers: {
     createBook: booksAdapter.addOne,
     updateBook: booksAdapter.updateOne,

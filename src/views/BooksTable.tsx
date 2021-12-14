@@ -111,7 +111,9 @@ export default function BooksTable(): ReactElement {
       headerName: t('placeholders.title'),
       flex: 1,
       renderCell: (params): ReactElement => (
-        <Button onClick={() => openBook(params)}>{params.value}</Button>
+        <Button style={styles.buttonLeft} onClick={() => openBook(params)}>
+          {params.value}
+        </Button>
       ),
     },
     {

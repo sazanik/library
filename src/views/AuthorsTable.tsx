@@ -87,7 +87,9 @@ export default function AuthorsTable(): ReactElement {
       headerName: t('placeholders.firstName'),
       flex: 1,
       renderCell: (params): ReactElement => (
-        <Button onClick={() => openAuthor(params)}>{params.value}</Button>
+        <Button style={styles.buttonLeft} onClick={() => openAuthor(params)}>
+          {params.value}
+        </Button>
       ),
     },
     {
@@ -95,7 +97,9 @@ export default function AuthorsTable(): ReactElement {
       headerName: t('placeholders.lastName'),
       flex: 1,
       renderCell: (params): ReactElement => (
-        <Button onClick={() => openAuthor(params)}>{params.value}</Button>
+        <Button style={styles.buttonLeft} onClick={() => openAuthor(params)}>
+          {params.value}
+        </Button>
       ),
     },
     {
