@@ -37,6 +37,7 @@
   "previousAuthor": "Previous author",
   "nextAuthor": "Next author",
   "errors": {
+    "invalidData": "Invalid data format",
     "minLength": "minimum character length: ",
     "maxLength": "maximum character length: ",
     "required": "the field must be filled",

@@ -13,7 +13,6 @@ export default function App(): ReactElement {
   const { Auth, Authors, Author, Books, Book, NotFound } = pages;
 
   const setLocalData = (): void => {
-    console.log('Write');
     localStorage.setItem('store', JSON.stringify(store.getState()));
   };
 

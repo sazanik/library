@@ -1,11 +1,31 @@
+export const MASKS = {
+  TEXT: /[a-zA-Zа-яА-Я]/,
+  DATE: /^(19|20)\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01])$/,
+  CODE: /[\w-]/,
+  PAGES_COUNT: /^[0-9]{4}&/,
+  PUBLISHING_YEAR: /^\d{2,4}$/,
+};
+
 export const MIN_LENGTH = {
   LOGIN: 2,
   PASSWORD: 4,
+  NAME: 2,
+  TITLE: 3,
+  DESCRIPTION: 20,
+  CODE: 6,
+  PAGES_COUNT: 1,
+  PUBLISHING_YEAR: 2,
 };
 
 export const MAX_LENGTH = {
   LOGIN: 20,
   PASSWORD: 20,
+  NAME: 20,
+  TITLE: 100,
+  DESCRIPTION: 500,
+  CODE: 20,
+  PAGES_COUNT: 4,
+  PUBLISHING_YEAR: 4,
 };
 
 export const COUNTRIES = [

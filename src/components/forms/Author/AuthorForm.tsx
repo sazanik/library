@@ -1,7 +1,12 @@
 import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { COUNTRIES } from '../../../constants/constants';
+import {
+  COUNTRIES,
+  MASKS,
+  MAX_LENGTH,
+  MIN_LENGTH,
+} from '../../../constants/constants';
 import {
   createAuthor,
   updateAuthor,
@@ -12,15 +17,28 @@ import { IAuthor } from '../../../types/inerfaces';
 interface IProps {
   edit: boolean;
   author: IAuthor | null;
+  setOpenModal: (b: boolean) => void;
+}
 
-  setOpenModal(b: boolean): void;
+interface IFormValues {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  country: string;
 }
 
 export default function AuthorForm(props: IProps): ReactElement {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormValues>({
+    mode: 'all',
+  });
+
   const onSubmit = (data: IAuthor): void => {
     const id = Date.now().toString().slice(5);
     if (edit && author) {
@@ -41,25 +59,73 @@ export default function AuthorForm(props: IProps): ReactElement {
     setOpenModal(false);
   };
 
+  const options = {
+    firstName: {
+      required: t('errors.required'),
+      minLength: {
+        value: MIN_LENGTH.NAME,
+        message: t('errors.minLength') + MIN_LENGTH.NAME,
+      },
+      maxLength: {
+        value: MAX_LENGTH.NAME,
+        message: t('errors.maxLength') + MAX_LENGTH.NAME,
+      },
+      pattern: {
+        value: MASKS.TEXT,
+        message: t('errors.invalidData'),
+      },
+    },
+    lastName: {
+      required: t('errors.required'),
+      minLength: {
+        value: MIN_LENGTH.NAME,
+        message: t('errors.minLength') + MIN_LENGTH.NAME,
+      },
+      maxLength: {
+        value: MAX_LENGTH.NAME,
+        message: t('errors.maxLength') + MAX_LENGTH.NAME,
+      },
+      pattern: {
+        value: MASKS.TEXT,
+        message: t('errors.invalidData'),
+      },
+    },
+    birthDate: {
+      required: t('errors.required'),
+      pattern: {
+        value: MASKS.DATE,
+        message: t('errors.invalidData'),
+      },
+    },
+  };
+
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
-        {...register('firstName')}
+        type='text'
+        {...register('firstName', { ...options.firstName })}
         placeholder={t('placeholders.firstName')}
         defaultValue={edit ? author?.firstName : ''}
       />
+      <p className='error'>{errors?.firstName?.message}</p>
       <input
-        {...register('lastName')}
+        type='text'
+        {...register('lastName', { ...options.lastName })}
         placeholder={t('placeholders.lastName')}
         defaultValue={edit ? author?.lastName : ''}
       />
+      <p className='error'>{errors?.lastName?.message}</p>
+
       <input
-        {...register('birthDate')}
+        type='date'
+        {...register('birthDate', { ...options.birthDate })}
         placeholder={t('placeholders.birthDate')}
         defaultValue={edit ? author?.birthDate : ''}
       />
+      <p className='error'>{errors?.birthDate?.message}</p>
+
       <select
         {...register('country')}
         defaultValue={edit ? author?.country : ''}
@@ -70,6 +136,7 @@ export default function AuthorForm(props: IProps): ReactElement {
           </option>
         ))}
       </select>
+      <p className='error'>{}</p>
       <input type='submit' value={buttonName} />
     </form>
   );

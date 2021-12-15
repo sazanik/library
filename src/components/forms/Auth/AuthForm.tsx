@@ -6,6 +6,12 @@ import { useAuth } from '../../../App/hooks';
 import { MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+interface IFormValues {
+  login: string;
+  password: string;
+  repeatPassword?: string;
+}
+
 export default function AuthForm(): ReactElement {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
@@ -18,7 +24,7 @@ export default function AuthForm(): ReactElement {
     reset,
     watch,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange' });
+  } = useForm<IFormValues>({ mode: 'all' });
 
   const onSubmit = (data: IUser): void => {
     signIn(
@@ -40,7 +46,7 @@ export default function AuthForm(): ReactElement {
     return watch('password') === watch('repeatPassword');
   };
 
-  const validation = {
+  const options = {
     login: {
       required: t('errors.required'),
       minLength: {
@@ -81,14 +87,14 @@ export default function AuthForm(): ReactElement {
       <p className='title'>{isRegistered ? t('signIn') : t('signUp')}</p>
       <input
         type='text'
-        {...register('login', { ...validation.login })}
+        {...register('login', { ...options.login })}
         placeholder={t('placeholders.login')}
       />
       <p className='error'>{errors?.login?.message}</p>
 
       <input
         type='password'
-        {...register('password', { ...validation.password })}
+        {...register('password', { ...options.password })}
         placeholder={t('placeholders.password')}
       />
       <p className='error'>{errors?.password?.message}</p>
@@ -97,7 +103,7 @@ export default function AuthForm(): ReactElement {
         <>
           <input
             type='password'
-            {...register('repeatPassword', { ...validation.password })}
+            {...register('repeatPassword', { ...options.password })}
             placeholder={t('placeholders.repeatPassword')}
           />
           {passwordCheck() ? (

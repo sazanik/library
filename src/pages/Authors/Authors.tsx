@@ -21,8 +21,9 @@ import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { IAuthor } from '../../types/inerfaces';
 
-const dateFormatter = (param: GridValueFormatterParams): GridCellValue =>
-  param.value;
+const dateFormatter = (param: GridValueFormatterParams): GridCellValue => {
+  return param?.value?.toString().split('.').join('-');
+};
 
 export default function Authors(): ReactElement {
   const { t } = useTranslation('default');
@@ -138,8 +139,8 @@ export default function Authors(): ReactElement {
         <DataGrid
           rows={authors}
           columns={columns}
-          pageSize={14}
-          rowsPerPageOptions={[14]}
+          pageSize={13}
+          rowsPerPageOptions={[13]}
           disableSelectionOnClick
           onCellClick={cellClickHandler}
         />

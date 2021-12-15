@@ -169,8 +169,8 @@ export default function Books(): ReactElement {
         <DataGrid
           rows={books}
           columns={columns}
-          pageSize={14}
-          rowsPerPageOptions={[14]}
+          pageSize={13}
+          rowsPerPageOptions={[13]}
           disableSelectionOnClick
           onCellClick={cellClickHandler}
         />
