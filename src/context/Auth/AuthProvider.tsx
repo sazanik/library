@@ -16,8 +16,8 @@ export default function AuthProvider({ children }: IProps): ReactElement {
     cb();
   };
 
-  const signOut = (newUser: IUser, cb: () => void): void => {
-    setUser(newUser);
+  const logOut = (cb: () => void): void => {
+    setUser(null);
     cb();
   };
 
@@ -26,7 +26,7 @@ export default function AuthProvider({ children }: IProps): ReactElement {
     isRegistered,
     setIsRegistered,
     signIn,
-    signOut,
+    logOut,
   };
 
   return (

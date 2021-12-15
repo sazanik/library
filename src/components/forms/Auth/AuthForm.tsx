@@ -1,13 +1,17 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { IUser } from '../../../types/inerfaces';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../App/hooks';
 import { MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function AuthForm(): ReactElement {
   const { t } = useTranslation('default');
-  const { isRegistered, setIsRegistered } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromPage = location.state?.from?.pathname || '/authors';
+  const { isRegistered, setIsRegistered, signIn } = useAuth();
   const {
     register,
     handleSubmit,
@@ -15,10 +19,15 @@ export default function AuthForm(): ReactElement {
     watch,
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange' });
-  const [result, setResult] = useState('');
 
   const onSubmit = (data: IUser): void => {
-    setResult(JSON.stringify(data));
+    signIn(
+      {
+        login: data.login,
+        password: data.password,
+      },
+      () => navigate(fromPage, { replace: true })
+    );
     reset();
   };
 
@@ -66,9 +75,6 @@ export default function AuthForm(): ReactElement {
       },
     },
   };
-
-  console.log(errors);
-  console.log(watch('password') === watch('repeatPassword'));
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>

@@ -12,4 +12,8 @@ export default {
       md: 'flex',
     },
   },
+  button: {
+    marginLeft: 'auto',
+    color: 'white',
+  },
 };

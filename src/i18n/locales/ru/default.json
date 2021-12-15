@@ -6,7 +6,8 @@
     "delete": "Удалить",
     "add": "Добавить",
     "confirm": "Подтвердить",
-    "submit": "Отправить"
+    "submit": "Отправить",
+    "logOut": "Выйти"
   },
   "dialogs": {
     "titles": {

@@ -6,7 +6,8 @@
     "delete": "Delete",
     "add": "Add",
     "confirm": "confirm",
-    "submit": "Submit"
+    "submit": "Submit",
+    "logOut": "Log out"
   },
   "dialogs": {
     "titles": {
