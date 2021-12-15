@@ -35,6 +35,12 @@
   "nextBook": "Следующая книга",
   "previousAuthor": "Предыдущий автор",
   "nextAuthor": "Следующий автор",
+  "errors": {
+    "minLength": "минимальная длина символов: ",
+    "maxLength": "максимальная длина символов: ",
+    "required": "поле должно быть заполнено",
+    "passwordMismatch": "пароли не совпадают"
+  },
   "placeholders": {
     "login": "Логин",
     "password": "Пароль",

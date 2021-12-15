@@ -27,6 +27,7 @@
   ],
   "rules": {
     "no-use-before-define": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "quotes": [
       "error",
       "single",

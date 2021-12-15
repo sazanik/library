@@ -35,6 +35,12 @@
   "nextBook": "Next book",
   "previousAuthor": "Previous author",
   "nextAuthor": "Next author",
+  "errors": {
+    "minLength": "minimum character length: ",
+    "maxLength": "maximum character length: ",
+    "required": "the field must be filled",
+    "passwordMismatch": "password mismatch"
+  },
   "placeholders": {
     "login": "Login",
     "password": "Password",

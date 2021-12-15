@@ -1,3 +1,13 @@
+export const MIN_LENGTH = {
+  LOGIN: 2,
+  PASSWORD: 4,
+};
+
+export const MAX_LENGTH = {
+  LOGIN: 20,
+  PASSWORD: 20,
+};
+
 export const COUNTRIES = [
   {
     code: 'AD',
