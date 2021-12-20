@@ -36,7 +36,7 @@
       }
     ],
     "react/function-component-definition": [
-      2,
+      0,
       {
         "namedComponents": "function-declaration",
         "unnamedComponents": "arrow-function"
