@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
 import BookForm from '../../forms/Book/BookForm';
-import { IAuthor, IBook } from '../../../types/inerfaces';
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
-interface IProps {
+interface Props {
   edit: boolean;
-  author: IAuthor;
-  book: IBook;
+  author: AuthorProps;
+  book: BookProps;
   openModal: boolean;
 
   setOpenModal(b: boolean): void;
@@ -19,7 +19,7 @@ export default function BookModal({
   book,
   openModal,
   setOpenModal,
-}: IProps): ReactElement {
+}: Props): ReactElement {
   return (
     <Modal
       open={openModal}

@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useAllBooks } from '../../../App/hooks';
 import bookCover from '../../../assets/images/bookCover.jpg';
-import { IBook } from '../../../types/inerfaces';
+import { BookProps } from '../../../types/inerfaces';
 
 export default function BookCard(): ReactElement {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function BookCard(): ReactElement {
 
   const books = useAllBooks();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [book, setBook] = useState<IBook | undefined>(
+  const [book, setBook] = useState<BookProps | undefined>(
     booksSelectors.selectById(store.getState(), id)
   );
 

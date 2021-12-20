@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useAllAuthors } from '../../../App/hooks';
 import authorPhoto from '../../../assets/images/authorPhoto.jpg';
-import { IAuthor } from '../../../types/inerfaces';
+import { AuthorProps } from '../../../types/inerfaces';
 
 export default function AuthorCard(): ReactElement {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function AuthorCard(): ReactElement {
 
   const authors = useAllAuthors();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [author, setAuthor] = useState<IAuthor | undefined>(
+  const [author, setAuthor] = useState<AuthorProps | undefined>(
     authorsSelectors.selectById(store.getState(), id)
   );
 

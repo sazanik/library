@@ -12,11 +12,11 @@ import {
   updateAuthor,
 } from '../../../features/authors/authorsSlice';
 import { useAppDispatch } from '../../../App/hooks';
-import { IAuthor } from '../../../types/inerfaces';
+import { AuthorProps } from '../../../types/inerfaces';
 
-interface IProps {
+interface Props {
   edit: boolean;
-  author: IAuthor | null;
+  author: AuthorProps | null;
   setOpenModal: (b: boolean) => void;
 }
 
@@ -27,7 +27,7 @@ interface IFormValues {
   country: string;
 }
 
-export default function AuthorForm(props: IProps): ReactElement {
+export default function AuthorForm(props: Props): ReactElement {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
@@ -39,7 +39,7 @@ export default function AuthorForm(props: IProps): ReactElement {
     mode: 'all',
   });
 
-  const onSubmit = (data: IAuthor): void => {
+  const onSubmit = (data: AuthorProps): void => {
     const id = Date.now().toString().slice(5);
     if (edit && author) {
       dispatch(

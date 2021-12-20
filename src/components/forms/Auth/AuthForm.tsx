@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { IUser } from '../../../types/inerfaces';
+import { User } from '../../../types/inerfaces';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../App/hooks';
 import { MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
@@ -26,7 +26,7 @@ export default function AuthForm(): ReactElement {
     formState: { errors, isValid },
   } = useForm<IFormValues>({ mode: 'all' });
 
-  const onSubmit = (data: IUser): void => {
+  const onSubmit = (data: User): void => {
     signIn(
       {
         login: data.login,

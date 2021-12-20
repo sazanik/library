@@ -25,7 +25,7 @@ export default function NavBar(): ReactElement {
             {t('library')}
           </Typography>
           <Languages />
-          <nav>
+          <nav style={styles.nav}>
             <NavLink to='/authors'>{t('authors')}</NavLink>
             <NavLink to='/books'>{t('books')}</NavLink>
           </nav>

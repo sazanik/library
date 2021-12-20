@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface IAuthor {
+export interface AuthorProps {
   id: string;
   firstName: string;
   lastName: string;
@@ -8,7 +8,7 @@ export interface IAuthor {
   country: string;
 }
 
-export interface IBook {
+export interface BookProps {
   id: string;
   title: string;
   description: string;
@@ -19,15 +19,15 @@ export interface IBook {
   authorName: string;
 }
 
-export interface IUser {
+export interface User {
   login: string;
   password: string;
 }
 
-export interface IAuthContext {
-  user: IUser | null;
+export interface AuthProps {
+  user: User | null;
   isRegistered: boolean;
   setIsRegistered: Dispatch<SetStateAction<boolean>>;
-  signIn: (newUser: IUser, cb: () => void) => void;
+  signIn: (newUser: User, cb: () => void) => void;
   logOut: (cb: () => void) => void;
 }

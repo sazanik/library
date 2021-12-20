@@ -22,7 +22,7 @@ import BookDialog from '../../components/dialogs/Book/BookDialog';
 import BookModal from '../../components/modals/Book/BookModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
-import { IAuthor, IBook } from '../../types/inerfaces';
+import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { updateBook } from '../../features/books/booksSlice';
 
 export default function Books(): ReactElement {
@@ -30,13 +30,13 @@ export default function Books(): ReactElement {
   const navigate = useNavigate();
   const booksState = useAppSelector((state) => state.books);
   const authors = useAllAuthors();
-  const [books, setBooks] = useState<IBook[]>(useAllBooks);
+  const [books, setBooks] = useState<BookProps[]>(useAllBooks);
   const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [currentAuthor, setCurrentAuthor] = useState<IAuthor>(authors[0]);
-  const [currentBook, setCurrentBook] = useState<IBook>(books[0]);
+  const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
+  const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
 
   const updateBooks = (): void => {
     authors.forEach((author) => {
@@ -56,7 +56,7 @@ export default function Books(): ReactElement {
 
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field !== Fields.Editing) return;
-    const book: IBook = params.row;
+    const book: BookProps = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
     if (!author) return;

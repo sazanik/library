@@ -12,6 +12,10 @@ export default {
       md: 'flex',
     },
   },
+  nav: {
+    minWidth: 100,
+  },
+
   button: {
     marginLeft: 'auto',
     color: 'white',

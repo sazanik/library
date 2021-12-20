@@ -19,7 +19,7 @@ import AuthorDialog from '../../components/dialogs/Author/AuthorDialog';
 import AuthorModal from '../../components/modals/Author/AuthorModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
-import { IAuthor } from '../../types/inerfaces';
+import { AuthorProps } from '../../types/inerfaces';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue => {
   return param?.value?.toString().split('.').join('-');
@@ -29,7 +29,7 @@ export default function Authors(): ReactElement {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const authors = useAllAuthors();
-  const [currentAuthor, setCurrentAuthor] = useState<IAuthor>(authors[0]);
+  const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);

@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
 import AuthorForm from '../../forms/Author/AuthorForm';
-import { IAuthor } from '../../../types/inerfaces';
+import { AuthorProps } from '../../../types/inerfaces';
 
-interface IProps {
+interface Props {
   edit: boolean;
-  author: IAuthor;
+  author: AuthorProps;
   openModal: boolean;
 
   setOpenModal(b: boolean): void;
@@ -17,7 +17,7 @@ export default function AuthorModal({
   author,
   openModal,
   setOpenModal,
-}: IProps): ReactElement {
+}: Props): ReactElement {
   return (
     <Modal
       open={openModal}

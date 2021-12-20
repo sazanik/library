@@ -11,10 +11,10 @@ import {
 import { removeAuthor } from '../../../features/authors/authorsSlice';
 import { removeBook } from '../../../features/books/booksSlice';
 import { useAllBooks, useAppDispatch } from '../../../App/hooks';
-import { IAuthor } from '../../../types/inerfaces';
+import { AuthorProps } from '../../../types/inerfaces';
 
-interface IProps {
-  author: IAuthor;
+interface Props {
+  author: AuthorProps;
   openDialog: boolean;
 
   setOpenDialog(b: boolean): void;
@@ -24,7 +24,7 @@ export default function AuthorDialog({
   author,
   openDialog,
   setOpenDialog,
-}: IProps): ReactElement {
+}: Props): ReactElement {
   const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
   const books = useAllBooks();

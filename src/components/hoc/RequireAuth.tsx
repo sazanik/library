@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../App/hooks';
 
-interface IProps {
+interface Props {
   children: ReactElement;
 }
 
-export default function RequireAuth({ children }: IProps): ReactElement {
+export default function RequireAuth({ children }: Props): ReactElement {
   const location = useLocation();
 
   const { user } = useAuth();

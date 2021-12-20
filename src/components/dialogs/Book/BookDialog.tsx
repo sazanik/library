@@ -10,10 +10,10 @@ import {
 import { removeBook } from '../../../features/books/booksSlice';
 import { useAppDispatch } from '../../../App/hooks';
 import { useTranslation } from 'react-i18next';
-import { IBook } from '../../../types/inerfaces';
+import { BookProps } from '../../../types/inerfaces';
 
-interface IProps {
-  book: IBook;
+interface Props {
+  book: BookProps;
   openDialog: boolean;
 
   setOpenDialog(b: boolean): void;
@@ -23,7 +23,7 @@ export default function BookDialog({
   book,
   openDialog,
   setOpenDialog,
-}: IProps): ReactElement {
+}: Props): ReactElement {
   const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
   const handleClickDelete = (): void => {

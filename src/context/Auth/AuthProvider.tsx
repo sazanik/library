@@ -1,17 +1,17 @@
 import React, { createContext, ReactElement, useState } from 'react';
-import { IAuthContext, IUser } from '../../types/inerfaces';
+import { AuthProps, User } from '../../types/inerfaces';
 
-export const AuthContext = createContext<IAuthContext>(null!);
+export const AuthContext = createContext<AuthProps>(null!);
 
-interface IProps {
+interface Props {
   children: ReactElement;
 }
 
-export default function AuthProvider({ children }: IProps): ReactElement {
+export default function AuthProvider({ children }: Props): ReactElement {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  const signIn = (newUser: IUser, cb: () => void): void => {
+  const signIn = (newUser: User, cb: () => void): void => {
     setUser(newUser);
     cb();
   };
@@ -21,7 +21,7 @@ export default function AuthProvider({ children }: IProps): ReactElement {
     cb();
   };
 
-  const authContext: IAuthContext = {
+  const authContext: AuthProps = {
     user,
     isRegistered,
     setIsRegistered,

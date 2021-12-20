@@ -5,13 +5,13 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { useAllBooks } from '../../../App/hooks';
 import { useNavigate } from 'react-router-dom';
-import { IAuthor, IBook } from '../../../types/inerfaces';
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
-interface IProps {
-  author: IAuthor;
+interface Props {
+  author: AuthorProps;
 }
 
-export default function AuthorBooks({ author }: IProps): ReactElement {
+export default function AuthorBooks({ author }: Props): ReactElement {
   const navigate = useNavigate();
   const { t } = useTranslation('default');
   const books = useAllBooks();
@@ -30,7 +30,7 @@ export default function AuthorBooks({ author }: IProps): ReactElement {
     setAnchorEl(null);
   };
 
-  const getBooks = (): IBook[] =>
+  const getBooks = (): BookProps[] =>
     books.filter((book) => book.authorId === author.id);
 
   return (

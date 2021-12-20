@@ -3,14 +3,14 @@ import {
   createSlice,
   EntityState,
 } from '@reduxjs/toolkit';
-import { IBook } from '../../types/inerfaces';
+import { BookProps } from '../../types/inerfaces';
 
-export const booksAdapter = createEntityAdapter<IBook>({
+export const booksAdapter = createEntityAdapter<BookProps>({
   selectId: (book) => book.id,
   sortComparer: (a, b) => a.title.localeCompare(b.title),
 });
 
-let books: EntityState<IBook>;
+let books: EntityState<BookProps>;
 const localData = localStorage.getItem('store');
 if (localData) {
   books = JSON.parse(localData).books;

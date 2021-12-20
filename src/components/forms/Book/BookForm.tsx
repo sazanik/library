@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { createBook, updateBook } from '../../../features/books/booksSlice';
 import { useAllAuthors, useAppDispatch } from '../../../App/hooks';
 import { authorsSelectors, store } from '../../../App/store';
-import { IAuthor, IBook } from '../../../types/inerfaces';
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
 
-interface IProps {
+interface Props {
   edit: boolean;
-  author: IAuthor;
-  book: IBook | undefined;
+  author: AuthorProps;
+  book: BookProps | undefined;
   setOpenModal: (b: boolean) => void;
 }
 
@@ -23,12 +23,12 @@ interface IFormValues {
   authorId: string;
 }
 
-export default function BookForm(props: IProps): ReactElement {
+export default function BookForm(props: Props): ReactElement {
   const { t } = useTranslation('default');
   const { edit, author: propsAuthor, book, setOpenModal } = props;
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
-  const [currentAuthor, setCurrentAuthor] = useState<IAuthor>(propsAuthor);
+  const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(propsAuthor);
   const {
     register,
     handleSubmit,
@@ -38,7 +38,7 @@ export default function BookForm(props: IProps): ReactElement {
   const getAuthorName = (): string =>
     `${currentAuthor.firstName} ${currentAuthor.lastName}`;
 
-  const onSubmit = (data: IBook): void => {
+  const onSubmit = (data: BookProps): void => {
     const id = Date.now().toString().slice(5);
     if (edit && book) {
       const updatedBook = {
