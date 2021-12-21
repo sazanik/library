@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import './button.css';
 
 interface ButtonProps {
@@ -27,13 +27,13 @@ interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-export function Button({
+export const Button = ({
   primary = false,
   size = 'medium',
   backgroundColor,
   label,
   ...props
-}: ButtonProps): ReactElement {
+}: ButtonProps): JSX.Element => {
   const mode = primary
     ? 'storybook-button--primary'
     : 'storybook-button--secondary';
@@ -49,4 +49,4 @@ export function Button({
       {label}
     </button>
   );
-}
+};

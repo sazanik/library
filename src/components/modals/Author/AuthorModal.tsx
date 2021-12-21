@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
-import AuthorForm from '../../forms/Author/AuthorForm';
+import { AuthorForm } from '../../forms/Author/AuthorForm';
 import { AuthorProps } from '../../../types/inerfaces';
 
 interface Props {
@@ -12,12 +12,12 @@ interface Props {
   setOpenModal(b: boolean): void;
 }
 
-export default function AuthorModal({
+export const AuthorModal = ({
   edit,
   author,
   openModal,
   setOpenModal,
-}: Props): ReactElement {
+}: Props): JSX.Element => {
   return (
     <Modal
       open={openModal}
@@ -30,4 +30,4 @@ export default function AuthorModal({
       </Box>
     </Modal>
   );
-}
+};

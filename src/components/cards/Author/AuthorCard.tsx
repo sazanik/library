@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,15 +6,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import styles from '../Book/styles';
-import { authorsSelectors, store } from '../../../App/store';
+import { styles } from '../Book/styles';
+import { authorsSelectors, store } from '../../../store/store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { useAllAuthors } from '../../../App/hooks';
 import authorPhoto from '../../../assets/images/authorPhoto.jpg';
 import { AuthorProps } from '../../../types/inerfaces';
+import { useAllAuthors } from '../../../hooks';
 
-export default function AuthorCard(): ReactElement {
+export const AuthorCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
@@ -43,11 +43,22 @@ export default function AuthorCard(): ReactElement {
     if (id) {
       const index = authorsSelectors
         .selectIds(store.getState())
-        .findIndex((idx) => idx === id);
+        .findIndex((entityId) => entityId === id);
       setCurrentIndex(index);
       setAuthor(authorsSelectors.selectById(store.getState(), id));
     }
   }, [id]);
+
+  if (!author)
+    return (
+      <Card style={styles.card}>
+        <CardContent style={styles.errorCardContent}>
+          <Typography gutterBottom variant='h5' component='div'>
+            {t('errors.dataCard')}
+          </Typography>
+        </CardContent>
+      </Card>
+    );
 
   return (
     <Box>
@@ -61,16 +72,16 @@ export default function AuthorCard(): ReactElement {
         />
         <CardContent style={styles.cardContent}>
           <Typography gutterBottom variant='h5' component='div'>
-            {t('placeholders.firstName')}: {author?.firstName}
+            {t('placeholders.firstName')}: {author.firstName}
           </Typography>
           <Typography gutterBottom variant='h5' component='div'>
-            {t('placeholders.lastName')}: {author?.lastName}
+            {t('placeholders.lastName')}: {author.lastName}
           </Typography>
           <Typography gutterBottom variant='h5' component='div'>
-            {t('placeholders.country')}: {author?.country}
+            {t('placeholders.country')}: {author.country}
           </Typography>
           <Typography gutterBottom variant='h5' component='div'>
-            {t('placeholders.birthDate')}: {author?.birthDate}
+            {t('placeholders.birthDate')}: {author.birthDate}
           </Typography>
         </CardContent>
       </Card>
@@ -92,4 +103,4 @@ export default function AuthorCard(): ReactElement {
       </CardActions>
     </Box>
   );
-}
+};

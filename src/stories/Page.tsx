@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import { Header } from './Header';
 import './page.css';
@@ -10,12 +10,12 @@ interface PageProps {
   onCreateAccount: () => void;
 }
 
-export function Page({
+export const Page = ({
   user,
   onLogin,
   onLogout,
   onCreateAccount,
-}: PageProps): ReactElement {
+}: PageProps): JSX.Element => {
   return (
     <article>
       <Header
@@ -94,4 +94,4 @@ export function Page({
       </section>
     </article>
   );
-}
+};

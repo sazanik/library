@@ -1,17 +1,17 @@
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useAllBooks } from '../../../App/hooks';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
+import { useAllBooks } from '../../../hooks';
 
 interface Props {
   author: AuthorProps;
 }
 
-export default function AuthorBooks({ author }: Props): ReactElement {
+export const AuthorBooks = ({ author }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation('default');
   const books = useAllBooks();
@@ -68,4 +68,4 @@ export default function AuthorBooks({ author }: Props): ReactElement {
       </Menu>
     </div>
   );
-}
+};

@@ -9,6 +9,13 @@ export default {
     justifyContent: 'space-around',
   },
 
+  errorCardContent: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   cardActions: {
     display: 'flex',
     justifyContent: 'space-between',

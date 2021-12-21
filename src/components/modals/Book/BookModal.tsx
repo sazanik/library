@@ -1,7 +1,8 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Box, Modal } from '@mui/material';
 import styles from './styles';
-import BookForm from '../../forms/Book/BookForm';
+import { BookForm } from '../../forms/Book/BookForm';
+
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
 interface Props {
@@ -13,13 +14,13 @@ interface Props {
   setOpenModal(b: boolean): void;
 }
 
-export default function BookModal({
+export const BookModal = ({
   edit,
   author,
   book,
   openModal,
   setOpenModal,
-}: Props): ReactElement {
+}: Props): JSX.Element => {
   return (
     <Modal
       open={openModal}
@@ -37,4 +38,4 @@ export default function BookModal({
       </Box>
     </Modal>
   );
-}
+};

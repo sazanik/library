@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,15 +6,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import styles from './styles';
-import { booksSelectors, store } from '../../../App/store';
+import { styles } from './styles';
+import { booksSelectors, store } from '../../../store/store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { useAllBooks } from '../../../App/hooks';
 import bookCover from '../../../assets/images/bookCover.jpg';
 import { BookProps } from '../../../types/inerfaces';
+import { useAllBooks } from '../../../hooks';
 
-export default function BookCard(): ReactElement {
+export const BookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
@@ -41,11 +41,22 @@ export default function BookCard(): ReactElement {
     if (id) {
       const index = booksSelectors
         .selectIds(store.getState())
-        .findIndex((idx) => idx === id);
+        .findIndex((entityId) => entityId === id);
       setCurrentIndex(index);
       setBook(booksSelectors.selectById(store.getState(), id));
     }
   }, [id]);
+
+  if (!book)
+    return (
+      <Card style={styles.card}>
+        <CardContent style={styles.errorCardContent}>
+          <Typography gutterBottom variant='h5' component='div'>
+            {t('errors.dataCard')}
+          </Typography>
+        </CardContent>
+      </Card>
+    );
 
   return (
     <Box>
@@ -59,22 +70,22 @@ export default function BookCard(): ReactElement {
         />
         <CardContent style={styles.cardContent}>
           <Typography gutterBottom variant='h5' component='div'>
-            {t('placeholders.title')}: {book?.title}
+            {t('placeholders.title')}: {book.title}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {t('placeholders.description')}: {book?.description}
+            {t('placeholders.description')}: {book.description}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {t('placeholders.authorName')}: {book?.authorName}
+            {t('placeholders.authorName')}: {book.authorName}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {t('placeholders.pagesCount')}: {book?.pagesCount}
+            {t('placeholders.pagesCount')}: {book.pagesCount}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {t('placeholders.publishingYear')}: {book?.publishingYear}
+            {t('placeholders.publishingYear')}: {book.publishingYear}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {t('placeholders.code')}: {book?.code}
+            {t('placeholders.code')}: {book.code}
           </Typography>
         </CardContent>
       </Card>
@@ -96,4 +107,4 @@ export default function BookCard(): ReactElement {
       </CardActions>
     </Box>
   );
-}
+};

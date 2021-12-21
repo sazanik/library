@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   box: {
     display: 'flex',
     width: '100vw',
@@ -6,5 +6,5 @@ export default {
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-  } as const,
-};
+  },
+} as const;

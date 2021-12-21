@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
-import NavBar from '../NavBar/NavBar';
+import { NavBar } from '../NavBar/NavBar';
 
-export default function Layout(): ReactElement {
+export const Layout = (): JSX.Element => {
   return (
     <>
       <header>
@@ -14,4 +14,4 @@ export default function Layout(): ReactElement {
       <footer>{new Date().getFullYear()}</footer>
     </>
   );
-}
+};

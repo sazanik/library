@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { User } from '../../../types/inerfaces';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../App/hooks';
 import { MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../hooks';
 
 interface IFormValues {
   login: string;
@@ -12,7 +12,7 @@ interface IFormValues {
   repeatPassword?: string;
 }
 
-export default function AuthForm(): ReactElement {
+export const AuthForm = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const location = useLocation();
@@ -127,4 +127,4 @@ export default function AuthForm(): ReactElement {
       </p>
     </form>
   );
-}
+};

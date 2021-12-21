@@ -1,13 +1,13 @@
-import React, { createContext, ReactElement, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { AuthProps, User } from '../../types/inerfaces';
 
 export const AuthContext = createContext<AuthProps>(null!);
 
 interface Props {
-  children: ReactElement;
+  children?: JSX.Element;
 }
 
-export default function AuthProvider({ children }: Props): ReactElement {
+export const AuthProvider = ({ children }: Props): JSX.Element => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -32,4 +32,4 @@ export default function AuthProvider({ children }: Props): ReactElement {
   return (
     <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>
   );
-}
+};

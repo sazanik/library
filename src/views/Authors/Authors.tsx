@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -13,19 +13,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles';
-import AuthorBooks from '../../components/dropdowns/AuthorBooks/AuthorBooks';
-import { useAllAuthors } from '../../App/hooks';
-import AuthorDialog from '../../components/dialogs/Author/AuthorDialog';
-import AuthorModal from '../../components/modals/Author/AuthorModal';
+import { AuthorBooks } from '../../components/dropdowns/AuthorBooks/AuthorBooks';
+import { AuthorDialog } from '../../components/dialogs/Author/AuthorDialog';
+import { AuthorModal } from '../../components/modals/Author/AuthorModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../types/inerfaces';
+import { useAllAuthors } from '../../hooks';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue => {
   return param?.value?.toString().split('.').join('-');
 };
 
-export default function Authors(): ReactElement {
+export const Authors = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const authors = useAllAuthors();
@@ -64,7 +64,7 @@ export default function Authors(): ReactElement {
     }
   };
 
-  const editingCell = (): ReactElement => (
+  const editingCell = (): JSX.Element => (
     <>
       <IconButton onClick={clickHandler} aria-label='add'>
         <AddIcon fontSize='small' color='success' />
@@ -87,7 +87,7 @@ export default function Authors(): ReactElement {
       field: 'firstName',
       headerName: t('placeholders.firstName'),
       flex: 1,
-      renderCell: (params): ReactElement => (
+      renderCell: (params): JSX.Element => (
         <Button style={styles.buttonLeft} onClick={() => openAuthor(params)}>
           {params.value}
         </Button>
@@ -97,7 +97,7 @@ export default function Authors(): ReactElement {
       field: 'lastName',
       headerName: t('placeholders.lastName'),
       flex: 1,
-      renderCell: (params): ReactElement => (
+      renderCell: (params): JSX.Element => (
         <Button style={styles.buttonLeft} onClick={() => openAuthor(params)}>
           {params.value}
         </Button>
@@ -158,4 +158,4 @@ export default function Authors(): ReactElement {
       />
     </div>
   );
-}
+};

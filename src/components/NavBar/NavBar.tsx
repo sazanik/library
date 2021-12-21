@@ -1,15 +1,15 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Languages from '../dropdowns/Languages/Languages';
+import { Languages } from '../dropdowns/Languages/Languages';
 import { Button, Typography } from '@mui/material';
 import styles from './styles';
-import { useAuth } from '../../App/hooks';
+import { useAuth } from '../../hooks';
 
-export default function NavBar(): ReactElement {
+export const NavBar = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const { logOut } = useAuth();
@@ -40,4 +40,4 @@ export default function NavBar(): ReactElement {
       </AppBar>
     </Box>
   );
-}
+};

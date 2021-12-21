@@ -1,19 +1,19 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../App/hooks';
+import { useAuth } from '../../../hooks';
 
 interface Props {
-  children: ReactElement;
+  children: JSX.Element;
 }
 
-export default function RequireAuth({ children }: Props): ReactElement {
+export const AuthRequirement = ({ children }: Props): JSX.Element => {
   const location = useLocation();
 
   const { user } = useAuth();
 
-  if (!user) {
+  if (user) {
     return <Navigate to='/' state={{ from: location }} />;
   }
 
   return children;
-}
+};

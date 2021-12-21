@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import { Button } from './Button';
 import './header.css';
@@ -10,12 +10,12 @@ interface HeaderProps {
   onCreateAccount: () => void;
 }
 
-export function Header({
+export const Header = ({
   user,
   onLogin,
   onLogout,
   onCreateAccount,
-}: HeaderProps): ReactElement {
+}: HeaderProps): JSX.Element => {
   return (
     <header>
       <div className='wrapper'>
@@ -61,4 +61,4 @@ export function Header({
       </div>
     </header>
   );
-}
+};

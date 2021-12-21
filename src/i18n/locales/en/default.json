@@ -41,7 +41,8 @@
     "minLength": "minimum character length: ",
     "maxLength": "maximum character length: ",
     "required": "the field must be filled",
-    "passwordMismatch": "password mismatch"
+    "passwordMismatch": "password mismatch",
+    "dataCard": "An error occurred, please try again later"
   },
   "placeholders": {
     "login": "Login",

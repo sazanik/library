@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactElement, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
@@ -11,21 +11,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from '../Authors/styles';
+import { authorsSelectors, store } from '../../store/store';
+import { BookDialog } from '../../components/dialogs/Book/BookDialog';
+import { BookModal } from '../../components/modals/Book/BookModal';
+import { Actions, Fields } from '../../types/enums';
+import { useNavigate } from 'react-router-dom';
+import { AuthorProps, BookProps } from '../../types/inerfaces';
+import { updateBook } from '../../store/books/booksSlice';
 import {
   useAllAuthors,
   useAllBooks,
   useAppDispatch,
   useAppSelector,
-} from '../../App/hooks';
-import { authorsSelectors, store } from '../../App/store';
-import BookDialog from '../../components/dialogs/Book/BookDialog';
-import BookModal from '../../components/modals/Book/BookModal';
-import { Actions, Fields } from '../../types/enums';
-import { useNavigate } from 'react-router-dom';
-import { AuthorProps, BookProps } from '../../types/inerfaces';
-import { updateBook } from '../../features/books/booksSlice';
+} from '../../hooks';
 
-export default function Books(): ReactElement {
+export const Books = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const booksState = useAppSelector((state) => state.books);
@@ -85,7 +85,7 @@ export default function Books(): ReactElement {
     }
   };
 
-  function editingCell(): ReactElement {
+  function editingCell(): JSX.Element {
     return (
       <>
         <IconButton onClick={clickHandler} aria-label='add'>
@@ -110,7 +110,7 @@ export default function Books(): ReactElement {
       field: 'title',
       headerName: t('placeholders.title'),
       flex: 1,
-      renderCell: (params): ReactElement => (
+      renderCell: (params): JSX.Element => (
         <Button style={styles.buttonLeft} onClick={() => openBook(params)}>
           {params.value}
         </Button>
@@ -189,4 +189,4 @@ export default function Books(): ReactElement {
       />
     </div>
   );
-}
+};

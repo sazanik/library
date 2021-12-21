@@ -1,13 +1,13 @@
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import styles from './styles';
+import styles from './Languages.styles';
 import { useTranslation } from 'react-i18next';
 
-export default function Languages(): ReactElement {
+export const Languages = (): JSX.Element => {
   const { t, i18n } = useTranslation('default');
   const [language, setLanguage] = useState('');
 
@@ -37,4 +37,4 @@ export default function Languages(): ReactElement {
       </FormControl>
     </Box>
   );
-}
+};

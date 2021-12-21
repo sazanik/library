@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,9 +10,9 @@ import {
 import {
   createAuthor,
   updateAuthor,
-} from '../../../features/authors/authorsSlice';
-import { useAppDispatch } from '../../../App/hooks';
+} from '../../../store/authors/authorsSlice';
 import { AuthorProps } from '../../../types/inerfaces';
+import { useAppDispatch } from '../../../hooks';
 
 interface Props {
   edit: boolean;
@@ -27,7 +27,7 @@ interface IFormValues {
   country: string;
 }
 
-export default function AuthorForm(props: Props): ReactElement {
+export const AuthorForm = (props: Props): JSX.Element => {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
@@ -140,4 +140,4 @@ export default function AuthorForm(props: Props): ReactElement {
       <input type='submit' value={buttonName} />
     </form>
   );
-}
+};

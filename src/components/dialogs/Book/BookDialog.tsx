@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import {
   Button,
   Dialog,
@@ -7,10 +7,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { removeBook } from '../../../features/books/booksSlice';
-import { useAppDispatch } from '../../../App/hooks';
+import { removeBook } from '../../../store/books/booksSlice';
 import { useTranslation } from 'react-i18next';
 import { BookProps } from '../../../types/inerfaces';
+import { useAppDispatch } from '../../../hooks';
 
 interface Props {
   book: BookProps;
@@ -19,11 +19,11 @@ interface Props {
   setOpenDialog(b: boolean): void;
 }
 
-export default function BookDialog({
+export const BookDialog = ({
   book,
   openDialog,
   setOpenDialog,
-}: Props): ReactElement {
+}: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
   const handleClickDelete = (): void => {
@@ -57,4 +57,4 @@ export default function BookDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};

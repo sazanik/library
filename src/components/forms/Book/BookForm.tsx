@@ -1,11 +1,11 @@
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { createBook, updateBook } from '../../../features/books/booksSlice';
-import { useAllAuthors, useAppDispatch } from '../../../App/hooks';
-import { authorsSelectors, store } from '../../../App/store';
+import { createBook, updateBook } from '../../../store/books/booksSlice';
+import { authorsSelectors, store } from '../../../store/store';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
 import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
+import { useAllAuthors, useAppDispatch } from '../../../hooks';
 
 interface Props {
   edit: boolean;
@@ -23,7 +23,7 @@ interface IFormValues {
   authorId: string;
 }
 
-export default function BookForm(props: Props): ReactElement {
+export const BookForm = (props: Props): JSX.Element => {
   const { t } = useTranslation('default');
   const { edit, author: propsAuthor, book, setOpenModal } = props;
   const dispatch = useAppDispatch();
@@ -207,4 +207,4 @@ export default function BookForm(props: Props): ReactElement {
       <input type='submit' value={buttonName} />
     </form>
   );
-}
+};
