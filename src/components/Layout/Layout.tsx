@@ -1,12 +1,12 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { NavBar } from '../NavBar/NavBar';
+import { MainBar } from '../MainBar/MainBar';
 
 export const Layout = (): JSX.Element => {
   return (
     <>
       <header>
-        <NavBar />
+        <MainBar />
       </header>
       <main>
         <Outlet />

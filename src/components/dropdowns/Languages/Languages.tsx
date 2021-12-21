@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import styles from './Languages.styles';
+import { styles } from './Languages.styles';
 import { useTranslation } from 'react-i18next';
 
 export const Languages = (): JSX.Element => {
@@ -18,13 +18,13 @@ export const Languages = (): JSX.Element => {
   };
 
   return (
-    <Box style={styles.box}>
+    <Box sx={styles.box}>
       <FormControl variant='filled' sx={styles.formControl}>
-        <InputLabel style={styles.inputLabel} id='demo-simple-select-label'>
+        <InputLabel sx={styles.inputLabel} id='demo-simple-select-label'>
           {t('changeLanguage')}
         </InputLabel>
         <Select
-          style={styles.select}
+          sx={styles.select}
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           value={language}

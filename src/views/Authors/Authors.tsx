@@ -10,9 +10,8 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import styles from './styles';
 import { AuthorBooks } from '../../components/dropdowns/AuthorBooks/AuthorBooks';
 import { AuthorDialog } from '../../components/dialogs/Author/AuthorDialog';
 import { AuthorModal } from '../../components/modals/Author/AuthorModal';
@@ -20,6 +19,7 @@ import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../types/inerfaces';
 import { useAllAuthors } from '../../hooks';
+import { styles } from './Authors.styles';
 
 const dateFormatter = (param: GridValueFormatterParams): GridCellValue => {
   return param?.value?.toString().split('.').join('-');
@@ -88,7 +88,7 @@ export const Authors = (): JSX.Element => {
       headerName: t('placeholders.firstName'),
       flex: 1,
       renderCell: (params): JSX.Element => (
-        <Button style={styles.buttonLeft} onClick={() => openAuthor(params)}>
+        <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
           {params.value}
         </Button>
       ),
@@ -98,7 +98,7 @@ export const Authors = (): JSX.Element => {
       headerName: t('placeholders.lastName'),
       flex: 1,
       renderCell: (params): JSX.Element => (
-        <Button style={styles.buttonLeft} onClick={() => openAuthor(params)}>
+        <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
           {params.value}
         </Button>
       ),
@@ -129,9 +129,9 @@ export const Authors = (): JSX.Element => {
   ];
 
   return (
-    <div style={styles.box}>
+    <Box sx={styles.box}>
       {!authors.length ? (
-        <Button onClick={clickHandler} aria-label='add' style={styles.button}>
+        <Button onClick={clickHandler} aria-label='add' sx={styles.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons.addAuthor')}
         </Button>
@@ -156,6 +156,6 @@ export const Authors = (): JSX.Element => {
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
       />
-    </div>
+    </Box>
   );
 };

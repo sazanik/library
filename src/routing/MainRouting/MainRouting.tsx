@@ -41,7 +41,7 @@ export const MainRouting = (): JSX.Element => {
             </AuthRequirement>
           }
         />
-        <Route path='/*' element={<NotFound />} />
+        <Route path='*' element={<NotFound />} />
       </Route>
     </Routes>
   );

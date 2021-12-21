@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
-import { AuthProps, User } from '../../types/inerfaces';
+import { AuthContextProps, User } from '../../types/inerfaces';
 
-export const AuthContext = createContext<AuthProps>(null!);
+export const AuthContext = createContext<AuthContextProps>(null!);
 
 interface Props {
   children?: JSX.Element;
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     cb();
   };
 
-  const authContext: AuthProps = {
+  const authContext: AuthContextProps = {
     user,
     isRegistered,
     setIsRegistered,

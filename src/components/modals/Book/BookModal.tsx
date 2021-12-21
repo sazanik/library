@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Modal } from '@mui/material';
-import styles from './styles';
+import styles from './BookModal.styles';
 import { BookForm } from '../../forms/Book/BookForm';
 
 import { AuthorProps, BookProps } from '../../../types/inerfaces';

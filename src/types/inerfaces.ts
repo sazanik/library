@@ -24,10 +24,16 @@ export interface User {
   password: string;
 }
 
-export interface AuthProps {
+export interface AuthContextProps {
   user: User | null;
   isRegistered: boolean;
   setIsRegistered: Dispatch<SetStateAction<boolean>>;
   signIn: (newUser: User, cb: () => void) => void;
   logOut: (cb: () => void) => void;
+}
+
+export interface AuthFormProps {
+  login: string;
+  password: string;
+  repeatPassword?: string;
 }

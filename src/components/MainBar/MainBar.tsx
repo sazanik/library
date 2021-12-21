@@ -2,14 +2,15 @@ import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Languages } from '../dropdowns/Languages/Languages';
 import { Button, Typography } from '@mui/material';
-import styles from './styles';
+import { mainBarStyles } from './MainBar.styles';
 import { useAuth } from '../../hooks';
+import { Navigation } from '../Navigation/Navigation';
 
-export const NavBar = (): JSX.Element => {
+export const MainBar = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const { logOut } = useAuth();
@@ -18,20 +19,22 @@ export const NavBar = (): JSX.Element => {
     logOut(() => navigate('/'));
   };
   return (
-    <Box sx={styles.box}>
+    <Box sx={mainBarStyles.box}>
       <AppBar position='static'>
         <Toolbar variant='dense'>
-          <Typography variant='h6' noWrap component='div' sx={styles.text}>
+          <Typography
+            variant='h6'
+            noWrap
+            component='div'
+            sx={mainBarStyles.text}
+          >
             {t('library')}
           </Typography>
           <Languages />
-          <nav style={styles.nav}>
-            <NavLink to='/authors'>{t('authors')}</NavLink>
-            <NavLink to='/books'>{t('books')}</NavLink>
-          </nav>
+          <Navigation />
           <Button
             onClick={handleClick}
-            style={styles.button}
+            sx={mainBarStyles.button}
             variant='contained'
           >
             {t('buttons.logOut')}

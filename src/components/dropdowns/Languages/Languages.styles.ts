@@ -1,9 +1,9 @@
-export default {
+export const styles = {
   box: {
     display: 'flex',
     width: 200,
     height: 60,
-    marginRight: 30,
+    mr: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -8,9 +8,9 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import styles from '../Authors/styles';
+import { styles } from '../Authors/Authors.styles';
 import { authorsSelectors, store } from '../../store/store';
 import { BookDialog } from '../../components/dialogs/Book/BookDialog';
 import { BookModal } from '../../components/modals/Book/BookModal';
@@ -111,7 +111,7 @@ export const Books = (): JSX.Element => {
       headerName: t('placeholders.title'),
       flex: 1,
       renderCell: (params): JSX.Element => (
-        <Button style={styles.buttonLeft} onClick={() => openBook(params)}>
+        <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
           {params.value}
         </Button>
       ),
@@ -157,11 +157,11 @@ export const Books = (): JSX.Element => {
   }, [booksState]);
 
   return (
-    <div style={styles.box}>
+    <Box sx={styles.box}>
       {!authors.length ? (
-        <p>{t('infoBooks')}</p>
+        <Typography>{t('infoBooks')}</Typography>
       ) : !books?.length ? (
-        <Button onClick={clickHandler} aria-label='add' style={styles.button}>
+        <Button onClick={clickHandler} aria-label='add' sx={styles.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons.addBook')}
         </Button>
@@ -187,6 +187,6 @@ export const Books = (): JSX.Element => {
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
       />
-    </div>
+    </Box>
   );
 };

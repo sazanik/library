@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   box: {
     width: '100vw',
     height: '88vh',

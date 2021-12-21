@@ -1,4 +1,4 @@
-export default {
+export const mainBarStyles = {
   box: {
     width: '100vw',
     flexGrow: 1,
@@ -11,9 +11,6 @@ export default {
       xs: 'none',
       md: 'flex',
     },
-  },
-  nav: {
-    minWidth: 100,
   },
 
   button: {

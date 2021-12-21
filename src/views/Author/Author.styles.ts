@@ -1,4 +1,4 @@
-export default {
+export const styles = {
   card: {
     width: '60vw',
     height: '50vh',

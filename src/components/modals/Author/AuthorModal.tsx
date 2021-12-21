@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Modal } from '@mui/material';
-import styles from './styles';
+import styles from './AuthorModal.styles';
 import { AuthorForm } from '../../forms/Author/AuthorForm';
 import { AuthorProps } from '../../../types/inerfaces';
 
