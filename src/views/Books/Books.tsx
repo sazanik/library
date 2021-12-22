@@ -12,8 +12,8 @@ import { Box, Button, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { styles } from '../Authors/Authors.styles';
 import { authorsSelectors, store } from '../../store/store';
-import { BookDialog } from '../../components/dialogs/Book/BookDialog';
-import { BookModal } from '../../components/modals/Book/BookModal';
+import { BookDialog } from '../../components/dialogs/BookDialog/BookDialog';
+import { BookModal } from '../../components/modals/BookModal/BookModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
@@ -59,7 +59,9 @@ export const Books = (): JSX.Element => {
     const book: BookProps = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
-    if (!author) return;
+    if (!author) {
+      return;
+    }
     setCurrentAuthor(author);
   };
 

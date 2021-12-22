@@ -1,20 +1,23 @@
 import React from 'react';
 import { Box, Modal } from '@mui/material';
-import styles from './AuthorModal.styles';
-import { AuthorForm } from '../../forms/Author/AuthorForm';
-import { AuthorProps } from '../../../types/inerfaces';
+import styles from './BookModal.styles';
+import { BookForm } from '../../forms/BookForm/BookForm';
+
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
 interface Props {
   edit: boolean;
   author: AuthorProps;
+  book: BookProps;
   openModal: boolean;
 
   setOpenModal(b: boolean): void;
 }
 
-export const AuthorModal = ({
+export const BookModal = ({
   edit,
   author,
+  book,
   openModal,
   setOpenModal,
 }: Props): JSX.Element => {
@@ -26,7 +29,12 @@ export const AuthorModal = ({
       aria-describedby='modal-modal-description'
     >
       <Box sx={styles.box}>
-        <AuthorForm edit={edit} author={author} setOpenModal={setOpenModal} />
+        <BookForm
+          edit={edit}
+          author={author}
+          book={book}
+          setOpenModal={setOpenModal}
+        />
       </Box>
     </Modal>
   );

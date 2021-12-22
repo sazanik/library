@@ -2,12 +2,12 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthRequirement } from '../../components/HOCs/AuthRequirement/AuthRequirement';
 import { Auth, Author, Authors, Book, Books, NotFound } from '../../views';
-import { Layout } from '../../components/Layout/Layout';
+import { AppLayout } from '../../components/layouts/AppLayout/AppLayout';
 
 export const MainRouting = (): JSX.Element => {
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
+      <Route path='/' element={<AppLayout />}>
         <Route index element={<Auth />} />
         <Route
           path='authors'

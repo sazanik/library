@@ -11,7 +11,7 @@ interface Props {
   author: AuthorProps;
 }
 
-export const AuthorBooks = ({ author }: Props): JSX.Element => {
+export const BookSelect = ({ author }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation('default');
   const books = useAllBooks();
@@ -54,11 +54,8 @@ export const AuthorBooks = ({ author }: Props): JSX.Element => {
         }}
       >
         {getBooks().length ? (
-          getBooks().map((book) => (
-            <MenuItem
-              onClick={() => selectBook(book.id)}
-              key={Math.random().toString()}
-            >
+          getBooks().map((book, id) => (
+            <MenuItem onClick={() => selectBook(book.id)} key={id}>
               {book?.title}
             </MenuItem>
           ))

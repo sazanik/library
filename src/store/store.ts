@@ -19,3 +19,8 @@ export const authorsSelectors = authorsAdapter.getSelectors<RootState>(
 export const booksSelectors = booksAdapter.getSelectors<RootState>(
   (state) => state.books
 );
+
+export const selectors = {
+  authorsSelectors,
+  booksSelectors,
+};

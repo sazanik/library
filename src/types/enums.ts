@@ -8,3 +8,8 @@ export enum Fields {
   Editing = 'editing',
   Books = 'books',
 }
+
+export enum Entities {
+  Author = 'author',
+  Book = 'book',
+}

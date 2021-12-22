@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Languages } from '../dropdowns/Languages/Languages';
+import { LanguageSelect } from '../selects/LanguageSelect/LanguageSelect';
 import { Button, Typography } from '@mui/material';
 import { mainBarStyles } from './MainBar.styles';
 import { useAuth } from '../../hooks';
@@ -30,7 +30,7 @@ export const MainBar = (): JSX.Element => {
           >
             {t('library')}
           </Typography>
-          <Languages />
+          <LanguageSelect />
           <Navigation />
           <Button
             onClick={handleClick}

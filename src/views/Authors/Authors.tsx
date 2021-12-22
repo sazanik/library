@@ -12,9 +12,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { AuthorBooks } from '../../components/dropdowns/AuthorBooks/AuthorBooks';
-import { AuthorDialog } from '../../components/dialogs/Author/AuthorDialog';
-import { AuthorModal } from '../../components/modals/Author/AuthorModal';
+import { BookSelect } from '../../components/selects/BookSelect/BookSelect';
+import { AuthorDialog } from '../../components/dialogs/AuthorDialog/AuthorDialog';
+import { AuthorModal } from '../../components/modals/AuthorModal/AuthorModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../types/inerfaces';
@@ -118,7 +118,7 @@ export const Authors = (): JSX.Element => {
       field: 'books',
       headerName: t('placeholders.books'),
       flex: 0.7,
-      renderCell: () => <AuthorBooks author={currentAuthor} />,
+      renderCell: () => <BookSelect author={currentAuthor} />,
     },
     {
       field: 'editing',

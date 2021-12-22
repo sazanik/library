@@ -10,7 +10,7 @@ export const Auth = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPage = location.state?.from?.pathname || '/authors';
+  const fromPage = location?.state?.from?.pathname || '/authors';
   const { isRegistered, setIsRegistered, signIn } = useAuth();
   const {
     register,

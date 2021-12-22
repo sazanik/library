@@ -7,4 +7,7 @@ export const theme = createTheme({
       main: indigo[300],
     },
   },
+  shape: {
+    borderRadius: 6,
+  },
 });

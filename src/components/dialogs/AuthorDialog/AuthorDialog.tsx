@@ -16,8 +16,7 @@ import { useAllBooks, useAppDispatch } from '../../../hooks';
 interface Props {
   author: AuthorProps;
   openDialog: boolean;
-
-  setOpenDialog(b: boolean): void;
+  setOpenDialog: (b: boolean) => void;
 }
 
 export const AuthorDialog = ({
@@ -30,7 +29,9 @@ export const AuthorDialog = ({
   const books = useAllBooks();
 
   const handleClickDelete = (): void => {
-    if (!author) return;
+    if (!author) {
+      return;
+    }
     dispatch(removeAuthor(author.id));
     books.forEach((book) => {
       if (book.authorId === author.id) {

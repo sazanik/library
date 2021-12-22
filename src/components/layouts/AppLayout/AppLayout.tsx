@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { MainBar } from '../MainBar/MainBar';
+import { MainBar } from '../../MainBar/MainBar';
 
-export const Layout = (): JSX.Element => {
+export const AppLayout = (): JSX.Element => {
   return (
     <>
       <header>

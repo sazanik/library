@@ -4,10 +4,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { styles } from './Languages.styles';
+import { styles } from './LanguageSelect.styles';
 import { useTranslation } from 'react-i18next';
 
-export const Languages = (): JSX.Element => {
+export const LanguageSelect = (): JSX.Element => {
   const { t, i18n } = useTranslation('default');
   const [language, setLanguage] = useState('');
 
