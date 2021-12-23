@@ -25,6 +25,9 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "./src/config/setupTests.ts",
+    "src",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts"
   ]
 }

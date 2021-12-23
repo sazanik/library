@@ -45,7 +45,7 @@ export const CardLayout = ({
   const [translation, setTranslation] = useState<typeof translations.author>(
     translations[entity]
   );
-
+  // eslint-disable-next-line
   useEffect(() => setTranslation(translations[entity]), [entity]);
 
   return (
