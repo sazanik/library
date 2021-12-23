@@ -3,3 +3,4 @@ dist
 *.css
 *.scss
 *.svg
+*.js

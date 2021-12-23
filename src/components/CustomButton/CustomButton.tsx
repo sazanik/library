@@ -33,7 +33,7 @@ interface ButtonProps {
  * Primary UI component for user interaction
  */
 
-export const MyButton = ({
+export const CustomButton = ({
   label = 'text',
   ...props
 }: ButtonProps): JSX.Element => <Button {...props}>{label}</Button>;
