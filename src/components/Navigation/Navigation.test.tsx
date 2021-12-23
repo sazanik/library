@@ -1,10 +1,19 @@
 import React from 'react';
-import { Navigation } from './Navigation';
 import { shallow } from 'enzyme';
+import { Navigation } from './Navigation';
 
-it('Navigation component should render 2 children', () => {
-  const component = shallow(<Navigation />);
-  const children = component.children();
-  expect(children.length).toBe(2);
-  console.log(component.debug());
+const component = shallow(<Navigation />);
+
+describe('check name children components', () => {
+  it('should has children names "NavLink"', () => {
+    component.children().forEach((el) => {
+      expect(el.name()).toBe('NavLink');
+    });
+  });
+
+  it('should contain 2 children', () => {
+    const children = component.children();
+    expect(children.length).toBe(2);
+    console.log(component.debug());
+  });
 });
