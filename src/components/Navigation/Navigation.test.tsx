@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Navigation } from './Navigation';
+// import './../../../setupTests.js';
 
 const component = shallow(<Navigation />);
 

@@ -14,7 +14,7 @@ interface Props {
   setOpenModal: (b: boolean) => void;
 }
 
-interface IFormValues {
+interface FormProps {
   title: string;
   description: string;
   code: string;
@@ -33,7 +33,7 @@ export const BookForm = (props: Props): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormValues>({ mode: 'all' });
+  } = useForm<FormProps>({ mode: 'all' });
 
   const getAuthorName = (): string =>
     `${currentAuthor.firstName} ${currentAuthor.lastName}`;

@@ -20,7 +20,7 @@ interface Props {
   setOpenModal: (b: boolean) => void;
 }
 
-interface IFormValues {
+interface FormProps {
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -35,7 +35,7 @@ export const AuthorForm = (props: Props): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormValues>({
+  } = useForm<FormProps>({
     mode: 'all',
   });
 
