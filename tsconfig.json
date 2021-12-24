@@ -27,6 +27,11 @@
   "include": [
     "src",
     "node_modules/jest-environment-enzyme/lib/index.d.ts",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts",
+    "node_modules/jest-environment-enzyme/lib/index.d.ts",
     "node_modules/jest-environment-enzyme/lib/index.d.ts"
   ]
 }

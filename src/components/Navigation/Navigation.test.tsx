@@ -1,24 +1,23 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { Navigation } from './Navigation';
-// import './../../../setupTests.ts';
+import { shallow } from 'enzyme';
 
-const component = shallow(<Navigation />);
+const wrapper = shallow(<Navigation />);
 
 describe('Check name children components', () => {
   it('should has children names "NavLink"', () => {
-    component.children().forEach((el) => {
+    wrapper.children().forEach((el) => {
       expect(el.name()).toBe('NavLink');
     });
   });
 
   it('should contain 2 children', () => {
-    const children = component.children();
+    const children = wrapper.children();
     expect(children.length).toBe(2);
-    console.log(component.debug());
+    console.log(wrapper.debug());
   });
 
-  it('should render children components', () => {
-    expect(component).toMatchSnapshot();
+  it('should make snapshot', () => {
+    expect(wrapper).toMatchSnapshot();
   });
 });

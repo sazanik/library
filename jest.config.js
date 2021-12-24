@@ -2,7 +2,7 @@
 module.exports = {
   verbose: true,
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   setupFilesAfterEnv: [
     './node_modules/jest-enzyme/lib/index.js',
     './src/setupTests.ts',

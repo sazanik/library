@@ -14,13 +14,13 @@ import {
 import { AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 
-interface Props {
+export interface Props {
   edit: boolean;
   author: AuthorProps | null;
   setOpenModal: (b: boolean) => void;
 }
 
-interface FormProps {
+export interface FormProps {
   firstName: string;
   lastName: string;
   birthDate: string;

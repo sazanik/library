@@ -12,15 +12,15 @@ import { AuthProvider } from './context/Auth/AuthProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <Provider store={store}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
             <App />
-          </Provider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+          </AuthProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
