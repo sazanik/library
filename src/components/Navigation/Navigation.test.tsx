@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Navigation } from './Navigation';
-// import './../../../setupTests.js';
+// import './../../../setupTests.ts';
 
 const component = shallow(<Navigation />);
 
-describe('check name children components', () => {
+describe('Check name children components', () => {
   it('should has children names "NavLink"', () => {
     component.children().forEach((el) => {
       expect(el.name()).toBe('NavLink');
@@ -16,5 +16,9 @@ describe('check name children components', () => {
     const children = component.children();
     expect(children.length).toBe(2);
     console.log(component.debug());
+  });
+
+  it('should render children components', () => {
+    expect(component).toMatchSnapshot();
   });
 });

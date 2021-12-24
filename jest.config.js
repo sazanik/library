@@ -5,7 +5,8 @@ module.exports = {
   testEnvironment: 'node',
   setupFilesAfterEnv: [
     './node_modules/jest-enzyme/lib/index.js',
-    './src/setupTests.js',
+    './src/setupTests.ts',
   ],
   snapshotSerializers: ['enzyme-to-json/serializer'],
+  extensionsToTreatAsEsm: ['.ts'],
 };
