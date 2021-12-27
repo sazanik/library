@@ -47,7 +47,7 @@
   "placeholders": {
     "login": "Логин",
     "password": "Пароль",
-    "repeatPassword": "Повторите пароль",
+    "confirmPassword": "Подтвердите пароль",
     "authorName": "Автор",
     "books": "Книги",
     "firstName": "Имя",

@@ -6,6 +6,8 @@ import { authorsSelectors, store } from '../../../store/store';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
 import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
 import { useAllAuthors, useAppDispatch } from '../../../hooks';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface Props {
   edit: boolean;
@@ -28,12 +30,66 @@ export const BookForm = (props: Props): JSX.Element => {
   const { edit, author: propsAuthor, book, setOpenModal } = props;
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
+
+  const schema = yup.object().shape({
+    title: yup
+      .string()
+      .required(t('errors.required'))
+      .min(MIN_LENGTH.TITLE, t('errors.minLength') + MIN_LENGTH.TITLE)
+      .max(MAX_LENGTH.TITLE, t('errors.maxLength') + MAX_LENGTH.TITLE),
+    description: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.TEXT, t('errors.invalidData'))
+      .min(
+        MIN_LENGTH.DESCRIPTION,
+        t('errors.minLength') + MIN_LENGTH.DESCRIPTION
+      )
+      .max(
+        MAX_LENGTH.DESCRIPTION,
+        t('errors.maxLength') + MAX_LENGTH.DESCRIPTION
+      ),
+    code: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.NUMBER, t('errors.invalidData'))
+      .min(MIN_LENGTH.CODE, t('errors.minLength') + MIN_LENGTH.CODE)
+      .max(MAX_LENGTH.CODE, t('errors.maxLength') + MAX_LENGTH.CODE),
+    pagesCount: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.NUMBER, t('errors.invalidData'))
+      .min(
+        MIN_LENGTH.PAGES_COUNT,
+        t('errors.minLength') + MIN_LENGTH.PAGES_COUNT
+      )
+      .max(
+        MAX_LENGTH.PAGES_COUNT,
+        t('errors.maxLength') + MAX_LENGTH.PAGES_COUNT
+      ),
+    publishingYear: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.PUBLISHING_YEAR, t('errors.invalidData'))
+      .min(
+        MIN_LENGTH.PUBLISHING_YEAR,
+        t('errors.minLength') + MIN_LENGTH.PUBLISHING_YEAR
+      )
+      .max(
+        MAX_LENGTH.PUBLISHING_YEAR,
+        t('errors.maxLength') + MAX_LENGTH.PUBLISHING_YEAR
+      ),
+  });
+
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(propsAuthor);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormProps>({ mode: 'all' });
+  } = useForm<FormProps>({
+    mode: 'all',
+    resolver: yupResolver(schema),
+  });
 
   const getAuthorName = (): string =>
     `${currentAuthor.firstName} ${currentAuthor.lastName}`;
@@ -72,98 +128,20 @@ export const BookForm = (props: Props): JSX.Element => {
     },
   });
 
-  const options = {
-    title: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.NAME,
-        message: t('errors.minLength') + MIN_LENGTH.TITLE,
-      },
-      maxLength: {
-        value: MAX_LENGTH.NAME,
-        message: t('errors.maxLength') + MAX_LENGTH.TITLE,
-      },
-      pattern: {
-        value: MASKS.TEXT,
-        message: t('errors.invalidData'),
-      },
-    },
-    description: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.DESCRIPTION,
-        message: t('errors.minLength') + MIN_LENGTH.DESCRIPTION,
-      },
-      maxLength: {
-        value: MAX_LENGTH.DESCRIPTION,
-        message: t('errors.maxLength') + MAX_LENGTH.DESCRIPTION,
-      },
-      pattern: {
-        value: MASKS.TEXT,
-        message: t('errors.invalidData'),
-      },
-    },
-    code: {
-      required: t('errors.required'),
-      pattern: {
-        value: MASKS.CODE,
-        message: t('errors.invalidData'),
-      },
-      minLength: {
-        value: MIN_LENGTH.CODE,
-        message: t('errors.minLength') + MIN_LENGTH.CODE,
-      },
-      maxLength: {
-        value: MAX_LENGTH.CODE,
-        message: t('errors.maxLength') + MAX_LENGTH.CODE,
-      },
-    },
-    pagesCount: {
-      required: t('errors.required'),
-      pattern: {
-        value: MASKS.CODE,
-        message: t('errors.invalidData'),
-      },
-      minLength: {
-        value: MIN_LENGTH.PAGES_COUNT,
-        message: t('errors.minLength') + MIN_LENGTH.PAGES_COUNT,
-      },
-      maxLength: {
-        value: MAX_LENGTH.PAGES_COUNT,
-        message: t('errors.maxLength') + MAX_LENGTH.PAGES_COUNT,
-      },
-    },
-    publishingYear: {
-      required: t('errors.required'),
-      pattern: {
-        value: MASKS.PUBLISHING_YEAR,
-        message: t('errors.invalidData'),
-      },
-      minLength: {
-        value: MIN_LENGTH.PUBLISHING_YEAR,
-        message: t('errors.minLength') + MIN_LENGTH.PUBLISHING_YEAR,
-      },
-      maxLength: {
-        value: MAX_LENGTH.PUBLISHING_YEAR,
-        message: t('errors.maxLength') + MAX_LENGTH.PUBLISHING_YEAR,
-      },
-    },
-  };
-
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
         type='text'
-        {...register('title', { ...options.title })}
+        {...register('title')}
         placeholder={t('placeholders.title')}
         defaultValue={edit ? book?.title : ''}
       />
       <p className='error'>{errors?.title?.message}</p>
 
       <textarea
-        {...register('description', { ...options.description })}
+        {...register('description')}
         placeholder={t('placeholders.description')}
         defaultValue={edit ? book?.description : ''}
       />
@@ -171,7 +149,7 @@ export const BookForm = (props: Props): JSX.Element => {
 
       <input
         type='text'
-        {...register('code', { ...options.code })}
+        {...register('code')}
         placeholder={t('placeholders.code')}
         defaultValue={edit ? book?.code : ''}
       />
@@ -191,7 +169,7 @@ export const BookForm = (props: Props): JSX.Element => {
 
       <input
         type='number'
-        {...register('pagesCount', { ...options.pagesCount })}
+        {...register('pagesCount')}
         placeholder={t('placeholders.pagesCount')}
         defaultValue={edit ? book?.pagesCount : ''}
       />
@@ -199,7 +177,7 @@ export const BookForm = (props: Props): JSX.Element => {
 
       <input
         type='number'
-        {...register('publishingYear', options.publishingYear)}
+        {...register('publishingYear')}
         placeholder={t('placeholders.publishingYear')}
         defaultValue={edit ? book?.publishingYear : ''}
       />

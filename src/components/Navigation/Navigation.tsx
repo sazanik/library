@@ -1,11 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { t } from 'i18next';
 import { styles } from './Navigation.styles';
+import { useTranslation } from 'react-i18next';
 
-export const Navigation = (): JSX.Element => (
-  <nav style={styles.nav}>
-    <NavLink to='/authors'>{t('authors')}</NavLink>
-    <NavLink to='/books'>{t('books')}</NavLink>
-  </nav>
-);
+export const Navigation = (): JSX.Element => {
+  const { t } = useTranslation('default');
+
+  return (
+    <nav style={styles.nav}>
+      <NavLink to='/authors'>{t('authors')}</NavLink>
+      <NavLink to='/books'>{t('books')}</NavLink>
+    </nav>
+  );
+};

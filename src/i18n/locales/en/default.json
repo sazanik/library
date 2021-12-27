@@ -47,7 +47,7 @@
   "placeholders": {
     "login": "Login",
     "password": "Password",
-    "repeatPassword": "Repeat password",
+    "confirmPassword": "Confirm password",
     "authorName": "Author",
     "books": "Books",
     "firstName": "First name",

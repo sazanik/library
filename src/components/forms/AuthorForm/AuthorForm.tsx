@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 import {
   COUNTRIES,
   MASKS,
@@ -13,6 +14,7 @@ import {
 } from '../../../store/authors/authorsSlice';
 import { AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export interface Props {
   edit: boolean;
@@ -31,12 +33,34 @@ export const AuthorForm = (props: Props): JSX.Element => {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
+
+  const schema = yup.object().shape({
+    firstName: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.TEXT, t('errors.invalidData'))
+      .min(MIN_LENGTH.NAME, t('errors.minLength') + MIN_LENGTH.NAME)
+      .max(MAX_LENGTH.NAME, t('errors.maxLength') + MAX_LENGTH.NAME),
+    lastName: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.TEXT, t('errors.invalidData'))
+      .min(MIN_LENGTH.NAME, t('errors.minLength') + MIN_LENGTH.NAME)
+      .max(MAX_LENGTH.NAME, t('errors.maxLength') + MAX_LENGTH.NAME),
+    birthDate: yup
+      .string()
+      .required(t('errors.required'))
+      .matches(MASKS.DATE, t('errors.invalidData')),
+    country: yup.string().required(t('errors.required')),
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormProps>({
     mode: 'all',
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data: AuthorProps): void => {
@@ -59,60 +83,20 @@ export const AuthorForm = (props: Props): JSX.Element => {
     setOpenModal(false);
   };
 
-  const options = {
-    firstName: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.NAME,
-        message: t('errors.minLength') + MIN_LENGTH.NAME,
-      },
-      maxLength: {
-        value: MAX_LENGTH.NAME,
-        message: t('errors.maxLength') + MAX_LENGTH.NAME,
-      },
-      pattern: {
-        value: MASKS.TEXT,
-        message: t('errors.invalidData'),
-      },
-    },
-    lastName: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.NAME,
-        message: t('errors.minLength') + MIN_LENGTH.NAME,
-      },
-      maxLength: {
-        value: MAX_LENGTH.NAME,
-        message: t('errors.maxLength') + MAX_LENGTH.NAME,
-      },
-      pattern: {
-        value: MASKS.TEXT,
-        message: t('errors.invalidData'),
-      },
-    },
-    birthDate: {
-      required: t('errors.required'),
-      pattern: {
-        value: MASKS.DATE,
-        message: t('errors.invalidData'),
-      },
-    },
-  };
-
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
         type='text'
-        {...register('firstName', { ...options.firstName })}
+        {...register('firstName')}
         placeholder={t('placeholders.firstName')}
         defaultValue={edit ? author?.firstName : ''}
       />
       <p className='error'>{errors?.firstName?.message}</p>
       <input
         type='text'
-        {...register('lastName', { ...options.lastName })}
+        {...register('lastName')}
         placeholder={t('placeholders.lastName')}
         defaultValue={edit ? author?.lastName : ''}
       />
@@ -120,7 +104,7 @@ export const AuthorForm = (props: Props): JSX.Element => {
 
       <input
         type='date'
-        {...register('birthDate', { ...options.birthDate })}
+        {...register('birthDate')}
         placeholder={t('placeholders.birthDate')}
         defaultValue={edit ? author?.birthDate : ''}
       />

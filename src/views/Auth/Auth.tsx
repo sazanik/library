@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { MAX_LENGTH, MIN_LENGTH } from '../../constants/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const Auth = (): JSX.Element => {
   const { t } = useTranslation('default');
@@ -12,13 +14,36 @@ export const Auth = (): JSX.Element => {
   const location = useLocation();
   const fromPage = location?.state?.from?.pathname || '/authors';
   const { isRegistered, setIsRegistered, signIn } = useAuth();
+
+  const schema = yup.object().shape({
+    login: yup
+      .string()
+      .required(t('errors.required'))
+      .min(MIN_LENGTH.LOGIN, t('errors.minLength') + MIN_LENGTH.LOGIN)
+      .max(MAX_LENGTH.LOGIN, t('errors.maxLength') + MAX_LENGTH.LOGIN),
+    password: yup
+      .string()
+      .required(t('errors.required'))
+      .min(MIN_LENGTH.PASSWORD, t('errors.minLength') + MIN_LENGTH.PASSWORD)
+      .max(MAX_LENGTH.PASSWORD, t('errors.maxLength') + MAX_LENGTH.PASSWORD),
+    ...(!isRegistered && {
+      confirmPassword: yup
+        .string()
+        .oneOf([yup.ref('password'), null])
+        .required(t('errors.passwordMismatch')),
+    }),
+  });
+
   const {
     register,
     handleSubmit,
     reset,
     watch,
     formState: { errors, isValid },
-  } = useForm<AuthFormProps>({ mode: 'all' });
+  } = useForm<AuthFormProps>({
+    mode: 'all',
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = (data: User): void => {
     signIn(
@@ -37,43 +62,7 @@ export const Auth = (): JSX.Element => {
 
   const passwordCheck = (): boolean => {
     if (isRegistered) return true;
-    return watch('password') === watch('repeatPassword');
-  };
-
-  const options = {
-    login: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.LOGIN,
-        message: t('errors.minLength') + MIN_LENGTH.LOGIN,
-      },
-      maxLength: {
-        value: MAX_LENGTH.LOGIN,
-        message: t('errors.maxLength') + MAX_LENGTH.LOGIN,
-      },
-    },
-    password: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.PASSWORD,
-        message: t('errors.minLength') + MIN_LENGTH.PASSWORD,
-      },
-      maxLength: {
-        value: MAX_LENGTH.PASSWORD,
-        message: t('errors.maxLength') + MAX_LENGTH.PASSWORD,
-      },
-    },
-    repeatPassword: {
-      required: t('errors.required'),
-      minLength: {
-        value: MIN_LENGTH.PASSWORD,
-        message: t('errors.minLength') + MIN_LENGTH.PASSWORD,
-      },
-      maxLength: {
-        value: MAX_LENGTH.PASSWORD,
-        message: t('errors.maxLength') + MAX_LENGTH.PASSWORD,
-      },
-    },
+    return watch('password') === watch('confirmPassword');
   };
 
   return (
@@ -81,14 +70,14 @@ export const Auth = (): JSX.Element => {
       <p className='title'>{isRegistered ? t('signIn') : t('signUp')}</p>
       <input
         type='text'
-        {...register('login', { ...options.login })}
+        {...register('login')}
         placeholder={t('placeholders.login')}
       />
       <p className='error'>{errors?.login?.message}</p>
 
       <input
         type='password'
-        {...register('password', { ...options.password })}
+        {...register('password')}
         placeholder={t('placeholders.password')}
       />
       <p className='error'>{errors?.password?.message}</p>
@@ -97,11 +86,11 @@ export const Auth = (): JSX.Element => {
         <>
           <input
             type='password'
-            {...register('repeatPassword', { ...options.password })}
-            placeholder={t('placeholders.repeatPassword')}
+            {...register('confirmPassword')}
+            placeholder={t('placeholders.confirmPassword')}
           />
           {passwordCheck() ? (
-            <p className='error'>{errors?.repeatPassword?.message}</p>
+            <p className='error'>{errors?.confirmPassword?.message}</p>
           ) : (
             <p className='error'>{t('errors.passwordMismatch')}</p>
           )}
@@ -111,12 +100,12 @@ export const Auth = (): JSX.Element => {
       <input
         type='submit'
         value={t('buttons.submit') as string}
-        disabled={!isValid || !passwordCheck()}
+        disabled={!isValid}
       />
       <p className='text'>
-        {isRegistered ? t('goSignIn') : t('goSignUp')}
+        {!isRegistered ? t('goSignIn') : t('goSignUp')}
         <button className='button' onClick={handleClick} type='button'>
-          {(isRegistered ? t('signIn') : t('signUp')) as string}
+          {(!isRegistered ? t('signIn') : t('signUp')) as string}
         </button>
       </p>
     </form>

@@ -35,5 +35,5 @@ export interface AuthContextProps {
 export interface AuthFormProps {
   login: string;
   password: string;
-  repeatPassword?: string;
+  confirmPassword?: string;
 }
