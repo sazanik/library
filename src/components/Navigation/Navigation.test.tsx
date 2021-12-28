@@ -11,8 +11,12 @@ const setUp = (): ReactWrapper =>
   );
 
 describe('Navigation component', () => {
+  let wrapper: ReactWrapper;
+  beforeEach(() => {
+    wrapper = setUp();
+  });
+
   it('should has 2 children elements "NavLink"', () => {
-    const wrapper = setUp();
     const nav = wrapper.find('nav');
     nav.children().forEach((el) => {
       expect(el.name()).toBe('NavLink');

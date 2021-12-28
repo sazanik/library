@@ -2,15 +2,15 @@ import React from 'react';
 // import { Button } from '@mui/material';
 import { Button } from '@material-ui/core/';
 
-interface ButtonProps {
+export interface ButtonProps {
   /**
-   * Is this the principal call to action on the page?
+   * Disabled
    */
   disabled?: boolean;
   /**
    * Children this is name button
    */
-  label: string;
+  children?: string;
   /**
    * Variant
    */
@@ -33,7 +33,6 @@ interface ButtonProps {
  * Primary UI component for user interaction
  */
 
-export const CustomButton = ({
-  label = 'text',
-  ...props
-}: ButtonProps): JSX.Element => <Button {...props}>{label}</Button>;
+export const CustomButton = ({ ...props }: ButtonProps): JSX.Element => (
+  <Button {...props}>Button name</Button>
+);
