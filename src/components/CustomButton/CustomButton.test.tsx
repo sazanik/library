@@ -1,7 +1,6 @@
 import React from 'react';
 import { ButtonProps, CustomButton } from './CustomButton';
 import { mount, ReactWrapper } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 
 const setUp = (props: ButtonProps): ReactWrapper =>
   mount(<CustomButton {...props} />);
@@ -22,15 +21,16 @@ describe('CustomButton component', () => {
     };
     wrapper = setUp({});
   });
+  afterEach(() => {
+    wrapper.unmount();
+  });
 
   it('should call onClick method', () => {
     wrapper = setUp({
       onClick: mockCallBack,
     });
-    expect(mockCallBack.mock.calls.length).toBe(0);
     wrapper.simulate('click');
-    wrapper.simulate('click');
-    expect(mockCallBack.mock.calls.length).toBe(2);
+    expect(mockCallBack.mock.calls.length).toBe(1);
   });
 
   it('default render without props', () => {

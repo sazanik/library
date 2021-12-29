@@ -16,11 +16,12 @@ describe('Navigation component', () => {
     wrapper = setUp();
   });
 
+  afterEach(() => wrapper.unmount());
+
   it('should has 2 children elements "NavLink"', () => {
     const nav = wrapper.find('nav');
     nav.children().forEach((el) => {
       expect(el.name()).toBe('NavLink');
     });
-    wrapper.unmount();
   });
 });

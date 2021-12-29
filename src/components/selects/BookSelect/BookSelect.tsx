@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
 import { useAllBooks } from '../../../hooks';
 
-interface Props {
+export interface Props {
   author: AuthorProps;
 }
 
