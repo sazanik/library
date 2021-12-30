@@ -1,21 +1,32 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthFormProps, User } from '../../types/inerfaces';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { MAX_LENGTH, MIN_LENGTH } from '../../constants/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  Button,
+  FormControl,
+  TextField,
+  Typography,
+  Link,
+} from '@mui/material';
+import { styles } from './Auth.styles';
+import { AnyObjectSchema } from 'yup';
 
-export const Auth = (): JSX.Element => {
-  const { t } = useTranslation('default');
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { isRegistered, setIsRegistered, signIn } = useAuth();
-  const fromPage = (location?.state as Location)?.pathname || '/authors';
+interface schemaProps {
+  t: TFunction;
+  isRegistered: boolean;
+}
 
-  const schema = yup.object().shape({
+const getLoginSchema = ({
+  t,
+  isRegistered,
+}: schemaProps): AnyObjectSchema => // todo: fix type
+  yup.object().shape({
     login: yup
       .string()
       .required(t('errors.required'))
@@ -34,6 +45,13 @@ export const Auth = (): JSX.Element => {
     }),
   });
 
+export const Auth = (): JSX.Element => {
+  const { t } = useTranslation('default');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isRegistered, setIsRegistered, signIn } = useAuth();
+  const fromPage = (location?.state as Location)?.pathname || '/authors';
+
   const {
     register,
     handleSubmit,
@@ -42,7 +60,12 @@ export const Auth = (): JSX.Element => {
     formState: { errors, isValid },
   } = useForm<AuthFormProps>({
     mode: 'all',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(
+      getLoginSchema({
+        t,
+        isRegistered,
+      })
+    ),
   });
 
   const onSubmit = (data: User): void => {
@@ -66,48 +89,67 @@ export const Auth = (): JSX.Element => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <p>{isRegistered ? t('signIn') : t('signUp')}</p>
-      <input
-        type='text'
+    <FormControl sx={styles.formControl}>
+      <Typography variant='h4' align='center'>
+        {isRegistered ? t('signIn') : t('signUp')}
+      </Typography>
+      <TextField
+        sx={styles.textField}
         {...register('login')}
-        placeholder={t('placeholders.login')}
+        type='text'
+        label={t('placeholders.login')}
+        variant='standard'
       />
-      <p>{errors?.login?.message}</p>
+      <Typography align='center' sx={styles.error}>
+        {errors?.login?.message}
+      </Typography>
 
-      <input
-        type='password'
+      <TextField
+        sx={styles.textField}
         {...register('password')}
-        placeholder={t('placeholders.password')}
+        type='password'
+        label={t('placeholders.password')}
+        variant='standard'
       />
-      <p>{errors?.password?.message}</p>
+      <Typography align='center' sx={styles.error}>
+        {errors?.password?.message}
+      </Typography>
 
       {!isRegistered && (
         <>
-          <input
+          <TextField
+            sx={styles.textField}
             type='password'
             {...register('confirmPassword')}
-            placeholder={t('placeholders.confirmPassword')}
+            label={t('placeholders.confirmPassword')}
+            variant='standard'
           />
           {passwordCheck() ? (
-            <p>{errors?.confirmPassword?.message}</p>
+            <Typography align='center' sx={styles.error}>
+              {errors?.confirmPassword?.message}
+            </Typography>
           ) : (
-            <p>{t('errors.passwordMismatch')}</p>
+            <Typography align='center' sx={styles.error}>
+              {t('errors.passwordMismatch')}
+            </Typography>
           )}
         </>
       )}
 
-      <input
-        type='submit'
-        value={t('buttons.submit') as string}
+      <Button
+        sx={styles.buttons.submit}
+        onClick={handleSubmit(onSubmit)}
+        variant='contained'
         disabled={!isValid}
-      />
-      <p>
+      >
+        {t('buttons.submit')}
+      </Button>
+      <Typography align='center'>
         {!isRegistered ? t('goSignIn') : t('goSignUp')}
-        <button onClick={handleClick} type='button'>
-          {(!isRegistered ? t('signIn') : t('signUp')) as string}
-        </button>
-      </p>
-    </form>
+        <Link sx={styles.buttons.link} onClick={handleClick} underline='none'>
+          {!isRegistered ? t('signIn') : t('signUp')}
+        </Link>
+      </Typography>
+    </FormControl>
   );
 };
