@@ -12,8 +12,8 @@ export const Auth = (): JSX.Element => {
   const { t } = useTranslation('default');
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPage = location?.state?.from?.pathname || '/authors';
   const { isRegistered, setIsRegistered, signIn } = useAuth();
+  const fromPage = (location?.state as Location)?.pathname || '/authors';
 
   const schema = yup.object().shape({
     login: yup
@@ -66,21 +66,21 @@ export const Auth = (): JSX.Element => {
   };
 
   return (
-    <form className='form' onSubmit={handleSubmit(onSubmit)}>
-      <p className='title'>{isRegistered ? t('signIn') : t('signUp')}</p>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <p>{isRegistered ? t('signIn') : t('signUp')}</p>
       <input
         type='text'
         {...register('login')}
         placeholder={t('placeholders.login')}
       />
-      <p className='error'>{errors?.login?.message}</p>
+      <p>{errors?.login?.message}</p>
 
       <input
         type='password'
         {...register('password')}
         placeholder={t('placeholders.password')}
       />
-      <p className='error'>{errors?.password?.message}</p>
+      <p>{errors?.password?.message}</p>
 
       {!isRegistered && (
         <>
@@ -90,9 +90,9 @@ export const Auth = (): JSX.Element => {
             placeholder={t('placeholders.confirmPassword')}
           />
           {passwordCheck() ? (
-            <p className='error'>{errors?.confirmPassword?.message}</p>
+            <p>{errors?.confirmPassword?.message}</p>
           ) : (
-            <p className='error'>{t('errors.passwordMismatch')}</p>
+            <p>{t('errors.passwordMismatch')}</p>
           )}
         </>
       )}
@@ -102,9 +102,9 @@ export const Auth = (): JSX.Element => {
         value={t('buttons.submit') as string}
         disabled={!isValid}
       />
-      <p className='text'>
+      <p>
         {!isRegistered ? t('goSignIn') : t('goSignUp')}
-        <button className='button' onClick={handleClick} type='button'>
+        <button onClick={handleClick} type='button'>
           {(!isRegistered ? t('signIn') : t('signUp')) as string}
         </button>
       </p>

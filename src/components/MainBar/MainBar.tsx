@@ -1,12 +1,11 @@
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LanguageSelect } from '../selects/LanguageSelect/LanguageSelect';
-import { Button, Typography } from '@mui/material';
-import { mainBarStyles } from './MainBar.styles';
+import { Box, Button, Typography } from '@mui/material';
+import { styles } from './MainBar.styles';
 import { useAuth } from '../../hooks';
 import { Navigation } from '../Navigation/Navigation';
 
@@ -19,24 +18,15 @@ export const MainBar = (): JSX.Element => {
     logOut(() => navigate('/'));
   };
   return (
-    <Box sx={mainBarStyles.box}>
+    <Box sx={styles.box}>
       <AppBar position='static'>
         <Toolbar variant='dense'>
-          <Typography
-            variant='h6'
-            noWrap
-            component='div'
-            sx={mainBarStyles.text}
-          >
+          <Typography variant='h6' noWrap component='div' sx={styles.text}>
             {t('library')}
           </Typography>
           <LanguageSelect />
           <Navigation />
-          <Button
-            onClick={handleClick}
-            sx={mainBarStyles.button}
-            variant='contained'
-          >
+          <Button sx={styles.button} variant='contained' onClick={handleClick}>
             {t('buttons.logOut')}
           </Button>
         </Toolbar>

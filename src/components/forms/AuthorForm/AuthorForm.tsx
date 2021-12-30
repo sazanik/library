@@ -86,21 +86,21 @@ export const AuthorForm = (props: Props): JSX.Element => {
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
-    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <input
         type='text'
         {...register('firstName')}
         placeholder={t('placeholders.firstName')}
         defaultValue={edit ? author?.firstName : ''}
       />
-      <p className='error'>{errors?.firstName?.message}</p>
+      <p>{errors?.firstName?.message}</p>
       <input
         type='text'
         {...register('lastName')}
         placeholder={t('placeholders.lastName')}
         defaultValue={edit ? author?.lastName : ''}
       />
-      <p className='error'>{errors?.lastName?.message}</p>
+      <p>{errors?.lastName?.message}</p>
 
       <input
         type='date'
@@ -108,7 +108,7 @@ export const AuthorForm = (props: Props): JSX.Element => {
         placeholder={t('placeholders.birthDate')}
         defaultValue={edit ? author?.birthDate : ''}
       />
-      <p className='error'>{errors?.birthDate?.message}</p>
+      <p>{errors?.birthDate?.message}</p>
 
       <select
         {...register('country')}
@@ -120,7 +120,6 @@ export const AuthorForm = (props: Props): JSX.Element => {
           </option>
         ))}
       </select>
-      <p className='error'>{}</p>
       <input type='submit' value={buttonName} />
     </form>
   );

@@ -131,21 +131,21 @@ export const BookForm = (props: Props): JSX.Element => {
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
-    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <input
         type='text'
         {...register('title')}
         placeholder={t('placeholders.title')}
         defaultValue={edit ? book?.title : ''}
       />
-      <p className='error'>{errors?.title?.message}</p>
+      <p>{errors?.title?.message}</p>
 
       <textarea
         {...register('description')}
         placeholder={t('placeholders.description')}
         defaultValue={edit ? book?.description : ''}
       />
-      <p className='error'>{errors?.description?.message}</p>
+      <p>{errors?.description?.message}</p>
 
       <input
         type='text'
@@ -153,7 +153,7 @@ export const BookForm = (props: Props): JSX.Element => {
         placeholder={t('placeholders.code')}
         defaultValue={edit ? book?.code : ''}
       />
-      <p className='error'>{errors?.code?.message}</p>
+      <p>{errors?.code?.message}</p>
 
       <select {...register('authorId')} value={currentAuthor.id}>
         <option key={Math.random()} disabled>
@@ -165,7 +165,7 @@ export const BookForm = (props: Props): JSX.Element => {
           </option>
         ))}
       </select>
-      <p className='error'>{}</p>
+      <p>{}</p>
 
       <input
         type='number'
@@ -173,7 +173,7 @@ export const BookForm = (props: Props): JSX.Element => {
         placeholder={t('placeholders.pagesCount')}
         defaultValue={edit ? book?.pagesCount : ''}
       />
-      <p className='error'>{errors?.pagesCount?.message}</p>
+      <p>{errors?.pagesCount?.message}</p>
 
       <input
         type='number'
@@ -181,7 +181,7 @@ export const BookForm = (props: Props): JSX.Element => {
         placeholder={t('placeholders.publishingYear')}
         defaultValue={edit ? book?.publishingYear : ''}
       />
-      <p className='error'>{errors?.publishingYear?.message}</p>
+      <p>{errors?.publishingYear?.message}</p>
       <input type='submit' value={buttonName} />
     </form>
   );

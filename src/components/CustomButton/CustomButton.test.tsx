@@ -45,5 +45,6 @@ describe('CustomButton component', () => {
   it('should event', () => {
     wrapper = setUp(propsData);
     const button = wrapper.find('button');
+    console.log(button.debug());
   });
 });

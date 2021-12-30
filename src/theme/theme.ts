@@ -10,4 +10,8 @@ export const theme = createTheme({
   shape: {
     borderRadius: 6,
   },
+
+  typography: {
+    fontFamily: ['Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'].join(','),
+  },
 });

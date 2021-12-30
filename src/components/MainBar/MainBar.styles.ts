@@ -1,8 +1,6 @@
-export const mainBarStyles = {
+export const styles = {
   box: {
-    width: '100vw',
     flexGrow: 1,
-    alignSelf: 'center',
   },
   text: {
     minWidth: 140,
