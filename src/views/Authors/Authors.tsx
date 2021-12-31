@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import {
   DataGrid,
   GridCellParams,
-  GridCellValue,
   GridColDef,
   GridRenderCellParams,
-  GridValueFormatterParams,
 } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,10 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../types/inerfaces';
 import { useAllAuthors } from '../../hooks';
 import { styles } from './Authors.styles';
-
-const dateFormatter = (param: GridValueFormatterParams): GridCellValue => {
-  return param?.value?.toString().split('.').join('-');
-};
 
 export const Authors = (): JSX.Element => {
   const { t } = useTranslation('default');
@@ -107,7 +101,6 @@ export const Authors = (): JSX.Element => {
       field: 'birthDate',
       headerName: t('placeholders.birthDate'),
       flex: 1,
-      valueFormatter: dateFormatter,
     },
     {
       field: 'country',

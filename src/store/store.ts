@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 import { authorsAdapter, authorsSlice } from './authors/authorsSlice';
 import { booksAdapter, booksSlice } from './books/booksSlice';
 
@@ -7,6 +8,7 @@ export const store = configureStore({
     authors: authorsSlice.reducer,
     books: booksSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

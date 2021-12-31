@@ -18,15 +18,9 @@ export const styles = {
 
   buttons: {
     submit: {
-      mb: 1,
-    },
-    link: {
-      ml: 0.7,
-      textTransform: 'lowercase',
-      '&:hover': {
-        textDecoration: 'underline',
-        cursor: 'pointer',
+      submit: {
+        mb: 1,
       },
-    } as const,
+    },
   },
 };

@@ -11,7 +11,7 @@ export const AuthRequirement = ({ children }: Props): JSX.Element => {
 
   const { user } = useAuth();
 
-  if (!user) {
+  if (user) {
     return <Navigate to='/' state={location} />;
   }
 

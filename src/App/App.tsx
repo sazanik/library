@@ -8,6 +8,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AuthProvider } from '../context/Auth/AuthProvider';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 export const App = (): JSX.Element => {
   useEffect(() => {
@@ -20,9 +22,11 @@ export const App = (): JSX.Element => {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <AuthProvider>
-            <CssBaseline>
-              <MainRouting />
-            </CssBaseline>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CssBaseline>
+                <MainRouting />
+              </CssBaseline>
+            </LocalizationProvider>
           </AuthProvider>
         </ThemeProvider>
       </BrowserRouter>

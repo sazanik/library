@@ -7,13 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Button,
-  FormControl,
-  TextField,
-  Typography,
-  Link,
-} from '@mui/material';
+import { Button, TextField, Typography, Link, Box } from '@mui/material';
 import { styles } from './Auth.styles';
 import { AnyObjectSchema } from 'yup';
 
@@ -22,10 +16,7 @@ interface schemaProps {
   isRegistered: boolean;
 }
 
-const getLoginSchema = ({
-  t,
-  isRegistered,
-}: schemaProps): AnyObjectSchema => // todo: fix type
+const getLoginSchema = ({ t, isRegistered }: schemaProps): AnyObjectSchema =>
   yup.object().shape({
     login: yup
       .string()
@@ -89,14 +80,14 @@ export const Auth = (): JSX.Element => {
   };
 
   return (
-    <FormControl sx={styles.formControl}>
+    <Box sx={styles.box}>
       <Typography variant='h4' align='center'>
         {isRegistered ? t('signIn') : t('signUp')}
       </Typography>
       <TextField
         sx={styles.textField}
-        {...register('login')}
         type='text'
+        {...register('login')}
         label={t('placeholders.login')}
         variant='standard'
       />
@@ -106,8 +97,8 @@ export const Auth = (): JSX.Element => {
 
       <TextField
         sx={styles.textField}
-        {...register('password')}
         type='password'
+        {...register('password')}
         label={t('placeholders.password')}
         variant='standard'
       />
@@ -150,6 +141,6 @@ export const Auth = (): JSX.Element => {
           {!isRegistered ? t('signIn') : t('signUp')}
         </Link>
       </Typography>
-    </FormControl>
+    </Box>
   );
 };
