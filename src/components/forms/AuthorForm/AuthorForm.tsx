@@ -2,12 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TFunction, useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import {
-  COUNTRIES,
-  MASKS,
-  MAX_LENGTH,
-  MIN_LENGTH,
-} from '../../../constants/constants';
+import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
 import {
   createAuthor,
   updateAuthor,
@@ -16,17 +11,9 @@ import { AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AnyObjectSchema } from 'yup';
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { styles } from './AuthorForm.styles';
+import { CountrySelect } from '../../selects/CountrySelect/CountrySelect';
 
 interface schemaProps {
   t: TFunction;
@@ -100,6 +87,8 @@ export const AuthorForm = (props: Props): JSX.Element => {
     setOpenModal(false);
   };
 
+  console.log(register('country'));
+
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
@@ -140,23 +129,11 @@ export const AuthorForm = (props: Props): JSX.Element => {
         {errors?.birthDate?.message}
       </Typography>
 
-      <FormControl>
-        <InputLabel id='country-label'>Country</InputLabel>
-        <Select
-          sx={styles.textField}
-          id='country'
-          label='country'
-          labelId='country-label'
-          {...register('country')}
-          defaultValue={edit ? author?.country : ''}
-        >
-          {COUNTRIES.map((country) => (
-            <MenuItem key={country.code + country.label} value={country.label}>
-              {country.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <CountrySelect
+        {...register('country')}
+        sx={styles.textField}
+        defaultValue={edit ? author?.country : ''}
+      />
 
       <Button
         sx={styles.buttons.submit}
