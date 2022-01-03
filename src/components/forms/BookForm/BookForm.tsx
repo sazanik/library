@@ -1,37 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { createBook, updateBook } from '../../../store/books/booksSlice';
-import { authorsSelectors, store } from '../../../store/store';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
 import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
-import { useAllAuthors, useAppDispatch } from '../../../hooks';
+import { useAppDispatch } from '../../../hooks';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AnyObjectSchema } from 'yup';
+import { styles } from '../AuthorForm/AuthorForm.styles';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { AuthorSelect } from '../../selects/AuthorSelect/AuthorSelect';
+import { authorsSelectors, store } from '../../../store/store';
 
-interface Props {
-  edit: boolean;
-  author: AuthorProps;
-  book: BookProps | undefined;
-  setOpenModal: (b: boolean) => void;
-}
-
-interface FormProps {
-  title: string;
-  description: string;
-  code: string;
-  pagesCount: number;
-  publishingYear: number;
-  authorId: string;
-}
-
-export const BookForm = (props: Props): JSX.Element => {
-  const { t } = useTranslation('default');
-  const { edit, author: propsAuthor, book, setOpenModal } = props;
-  const dispatch = useAppDispatch();
-  const authors = useAllAuthors();
-
-  const schema = yup.object().shape({
+const getBookSchema = (t: TFunction): AnyObjectSchema =>
+  yup.object().shape({
     title: yup
       .string()
       .required(t('errors.required'))
@@ -81,29 +64,56 @@ export const BookForm = (props: Props): JSX.Element => {
       ),
   });
 
-  const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(propsAuthor);
+interface componentProps {
+  edit: boolean;
+  author: AuthorProps;
+  book: BookProps | undefined;
+  setOpenModal: (b: boolean) => void;
+}
+
+interface FormProps {
+  title: string;
+  description: string;
+  code: string;
+  pagesCount: number;
+  publishingYear: number;
+  authorId: string;
+}
+
+export const BookForm = (props: componentProps): JSX.Element => {
+  const { t } = useTranslation('default');
+  const { edit, author: propsAuthor, book: propsBook, setOpenModal } = props;
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormProps>({
     mode: 'all',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(getBookSchema(t)),
   });
 
-  const getAuthorName = (): string =>
-    `${currentAuthor.firstName} ${currentAuthor.lastName}`;
+  const getAuthorName = (): string => {
+    const author = authorsSelectors.selectById(
+      store.getState(),
+      watch('authorId')
+    );
+
+    return `${author?.firstName} ${author?.lastName}`;
+  };
 
   const onSubmit = (data: BookProps): void => {
     const id = Date.now().toString().slice(5);
-    if (edit && book) {
+    if (edit && propsBook) {
       const updatedBook = {
         ...data,
         authorName: getAuthorName(),
       };
       dispatch(
         updateBook({
-          id: book.id,
+          id: propsBook.id,
           changes: { ...updatedBook },
         })
       );
@@ -118,71 +128,77 @@ export const BookForm = (props: Props): JSX.Element => {
     setOpenModal(false);
   };
 
-  register('authorId', {
-    onChange: (event) => {
-      const authorId = event.currentTarget.value;
-      const author = authorsSelectors.selectById(store.getState(), authorId);
-      if (author) {
-        setCurrentAuthor(author);
-      }
-    },
-  });
-
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
+    <Box component='form' sx={styles.box}>
+      <TextField
+        sx={styles.textField}
         type='text'
         {...register('title')}
-        placeholder={t('placeholders.title')}
-        defaultValue={edit ? book?.title : ''}
+        label={t('placeholders.title')}
+        defaultValue={edit ? propsBook?.title : ''}
       />
-      <p>{errors?.title?.message}</p>
+      <Typography align='center' sx={styles.error}>
+        {errors?.title?.message}
+      </Typography>
 
-      <textarea
+      <TextField
+        sx={styles.textField}
+        multiline
+        maxRows={10}
         {...register('description')}
-        placeholder={t('placeholders.description')}
-        defaultValue={edit ? book?.description : ''}
+        label={t('placeholders.description')}
+        defaultValue={edit ? propsBook?.description : ''}
       />
-      <p>{errors?.description?.message}</p>
+      <Typography align='center' sx={styles.error}>
+        {errors?.description?.message}
+      </Typography>
 
-      <input
+      <TextField
+        sx={styles.textField}
         type='text'
         {...register('code')}
-        placeholder={t('placeholders.code')}
-        defaultValue={edit ? book?.code : ''}
+        label={t('placeholders.code')}
+        defaultValue={edit ? propsBook?.code : ''}
       />
-      <p>{errors?.code?.message}</p>
+      <Typography align='center' sx={styles.error}>
+        {errors?.code?.message}
+      </Typography>
 
-      <select {...register('authorId')} value={currentAuthor.id}>
-        <option key={Math.random()} disabled>
-          {t('placeholders.selectAuthor')}
-        </option>
-        {authors.map((author) => (
-          <option key={Math.random()} value={author.id}>
-            {`${author.firstName} ${author.lastName}`}
-          </option>
-        ))}
-      </select>
-      <p>{}</p>
-
-      <input
+      <TextField
+        sx={styles.textField}
         type='number'
         {...register('pagesCount')}
-        placeholder={t('placeholders.pagesCount')}
-        defaultValue={edit ? book?.pagesCount : ''}
+        label={t('placeholders.pagesCount')}
+        defaultValue={edit ? propsBook?.pagesCount : ''}
       />
-      <p>{errors?.pagesCount?.message}</p>
+      <Typography align='center' sx={styles.error}>
+        {errors?.pagesCount?.message}
+      </Typography>
 
-      <input
-        type='number'
+      <AuthorSelect
+        sx={styles.textField}
+        {...register('authorId')}
+        defaultValue={propsAuthor.id}
+      />
+
+      <TextField
+        sx={styles.textField}
         {...register('publishingYear')}
         placeholder={t('placeholders.publishingYear')}
-        defaultValue={edit ? book?.publishingYear : ''}
+        defaultValue={edit ? propsBook?.publishingYear : ''}
       />
-      <p>{errors?.publishingYear?.message}</p>
-      <input type='submit' value={buttonName} />
-    </form>
+      <Typography align='center' sx={styles.error}>
+        {errors?.publishingYear?.message}
+      </Typography>
+      <Button
+        sx={styles.buttons.submit}
+        onClick={handleSubmit(onSubmit)}
+        variant='contained'
+      >
+        {buttonName}
+      </Button>
+    </Box>
   );
 };

@@ -17,13 +17,7 @@ import { BookModal } from '../../components/modals/BookModal/BookModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
-import { updateBook } from '../../store/books/booksSlice';
-import {
-  useAllAuthors,
-  useAllBooks,
-  useAppDispatch,
-  useAppSelector,
-} from '../../hooks';
+import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
 
 export const Books = (): JSX.Element => {
   const { t } = useTranslation('default');
@@ -31,28 +25,11 @@ export const Books = (): JSX.Element => {
   const booksState = useAppSelector((state) => state.books);
   const authors = useAllAuthors();
   const [books, setBooks] = useState<BookProps[]>(useAllBooks);
-  const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
-
-  const updateBooks = (): void => {
-    authors.forEach((author) => {
-      books.forEach((book) => {
-        if (author.id === book.authorId) {
-          const authorName = `${author.firstName} ${author.lastName}`;
-          dispatch(
-            updateBook({
-              id: book.id,
-              changes: { authorName },
-            })
-          );
-        }
-      });
-    });
-  };
 
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field !== Fields.Editing) return;
@@ -150,9 +127,6 @@ export const Books = (): JSX.Element => {
       renderCell: editingCell,
     },
   ];
-
-  // eslint-disable-next-line
-  useEffect(updateBooks, []);
 
   useEffect(() => {
     setBooks(useAllBooks);

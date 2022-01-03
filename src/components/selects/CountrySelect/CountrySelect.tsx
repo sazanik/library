@@ -13,10 +13,10 @@ export const CountrySelect = forwardRef(
       <InputLabel id='country-label'>Country</InputLabel>
       <Select
         {...props}
+        ref={ref}
         id='country'
         label='country'
         labelId='country-label'
-        ref={ref}
       >
         {COUNTRIES.map((country) => (
           <MenuItem

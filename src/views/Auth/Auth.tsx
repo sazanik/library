@@ -11,12 +11,7 @@ import { Button, TextField, Typography, Link, Box } from '@mui/material';
 import { styles } from './Auth.styles';
 import { AnyObjectSchema } from 'yup';
 
-interface schemaProps {
-  t: TFunction;
-  isRegistered: boolean;
-}
-
-const getLoginSchema = ({ t, isRegistered }: schemaProps): AnyObjectSchema =>
+const getLoginSchema = (t: TFunction, isRegistered: boolean): AnyObjectSchema =>
   yup.object().shape({
     login: yup
       .string()
@@ -51,12 +46,7 @@ export const Auth = (): JSX.Element => {
     formState: { errors, isValid },
   } = useForm<AuthFormProps>({
     mode: 'all',
-    resolver: yupResolver(
-      getLoginSchema({
-        t,
-        isRegistered,
-      })
-    ),
+    resolver: yupResolver(getLoginSchema(t, isRegistered)),
   });
 
   const onSubmit = (data: User): void => {

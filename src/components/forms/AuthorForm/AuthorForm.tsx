@@ -15,11 +15,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { styles } from './AuthorForm.styles';
 import { CountrySelect } from '../../selects/CountrySelect/CountrySelect';
 
-interface schemaProps {
-  t: TFunction;
-}
-
-const getAuthorSchema = ({ t }: schemaProps): AnyObjectSchema =>
+const getAuthorSchema = (t: TFunction): AnyObjectSchema =>
   yup.object().shape({
     firstName: yup
       .string()
@@ -40,7 +36,7 @@ const getAuthorSchema = ({ t }: schemaProps): AnyObjectSchema =>
     country: yup.string().required(t('errors.required')),
   });
 
-export interface Props {
+export interface ComponentProps {
   edit: boolean;
   author: AuthorProps | null;
   setOpenModal: (b: boolean) => void;
@@ -53,7 +49,7 @@ export interface FormProps {
   country: string;
 }
 
-export const AuthorForm = (props: Props): JSX.Element => {
+export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const { t } = useTranslation('default');
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
@@ -61,10 +57,11 @@ export const AuthorForm = (props: Props): JSX.Element => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormProps>({
     mode: 'all',
-    resolver: yupResolver(getAuthorSchema({ t })),
+    resolver: yupResolver(getAuthorSchema(t)),
   });
 
   const onSubmit = (data: AuthorProps): void => {
@@ -87,7 +84,7 @@ export const AuthorForm = (props: Props): JSX.Element => {
     setOpenModal(false);
   };
 
-  console.log(register('country'));
+  console.log(watch('country'));
 
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 

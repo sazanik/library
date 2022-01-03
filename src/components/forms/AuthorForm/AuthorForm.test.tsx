@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthorForm, Props } from './AuthorForm';
+import { AuthorForm, ComponentProps } from './AuthorForm';
 import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -7,13 +7,13 @@ import { store } from '../../../store/store';
 
 const mockSetOpenModal = (boolean: boolean): jest.Mock =>
   jest.fn(() => boolean);
-const propsData: Props = {
+const propsData: ComponentProps = {
   edit: true,
   author: null,
   setOpenModal: mockSetOpenModal,
 };
 
-const setUp = (props: Props): ReactWrapper =>
+const setUp = (props: ComponentProps): ReactWrapper =>
   mount(
     <Provider store={store}>
       <MemoryRouter>
