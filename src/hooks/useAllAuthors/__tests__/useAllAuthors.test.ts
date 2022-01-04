@@ -1,5 +1,5 @@
-import { useAllAuthors } from './useAllAuthors';
-import { authorsSelectors, store } from '../../store/store';
+import { useAllAuthors } from '../useAllAuthors';
+import { authorsSelectors, store } from '../../../store/store';
 
 describe('useAllAuthors hook', () => {
   it('should be immutable', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookSelect } from './BookSelect';
+import { BookSelect } from '../BookSelect';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 

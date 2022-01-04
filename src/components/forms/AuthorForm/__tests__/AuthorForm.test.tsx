@@ -1,9 +1,9 @@
 import React from 'react';
-import { AuthorForm, ComponentProps } from './AuthorForm';
+import { AuthorForm, ComponentProps } from '../AuthorForm';
 import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { store } from '../../../store/store';
+import { store } from '../../../../store/store';
 
 const mockSetOpenModal = (boolean: boolean): jest.Mock =>
   jest.fn(() => boolean);

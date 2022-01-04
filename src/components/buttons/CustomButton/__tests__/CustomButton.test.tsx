@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonProps, CustomButton } from './CustomButton';
+import { ButtonProps, CustomButton } from '../CustomButton';
 import { mount, ReactWrapper } from 'enzyme';
 
 const setUp = (props: ButtonProps): ReactWrapper =>

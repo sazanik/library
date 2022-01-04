@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { styles } from './LanguageSelect.styles';
 import { useTranslation } from 'react-i18next';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 export const LanguageSelect = (): JSX.Element => {
   const { t, i18n } = useTranslation('default');
@@ -19,16 +16,16 @@ export const LanguageSelect = (): JSX.Element => {
 
   return (
     <Box sx={styles.box}>
-      <FormControl variant='filled' sx={styles.formControl}>
-        <InputLabel sx={styles.inputLabel} id='demo-simple-select-label'>
+      <FormControl fullWidth variant='filled'>
+        <InputLabel sx={styles.inputLabel} id='language-label'>
           {t('changeLanguage')}
         </InputLabel>
         <Select
           sx={styles.select}
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
           value={language}
-          label='Age'
+          label='language'
+          id='language'
+          labelId='language-label'
           onChange={handleChange}
         >
           <MenuItem value='en'>English</MenuItem>

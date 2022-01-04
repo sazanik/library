@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useAllAuthors } from '../../../hooks';
 
@@ -9,7 +8,6 @@ interface Props {
 }
 
 export const AuthorSelect = forwardRef((props: Props, ref): JSX.Element => {
-  const { t } = useTranslation('default');
   const authors = useAllAuthors();
 
   return (
@@ -17,9 +15,9 @@ export const AuthorSelect = forwardRef((props: Props, ref): JSX.Element => {
       <InputLabel id='author-label'>Author</InputLabel>
       <Select
         {...props}
+        label='author'
         ref={ref}
         id='author'
-        label='author'
         labelId='author-label'
       >
         {authors.map((author) => (

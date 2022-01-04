@@ -1,15 +1,7 @@
 export const styles = {
   box: {
-    display: 'flex',
-    width: 200,
-    height: 60,
-    mr: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  formControl: {
     minWidth: 200,
+    mr: 3,
   },
 
   inputLabel: {
