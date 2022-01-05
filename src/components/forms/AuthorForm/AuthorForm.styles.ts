@@ -9,7 +9,7 @@ export const styles = {
 
   textField: {
     mb: 1,
-  },
+  } as const,
 
   error: {
     color: 'red',

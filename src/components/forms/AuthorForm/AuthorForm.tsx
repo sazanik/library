@@ -1,8 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { TFunction, useTranslation } from 'react-i18next';
-import * as yup from 'yup';
-import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
+import { useTranslation } from 'react-i18next';
 import {
   createAuthor,
   updateAuthor,
@@ -10,31 +8,11 @@ import {
 import { AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AnyObjectSchema } from 'yup';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { styles } from './AuthorForm.styles';
 import { CountrySelect } from '../../selects/CountrySelect/CountrySelect';
-
-const getAuthorSchema = (t: TFunction): AnyObjectSchema =>
-  yup.object().shape({
-    firstName: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.TEXT, t('errors.invalidData'))
-      .min(MIN_LENGTH.NAME, t('errors.minLength') + MIN_LENGTH.NAME)
-      .max(MAX_LENGTH.NAME, t('errors.maxLength') + MAX_LENGTH.NAME),
-    lastName: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.TEXT, t('errors.invalidData'))
-      .min(MIN_LENGTH.NAME, t('errors.minLength') + MIN_LENGTH.NAME)
-      .max(MAX_LENGTH.NAME, t('errors.maxLength') + MAX_LENGTH.NAME),
-    birthDate: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.DATE, t('errors.invalidData')),
-    country: yup.string().required(t('errors.required')),
-  });
+import { CustomInput } from '../../CustomInput/CustomInput';
+import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
   edit: boolean;
@@ -57,7 +35,6 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FormProps>({
     mode: 'all',
@@ -84,13 +61,11 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     setOpenModal(false);
   };
 
-  console.log(watch('country'));
-
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
     <Box component='form' sx={styles.box}>
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='text'
         {...register('firstName')}
@@ -100,7 +75,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
       <Typography align='center' sx={styles.error}>
         {errors?.firstName?.message}
       </Typography>
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='text'
         {...register('lastName')}
@@ -111,7 +86,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         {errors?.lastName?.message}
       </Typography>
 
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='date'
         {...register('birthDate')}

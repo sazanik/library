@@ -2,11 +2,13 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../hooks';
 
-interface Props {
+interface ComponentProps {
   children: JSX.Element;
 }
 
-export const AuthRequirement = ({ children }: Props): JSX.Element => {
+export const WithAuthRequirement = ({
+  children,
+}: ComponentProps): JSX.Element => {
   const location = useLocation();
 
   const { user } = useAuth();

@@ -1,35 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthFormProps, User } from '../../types/inerfaces';
-import { TFunction, useTranslation } from 'react-i18next';
-import { MAX_LENGTH, MIN_LENGTH } from '../../constants/constants';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, TextField, Typography, Link, Box } from '@mui/material';
+import { Button, Typography, Link, Box } from '@mui/material';
 import { styles } from './Auth.styles';
-import { AnyObjectSchema } from 'yup';
-
-const getLoginSchema = (t: TFunction, isRegistered: boolean): AnyObjectSchema =>
-  yup.object().shape({
-    login: yup
-      .string()
-      .required(t('errors.required'))
-      .min(MIN_LENGTH.LOGIN, t('errors.minLength') + MIN_LENGTH.LOGIN)
-      .max(MAX_LENGTH.LOGIN, t('errors.maxLength') + MAX_LENGTH.LOGIN),
-    password: yup
-      .string()
-      .required(t('errors.required'))
-      .min(MIN_LENGTH.PASSWORD, t('errors.minLength') + MIN_LENGTH.PASSWORD)
-      .max(MAX_LENGTH.PASSWORD, t('errors.maxLength') + MAX_LENGTH.PASSWORD),
-    ...(!isRegistered && {
-      confirmPassword: yup
-        .string()
-        .oneOf([yup.ref('password'), null])
-        .required(t('errors.passwordMismatch')),
-    }),
-  });
+import { getAuthSchema } from './validation';
+import { CustomInput } from '../../components/CustomInput/CustomInput';
 
 export const Auth = (): JSX.Element => {
   const { t } = useTranslation('default');
@@ -46,7 +25,7 @@ export const Auth = (): JSX.Element => {
     formState: { errors, isValid },
   } = useForm<AuthFormProps>({
     mode: 'all',
-    resolver: yupResolver(getLoginSchema(t, isRegistered)),
+    resolver: yupResolver(getAuthSchema(t, isRegistered)),
   });
 
   const onSubmit = (data: User): void => {
@@ -70,11 +49,11 @@ export const Auth = (): JSX.Element => {
   };
 
   return (
-    <Box sx={styles.box}>
+    <Box component='form' sx={styles.box}>
       <Typography variant='h4' align='center'>
         {isRegistered ? t('signIn') : t('signUp')}
       </Typography>
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='text'
         {...register('login')}
@@ -85,7 +64,7 @@ export const Auth = (): JSX.Element => {
         {errors?.login?.message}
       </Typography>
 
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='password'
         {...register('password')}
@@ -98,7 +77,7 @@ export const Auth = (): JSX.Element => {
 
       {!isRegistered && (
         <>
-          <TextField
+          <CustomInput
             sx={styles.textField}
             type='password'
             {...register('confirmPassword')}

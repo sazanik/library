@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { AuthRequirement } from '../../components/HOCs/AuthRequirement/AuthRequirement';
+import { WithAuthRequirement } from '../../components/HOCs/WithAuthRequirement/WithAuthRequirement';
 import { Auth, Author, Authors, Book, Books, NotFound } from '../../views';
 import { AppLayout } from '../../components/layouts/AppLayout/AppLayout';
 
@@ -12,33 +12,33 @@ export const MainRouting = (): JSX.Element => {
         <Route
           path='authors'
           element={
-            <AuthRequirement>
+            <WithAuthRequirement>
               <Authors />
-            </AuthRequirement>
+            </WithAuthRequirement>
           }
         />
         <Route
           path='authors/:id'
           element={
-            <AuthRequirement>
+            <WithAuthRequirement>
               <Author />
-            </AuthRequirement>
+            </WithAuthRequirement>
           }
         />
         <Route
           path='books'
           element={
-            <AuthRequirement>
+            <WithAuthRequirement>
               <Books />
-            </AuthRequirement>
+            </WithAuthRequirement>
           }
         />
         <Route
           path='books/:id'
           element={
-            <AuthRequirement>
+            <WithAuthRequirement>
               <Book />
-            </AuthRequirement>
+            </WithAuthRequirement>
           }
         />
         <Route path='*' element={<NotFound />} />

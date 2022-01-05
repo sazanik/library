@@ -1,68 +1,16 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { createBook, updateBook } from '../../../store/books/booksSlice';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
-import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
 import { useAppDispatch } from '../../../hooks';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AnyObjectSchema } from 'yup';
 import { styles } from '../AuthorForm/AuthorForm.styles';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { AuthorSelect } from '../../selects/AuthorSelect/AuthorSelect';
 import { authorsSelectors, store } from '../../../store/store';
-
-const getBookSchema = (t: TFunction): AnyObjectSchema =>
-  yup.object().shape({
-    title: yup
-      .string()
-      .required(t('errors.required'))
-      .min(MIN_LENGTH.TITLE, t('errors.minLength') + MIN_LENGTH.TITLE)
-      .max(MAX_LENGTH.TITLE, t('errors.maxLength') + MAX_LENGTH.TITLE),
-    description: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.TEXT, t('errors.invalidData'))
-      .min(
-        MIN_LENGTH.DESCRIPTION,
-        t('errors.minLength') + MIN_LENGTH.DESCRIPTION
-      )
-      .max(
-        MAX_LENGTH.DESCRIPTION,
-        t('errors.maxLength') + MAX_LENGTH.DESCRIPTION
-      ),
-    code: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.NUMBER, t('errors.invalidData'))
-      .min(MIN_LENGTH.CODE, t('errors.minLength') + MIN_LENGTH.CODE)
-      .max(MAX_LENGTH.CODE, t('errors.maxLength') + MAX_LENGTH.CODE),
-    pagesCount: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.NUMBER, t('errors.invalidData'))
-      .min(
-        MIN_LENGTH.PAGES_COUNT,
-        t('errors.minLength') + MIN_LENGTH.PAGES_COUNT
-      )
-      .max(
-        MAX_LENGTH.PAGES_COUNT,
-        t('errors.maxLength') + MAX_LENGTH.PAGES_COUNT
-      ),
-    publishingYear: yup
-      .string()
-      .required(t('errors.required'))
-      .matches(MASKS.PUBLISHING_YEAR, t('errors.invalidData'))
-      .min(
-        MIN_LENGTH.PUBLISHING_YEAR,
-        t('errors.minLength') + MIN_LENGTH.PUBLISHING_YEAR
-      )
-      .max(
-        MAX_LENGTH.PUBLISHING_YEAR,
-        t('errors.maxLength') + MAX_LENGTH.PUBLISHING_YEAR
-      ),
-  });
+import { CustomInput } from '../../CustomInput/CustomInput';
+import { getBookSchema } from './validation';
 
 interface componentProps {
   edit: boolean;
@@ -132,7 +80,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
 
   return (
     <Box component='form' sx={styles.box}>
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='text'
         {...register('title')}
@@ -143,8 +91,9 @@ export const BookForm = (props: componentProps): JSX.Element => {
         {errors?.title?.message}
       </Typography>
 
-      <TextField
+      <CustomInput
         sx={styles.textField}
+        type='text'
         multiline
         maxRows={10}
         {...register('description')}
@@ -155,7 +104,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         {errors?.description?.message}
       </Typography>
 
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='text'
         {...register('code')}
@@ -166,7 +115,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         {errors?.code?.message}
       </Typography>
 
-      <TextField
+      <CustomInput
         sx={styles.textField}
         type='number'
         {...register('pagesCount')}
@@ -183,10 +132,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         defaultValue={propsAuthor.id}
       />
 
-      <TextField
+      <CustomInput
         sx={styles.textField}
+        type='number'
         {...register('publishingYear')}
-        placeholder={t('placeholders.publishingYear')}
+        label={t('placeholders.publishingYear')}
         defaultValue={edit ? propsBook?.publishingYear : ''}
       />
       <Typography align='center' sx={styles.error}>
