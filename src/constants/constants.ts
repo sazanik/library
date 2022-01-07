@@ -1,3 +1,5 @@
+import { Countries } from '../types/inerfaces';
+
 export const MASKS = {
   TEXT: /[a-zA-Zа-яА-Я]/,
   DATE: /^(19|20)\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01])$/,
@@ -28,7 +30,7 @@ export const MAX_LENGTH = {
   PUBLISHING_YEAR: 4,
 };
 
-export const COUNTRIES = [
+export const COUNTRIES: Countries[] = [
   {
     code: 'AD',
     label: 'Andorra',

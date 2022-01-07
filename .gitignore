@@ -17,6 +17,7 @@
 
 # misc
 .idea
+.yarn
 .DS_Store
 .env.local
 .env.development.local

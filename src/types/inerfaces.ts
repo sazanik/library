@@ -37,3 +37,8 @@ export interface AuthFormProps {
   password: string;
   confirmPassword?: string;
 }
+
+export interface Countries {
+  code: string;
+  label: string;
+}
