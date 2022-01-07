@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MainRouting } from '../../routing/MainRouting/MainRouting';
+import { Root } from '../../screens/Root';
 import { setLocalStore } from '../../services/LocalStorage/LocalStorage.service';
 import { store } from '../../store/store';
 import '../../i18n/i18n';
@@ -7,11 +7,11 @@ import { theme } from '../../theme/theme';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AuthProvider } from '../../context/Auth/AuthProvider';
+import { AuthProvider } from '../../context/AuthProvider';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorFallback } from '../ErrorFallback/ErrorFallback';
+import { ErrorFallback } from '../UI/ErrorFallback/ErrorFallback';
 
 export const App = (): JSX.Element => {
   useEffect(() => {
@@ -27,7 +27,7 @@ export const App = (): JSX.Element => {
             <AuthProvider>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <CssBaseline>
-                  <MainRouting />
+                  <Root />
                 </CssBaseline>
               </LocalizationProvider>
             </AuthProvider>
