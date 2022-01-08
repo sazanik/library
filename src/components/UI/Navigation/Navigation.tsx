@@ -2,29 +2,27 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { styles } from './Navigation.styles';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
-type styleProps = typeof styles.link & { color: 'white' | 'lightgrey' };
+const CustomLink = styled(NavLink)(styles.link);
 
 export const Navigation = (): JSX.Element => {
   const { t } = useTranslation('default');
 
-  const getStyles = ({ isActive }: { isActive: boolean }): styleProps => {
-    const activeColor = isActive ? 'white' : 'lightgrey';
-    return {
-      ...styles.link,
-      color: activeColor,
-    };
-  };
-
   return (
     <Box sx={styles.box}>
-      <NavLink style={getStyles} to='/authors'>
+      <CustomLink
+        style={({ isActive }) => ({ color: isActive ? 'white' : 'lightgrey' })}
+        to='/authors'
+      >
         {t('authors')}
-      </NavLink>
-      <NavLink style={getStyles} to='/books'>
+      </CustomLink>
+      <CustomLink
+        style={({ isActive }) => ({ color: isActive ? 'white' : 'lightgrey' })}
+        to='/books'
+      >
         {t('books')}
-      </NavLink>
+      </CustomLink>
     </Box>
   );
 };

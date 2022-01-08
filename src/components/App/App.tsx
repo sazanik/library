@@ -7,7 +7,7 @@ import { theme } from '../../theme/theme';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AuthProvider } from '../../context/AuthProvider';
+import { AuthContextProvider } from '../../context/AuthContextProvider';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -24,13 +24,13 @@ export const App = (): JSX.Element => {
       <Provider store={store}>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <AuthProvider>
+            <AuthContextProvider>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <CssBaseline>
                   <Root />
                 </CssBaseline>
               </LocalizationProvider>
-            </AuthProvider>
+            </AuthContextProvider>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>

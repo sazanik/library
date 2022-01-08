@@ -1,5 +1,5 @@
 import { AuthContextProps } from '../../types/inerfaces';
 import { useContext } from 'react';
-import { AuthProvider } from '../../context/AuthProvider';
+import { AuthContext } from '../../context/AuthContextProvider';
 
-export const useAuth = (): AuthContextProps => useContext(AuthProvider);
+export const useAuth = (): AuthContextProps => useContext(AuthContext);

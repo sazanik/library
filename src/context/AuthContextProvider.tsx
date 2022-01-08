@@ -1,13 +1,13 @@
 import React, { createContext, useState } from 'react';
 import { AuthContextProps, User } from '../types/inerfaces';
 
-export const Context = createContext<AuthContextProps>(null!);
+export const AuthContext = createContext<AuthContextProps>(null!);
 
 interface Props {
   children?: JSX.Element;
 }
 
-export const AuthProvider = ({ children }: Props): JSX.Element => {
+export const AuthContextProvider = ({ children }: Props): JSX.Element => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
 
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     cb();
   };
 
-  const authContext: AuthContextProps = {
+  const context: AuthContextProps = {
     user,
     isRegistered,
     setIsRegistered,
@@ -29,5 +29,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     logOut,
   };
 
-  return <Context.Provider value={authContext}>{children}</Context.Provider>;
+  return (
+    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+  );
 };
