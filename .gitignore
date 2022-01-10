@@ -8,10 +8,16 @@
 # testing
 /coverage
 
+# css table
+*.css
+*.css.map
+
 # production
 /build
 
 # misc
+.idea
+.yarn
 .DS_Store
 .env.local
 .env.development.local
