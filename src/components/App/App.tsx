@@ -12,6 +12,7 @@ import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from '../UI/ErrorFallback/ErrorFallback';
+import '../../firebase';
 
 export const App = (): JSX.Element => {
   useEffect(() => {

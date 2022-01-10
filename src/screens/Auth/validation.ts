@@ -8,11 +8,12 @@ export const getAuthSchema = (
   isRegistered: boolean
 ): AnyObjectSchema =>
   yup.object().shape({
-    login: yup
+    email: yup
       .string()
+      .email()
       .required(t('errors.required'))
-      .min(MIN_LENGTH.LOGIN, t('errors.minLength') + MIN_LENGTH.LOGIN)
-      .max(MAX_LENGTH.LOGIN, t('errors.maxLength') + MAX_LENGTH.LOGIN),
+      .min(MIN_LENGTH.EMAIL, t('errors.minLength') + MIN_LENGTH.EMAIL)
+      .max(MAX_LENGTH.EMAIL, t('errors.maxLength') + MAX_LENGTH.EMAIL),
     password: yup
       .string()
       .required(t('errors.required'))

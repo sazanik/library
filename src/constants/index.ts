@@ -9,8 +9,8 @@ export const MASKS = {
 };
 
 export const MIN_LENGTH = {
-  LOGIN: 2,
-  PASSWORD: 4,
+  EMAIL: 6,
+  PASSWORD: 6,
   NAME: 2,
   TITLE: 3,
   DESCRIPTION: 20,
@@ -20,7 +20,7 @@ export const MIN_LENGTH = {
 };
 
 export const MAX_LENGTH = {
-  LOGIN: 20,
+  EMAIL: 30,
   PASSWORD: 20,
   NAME: 20,
   TITLE: 100,

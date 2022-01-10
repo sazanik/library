@@ -45,7 +45,7 @@
     "dataCard": "An error occurred, please try again later"
   },
   "placeholders": {
-    "login": "Login",
+    "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm password",
     "authorName": "Author",

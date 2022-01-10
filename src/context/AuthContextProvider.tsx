@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { AuthContextProps, User } from '../types/inerfaces';
+import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
 
@@ -9,20 +9,20 @@ interface Props {
 
 export const AuthContextProvider = ({ children }: Props): JSX.Element => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  const signIn = (newUser: User, cb: () => void): void => {
-    setUser(newUser);
+  const signIn = (newToken: string, cb: () => void): void => {
+    setToken(newToken);
     cb();
   };
 
   const logOut = (cb: () => void): void => {
-    setUser(null);
+    setToken(null);
     cb();
   };
 
   const context: AuthContextProps = {
-    user,
+    token,
     isRegistered,
     setIsRegistered,
     signIn,

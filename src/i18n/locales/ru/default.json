@@ -45,7 +45,7 @@
     "dataCard": "Произошла ошибка, попробуйте зайти позже"
   },
   "placeholders": {
-    "login": "Логин",
+    "email": "Электронная почта",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
     "authorName": "Автор",

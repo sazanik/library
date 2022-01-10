@@ -11,9 +11,9 @@ export const WithAuthRequirement = ({
 }: ComponentProps): JSX.Element => {
   const location = useLocation();
 
-  const { user } = useAuth();
+  const { token } = useAuth();
 
-  if (user) {
+  if (!token) {
     return <Navigate to='/' state={location} />;
   }
 

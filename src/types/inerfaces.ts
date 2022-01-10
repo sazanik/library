@@ -19,21 +19,22 @@ export interface BookProps {
   authorName: string;
 }
 
-export interface User {
-  login: string;
-  password: string;
+export interface UserProps {
+  id: string;
+  email: string;
+  token: string;
 }
 
 export interface AuthContextProps {
-  user: User | null;
+  token: string | null;
   isRegistered: boolean;
   setIsRegistered: Dispatch<SetStateAction<boolean>>;
-  signIn: (newUser: User, cb: () => void) => void;
+  signIn: (token: string, cb: () => void) => void;
   logOut: (cb: () => void) => void;
 }
 
 export interface AuthFormProps {
-  login: string;
+  email: string;
   password: string;
   confirmPassword?: string;
 }

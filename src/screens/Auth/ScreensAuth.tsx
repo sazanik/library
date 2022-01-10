@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthFormProps, User } from '../../types/inerfaces';
+import { AuthFormProps } from '../../types/inerfaces';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks';
+import { useAppDispatch, useAuth } from '../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Typography, Link, Box } from '@mui/material';
 import { styles } from './ScreensAuth.styles';
 import { getAuthSchema } from './validation';
 import { CustomInput } from '../../components/UI/CustomInput/CustomInput';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { createUser } from '../../store/users/usersSlice';
 
 export const ScreensAuth = (): JSX.Element => {
   const { t } = useTranslation('default');
+  const [error, setError] = useState(null);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { isRegistered, setIsRegistered, signIn } = useAuth();
@@ -28,15 +36,30 @@ export const ScreensAuth = (): JSX.Element => {
     resolver: yupResolver(getAuthSchema(t, isRegistered)),
   });
 
-  const onSubmit = (data: User): void => {
-    signIn(
-      {
-        login: data.login,
-        password: data.password,
-      },
-      () => navigate(fromPage, { replace: true })
-    );
-    reset();
+  const onSubmit = (data: { email: string; password: string }): void => {
+    const auth = getAuth();
+
+    const wrapperAuth = isRegistered
+      ? signInWithEmailAndPassword
+      : createUserWithEmailAndPassword;
+
+    wrapperAuth(auth, data.email, data.password)
+      .then((userCredential) => userCredential.user.getIdToken())
+      .then((token) => {
+        if (!isRegistered) {
+          const newUser = {
+            id: Date.now().toString().slice(5),
+            email: data.email,
+            token,
+          };
+          dispatch(createUser(newUser));
+        }
+        signIn(token, () => navigate(fromPage, { replace: true }));
+        reset();
+      })
+      .catch((firebaseError) => {
+        setError(firebaseError.message);
+      });
   };
 
   const handleClick = (): void => {
@@ -56,12 +79,12 @@ export const ScreensAuth = (): JSX.Element => {
       <CustomInput
         sx={styles.textField}
         type='text'
-        {...register('login')}
-        label={t('placeholders.login')}
+        {...register('email')}
+        label={t('placeholders.email')}
         variant='standard'
       />
       <Typography align='center' sx={styles.error}>
-        {errors?.login?.message}
+        {errors?.email?.message}
       </Typography>
 
       <CustomInput
@@ -104,6 +127,9 @@ export const ScreensAuth = (): JSX.Element => {
       >
         {t('buttons.submit')}
       </Button>
+      <Typography align='center' sx={styles.error}>
+        {error}
+      </Typography>
       <Typography align='center'>
         {!isRegistered ? t('goSignIn') : t('goSignUp')}
         <Link sx={styles.buttons.link} onClick={handleClick} underline='none'>

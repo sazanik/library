@@ -14,6 +14,7 @@ export const styles = {
   error: {
     color: 'red',
     fontSize: 14,
+    mb: 1,
   },
 
   buttons: {
