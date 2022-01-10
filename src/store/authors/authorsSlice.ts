@@ -1,30 +1,48 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  EntityState,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import { AuthorProps } from '../../types/inerfaces';
+import {
+  createAuthor,
+  getAllAuthors,
+  removeAuthor,
+  updateAuthor,
+} from './actions';
 
 export const authorsAdapter = createEntityAdapter<AuthorProps>({
   selectId: (author) => author.id,
   sortComparer: (a, b) => a.lastName.localeCompare(b.lastName),
 });
 
-let authors: EntityState<AuthorProps>;
-const localData = localStorage.getItem('store');
-if (localData) {
-  authors = JSON.parse(localData).authors;
-}
-
 export const authorsSlice = createSlice({
   name: 'authors',
-  initialState: authorsAdapter.getInitialState(authors!),
-  reducers: {
-    createAuthor: authorsAdapter.addOne,
-    updateAuthor: authorsAdapter.updateOne,
-    removeAuthor: authorsAdapter.removeOne,
+  initialState: authorsAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createAuthor.fulfilled, (state, action) => {
+        const { payload: author } = action;
+        authorsAdapter.addOne(state, <AuthorProps>author);
+      })
+      .addCase(updateAuthor.fulfilled, (state, action) => {
+        const { payload: author } = action;
+        if (author) {
+          authorsAdapter.updateOne(state, {
+            id: author.id,
+            changes: {
+              ...author,
+            },
+          });
+        }
+      })
+      .addCase(removeAuthor.fulfilled, (state, action) => {
+        const { payload: id } = action;
+        if (id) {
+          authorsAdapter.removeOne(state, id);
+        }
+      })
+      .addCase(getAllAuthors.fulfilled, (state, action) => {
+        const { payload: authors } = action;
+        authorsAdapter.setAll(state, authors);
+      });
   },
 });
-
-export const { createAuthor, updateAuthor, removeAuthor } =
-  authorsSlice.actions;

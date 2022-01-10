@@ -1,16 +1,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { createBook, updateBook } from '../../../store/books/booksSlice';
-import { AuthorProps, BookProps } from '../../../types/inerfaces';
+import {
+  AuthorProps,
+  BookFormProps,
+  BookProps,
+} from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { styles } from '../../Author/Form/AuthorForm.styles';
 import { Box, Button, Typography } from '@mui/material';
 import { AuthorSelect } from '../../Author/Select/AuthorSelect';
-import { authorsSelectors, store } from '../../../store/store';
-import { CustomInput } from '../../UI/CustomInput/CustomInput';
+import { Input } from '../../Input/Input';
 import { getBookSchema } from './validation';
+import { createBook, updateBook } from '../../../store/books/actions';
 
 interface componentProps {
   edit: boolean;
@@ -29,97 +32,80 @@ interface FormProps {
 }
 
 export const BookForm = (props: componentProps): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const { edit, author: propsAuthor, book: propsBook, setOpenModal } = props;
   const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FormProps>({
-    mode: 'all',
     resolver: yupResolver(getBookSchema(t)),
   });
 
-  const getAuthorName = (): string => {
-    const author = authorsSelectors.selectById(
-      store.getState(),
-      watch('authorId')
-    );
-
-    return `${author?.firstName} ${author?.lastName}`;
-  };
-
-  const onSubmit = (data: BookProps): void => {
-    const id = Date.now().toString().slice(5);
+  const onSubmit = (data: BookFormProps): void => {
     if (edit && propsBook) {
-      const updatedBook = {
-        ...data,
-        authorName: getAuthorName(),
-      };
       dispatch(
         updateBook({
+          ...data,
           id: propsBook.id,
-          changes: { ...updatedBook },
         })
       );
     } else {
-      const newBook = {
-        ...data,
-        authorName: getAuthorName(),
-        id,
-      };
-      dispatch(createBook(newBook));
+      dispatch(
+        createBook({
+          ...data,
+        })
+      );
     }
     setOpenModal(false);
   };
 
-  const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
+  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('title')}
-        label={t('placeholders.title')}
+        label={t('placeholders:title')}
         defaultValue={edit ? propsBook?.title : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.title?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         multiline
         maxRows={10}
         {...register('description')}
-        label={t('placeholders.description')}
+        label={t('placeholders:description')}
         defaultValue={edit ? propsBook?.description : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.description?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('code')}
-        label={t('placeholders.code')}
+        label={t('placeholders:code')}
         defaultValue={edit ? propsBook?.code : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.code?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='number'
         {...register('pagesCount')}
-        label={t('placeholders.pagesCount')}
+        label={t('placeholders:pagesCount')}
         defaultValue={edit ? propsBook?.pagesCount : ''}
       />
       <Typography align='center' sx={styles.error}>
@@ -132,11 +118,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         defaultValue={propsAuthor.id}
       />
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='number'
         {...register('publishingYear')}
-        label={t('placeholders.publishingYear')}
+        label={t('placeholders:publishingYear')}
         defaultValue={edit ? propsBook?.publishingYear : ''}
       />
       <Typography align='center' sx={styles.error}>

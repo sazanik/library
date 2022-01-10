@@ -1,0 +1,19 @@
+{
+  "changeLanguage": "Сменить язык",
+  "email": "Электронная почта",
+  "password": "Пароль",
+  "confirmPassword": "Подтвердите пароль",
+  "authorName": "Автор",
+  "books": "Книги",
+  "firstName": "Имя",
+  "lastName": "Фамилия",
+  "birthDate": "Дата рождения",
+  "country": "Страна",
+  "title": "Название",
+  "description": "Описание",
+  "code": "Код",
+  "pagesCount": "Количество страниц",
+  "publishingYear": "Год публикации",
+  "selectAuthor": "Выберите автора",
+  "editing": "Редактирование"
+}

@@ -1,0 +1,19 @@
+{
+  "changeLanguage": "Change language",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "authorName": "Author",
+  "books": "Books",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "birthDate": "Birth date",
+  "country": "Country",
+  "title": "Title",
+  "description": "Description",
+  "code": "Code",
+  "pagesCount": "Pages count",
+  "publishingYear": "Publishing year",
+  "selectAuthor": "Select author",
+  "editing": "Editing"
+}

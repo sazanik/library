@@ -1,0 +1,11 @@
+{
+  "titles": {
+    "author": "Are you sure you want to delete this author?",
+    "book": "Are you sure you want to delete this book?"
+  },
+  "descriptions": {
+    "author": "The author and his books will be removed from the database.",
+    "book": "The book will be removed from the database."
+  }
+}
+

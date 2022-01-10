@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
-import { removeBook } from '../../../store/books/booksSlice';
-import { useTranslation } from 'react-i18next';
 import { BookProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
+import { DialogBox } from '../../DialogBox/DialogBox';
+import { removeBook } from '../../../store/books/actions';
 
 interface Props {
   book: BookProps;
@@ -25,7 +17,6 @@ export const BookDialog = ({
   setOpenDialog,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation('default');
   const handleClickDelete = (): void => {
     if (!book) return;
     dispatch(removeBook(book.id));
@@ -33,28 +24,11 @@ export const BookDialog = ({
   };
 
   return (
-    <Dialog
-      open={openDialog}
-      onClose={() => setOpenDialog(false)}
-      aria-labelledby='alert-dialog-title'
-      aria-describedby='alert-dialog-description'
-    >
-      <DialogTitle id='alert-dialog-title'>
-        {t('dialogs.titles.book')}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id='alert-dialog-description'>
-          {t('dialogs.descriptions.book')}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpenDialog(false)}>
-          {t('buttons.cancel')}
-        </Button>
-        <Button onClick={handleClickDelete} autoFocus>
-          {t('buttons.delete')}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <DialogBox
+      openDialog={openDialog}
+      setOpenDialog={setOpenDialog}
+      handleClickDelete={handleClickDelete}
+      entity='book'
+    />
   );
 };
