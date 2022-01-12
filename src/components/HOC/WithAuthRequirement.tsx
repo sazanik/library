@@ -10,7 +10,6 @@ export const WithAuthRequirement = ({
   children,
 }: ComponentProps): JSX.Element => {
   const location = useLocation();
-
   const { token } = useAuth();
 
   if (!token) {

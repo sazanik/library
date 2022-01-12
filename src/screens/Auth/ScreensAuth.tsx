@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthFormProps } from '../../types/inerfaces';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAuth } from '../../hooks';
+import { useAuth } from '../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Typography, Link, Box } from '@mui/material';
 import { styles } from './ScreensAuth.styles';
 import { getAuthSchema } from './validation';
 import { CustomInput } from '../../components/UI/CustomInput/CustomInput';
 import {
-  getAuth,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { createUser } from '../../store/users/usersSlice';
+import { auth } from '../../firebase';
 
 export const ScreensAuth = (): JSX.Element => {
   const { t } = useTranslation('default');
   const [error, setError] = useState(null);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isRegistered, setIsRegistered, signIn } = useAuth();
+
+  const { isRegistered, setIsRegistered, signIn, logOut } = useAuth();
   const fromPage = (location?.state as Location)?.pathname || '/authors';
 
   const {
@@ -37,8 +37,6 @@ export const ScreensAuth = (): JSX.Element => {
   });
 
   const onSubmit = (data: { email: string; password: string }): void => {
-    const auth = getAuth();
-
     const wrapperAuth = isRegistered
       ? signInWithEmailAndPassword
       : createUserWithEmailAndPassword;
@@ -46,19 +44,14 @@ export const ScreensAuth = (): JSX.Element => {
     wrapperAuth(auth, data.email, data.password)
       .then((userCredential) => userCredential.user.getIdToken())
       .then((token) => {
-        if (!isRegistered) {
-          const newUser = {
-            id: Date.now().toString().slice(5),
-            email: data.email,
-            token,
-          };
-          dispatch(createUser(newUser));
-        }
         signIn(token, () => navigate(fromPage, { replace: true }));
         reset();
       })
       .catch((firebaseError) => {
         setError(firebaseError.message);
+      })
+      .finally(() => {
+        console.log('success');
       });
   };
 
@@ -70,6 +63,21 @@ export const ScreensAuth = (): JSX.Element => {
     if (isRegistered) return true;
     return watch('password') === watch('confirmPassword');
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        user.getIdToken().then((token) => {
+          if (token) {
+            console.log(token);
+            signIn(token, () => navigate(fromPage, { replace: true }));
+          } else {
+            logOut();
+          }
+        });
+      }
+    });
+  }, []);
 
   return (
     <Box component='form' sx={styles.box}>

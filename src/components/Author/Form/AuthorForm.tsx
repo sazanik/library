@@ -13,6 +13,7 @@ import { styles } from './AuthorForm.styles';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
 import { CustomInput } from '../../UI/CustomInput/CustomInput';
 import { getAuthorSchema } from './validation';
+import { nanoid } from '@reduxjs/toolkit';
 
 export interface ComponentProps {
   edit: boolean;
@@ -41,8 +42,8 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
-  const onSubmit = (data: AuthorProps): void => {
-    const id = Date.now().toString().slice(5);
+  const onSubmit = async (data: AuthorProps): Promise<void> => {
+    const id = nanoid();
     if (edit && author) {
       dispatch(
         updateAuthor({
@@ -64,7 +65,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
-    <Box component='form' sx={styles.box}>
+    <Box component='div' sx={styles.box}>
       <CustomInput
         sx={styles.textField}
         type='text'

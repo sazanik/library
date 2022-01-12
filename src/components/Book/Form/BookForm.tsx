@@ -11,6 +11,7 @@ import { AuthorSelect } from '../../Author/Select/AuthorSelect';
 import { authorsSelectors, store } from '../../../store/store';
 import { CustomInput } from '../../UI/CustomInput/CustomInput';
 import { getBookSchema } from './validation';
+import { nanoid } from '@reduxjs/toolkit';
 
 interface componentProps {
   edit: boolean;
@@ -53,7 +54,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
   };
 
   const onSubmit = (data: BookProps): void => {
-    const id = Date.now().toString().slice(5);
+    const id = nanoid();
     if (edit && propsBook) {
       const updatedBook = {
         ...data,

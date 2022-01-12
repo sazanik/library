@@ -1,12 +1,18 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore/lite';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: 'AIzaSyAj6wdVcxp6MnYRo2BQ2mkGH5Nr3E4mV8w',
+  authDomain: 'library-10012022.firebaseapp.com',
+  databaseURL:
+    'https://library-10012022-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'library-10012022',
+  storageBucket: 'library-10012022.appspot.com',
+  messagingSenderId: '38698012730',
+  appId: '1:38698012730:web:29684284aae59061832503',
 };
 
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth();
