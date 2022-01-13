@@ -1,16 +1,16 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { updateAuthor } from '../../../store/authors/authorsSlice';
+import { bdCreateAuthor, bdUpdateAuthor } from '../../../store/authors/actions';
 import { AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Typography } from '@mui/material';
-import { styles } from './AuthorForm.styles';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
 import { CustomInput } from '../../UI/CustomInput/CustomInput';
+import { Box, Button, Typography } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { getAuthorSchema } from './validation';
-import { bdCreateAuthor } from '../../../store/authors/actions';
+import { styles } from './AuthorForm.styles';
+import { nanoid } from '@reduxjs/toolkit';
 
 export interface ComponentProps {
   edit: boolean;
@@ -40,24 +40,26 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   });
 
   const onSubmit = async (data: AuthorProps): Promise<void> => {
+    const newData = {
+      ...data,
+      id: nanoid(),
+    };
     if (edit && author) {
       dispatch(
-        updateAuthor({
+        bdUpdateAuthor({
+          ...newData,
           id: author.id,
-          changes: { ...data },
         })
       );
     } else {
-      console.log('ENTRY');
-      dispatch(bdCreateAuthor(data));
+      dispatch(bdCreateAuthor(newData));
     }
     setOpenModal(false);
   };
-
   const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
 
   return (
-    <Box component='div' sx={styles.box}>
+    <Box component='form' sx={styles.box}>
       <CustomInput
         sx={styles.textField}
         type='text'

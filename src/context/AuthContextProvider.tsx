@@ -20,10 +20,7 @@ export const AuthContextProvider = ({ children }: Props): JSX.Element => {
 
   const logOut = (): void => {
     setToken(null);
-    auth
-      .signOut()
-      .then((r) => console.log(r))
-      .catch((e) => console.error(e));
+    auth.signOut().catch((e) => console.error(e));
   };
 
   const context: AuthContextProps = {

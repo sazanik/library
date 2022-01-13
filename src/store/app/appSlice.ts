@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { bdCreateAuthor } from '../authors/actions';
+import {
+  bdCreateAuthor,
+  bdGetAllAuthors,
+  bdUpdateAuthor,
+} from '../authors/actions';
 
 const initialState = {
-  loading: false,
+  loading: true,
 };
 
 export const appSlice = createSlice({
@@ -22,6 +26,18 @@ export const appSlice = createSlice({
         state.loading = true;
       })
       .addCase(bdCreateAuthor.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(bdUpdateAuthor.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(bdUpdateAuthor.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(bdGetAllAuthors.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(bdGetAllAuthors.fulfilled, (state) => {
         state.loading = false;
       });
   },

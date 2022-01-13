@@ -16,11 +16,14 @@ import { AuthorModal } from '../../../components/Author/Modal/AuthorModal';
 import { Actions, Fields } from '../../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../../types/inerfaces';
-import { useAllAuthors } from '../../../hooks';
+import { useAllAuthors, useAppSelector } from '../../../hooks';
 import { styles } from './ScreensAuthorsList.styles';
+import { Loader } from '../../../components/UI/Loader/Loader';
 
 export const ScreensAuthorsList = (): JSX.Element => {
   const { t } = useTranslation('default');
+  const authorsNormalize = useAppSelector((state) => state.authors);
+  const { loading } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
@@ -120,6 +123,10 @@ export const ScreensAuthorsList = (): JSX.Element => {
       renderCell: editingCell,
     },
   ];
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Box sx={styles.box}>

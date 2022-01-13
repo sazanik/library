@@ -14,11 +14,6 @@ import { ErrorFallback } from '../UI/ErrorFallback/ErrorFallback';
 import '../../firebase';
 
 export const App = (): JSX.Element => {
-  // useEffect(() => {
-  //   window.addEventListener('beforeunload', setLocalStore);
-  //   return () => window.removeEventListener('beforeunload', setLocalStore);
-  // });
-
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Provider store={store}>

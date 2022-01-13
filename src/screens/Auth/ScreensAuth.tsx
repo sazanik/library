@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Typography, Link, Box } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import { styles } from './ScreensAuth.styles';
 import { getAuthSchema } from './validation';
 import { CustomInput } from '../../components/UI/CustomInput/CustomInput';
@@ -16,7 +16,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { Loader } from '../../components/UI/Loader/Loader';
-import { setLoading, stopLoading } from '../../store/app/appSlice';
+import { bdGetAllAuthors } from '../../store/authors/actions';
 
 export const ScreensAuth = (): JSX.Element => {
   const { loading } = useAppSelector((state) => state.app);
@@ -41,7 +41,6 @@ export const ScreensAuth = (): JSX.Element => {
   });
 
   const onSubmit = (data: { email: string; password: string }): void => {
-    dispatch(setLoading());
     const wrapperAuth = isRegistered
       ? signInWithEmailAndPassword
       : createUserWithEmailAndPassword;
@@ -53,8 +52,7 @@ export const ScreensAuth = (): JSX.Element => {
       })
       .catch((firebaseError) => {
         setError(firebaseError.message);
-      })
-      .finally(() => dispatch(stopLoading()));
+      });
   };
 
   const handleClick = (): void => {
@@ -67,19 +65,16 @@ export const ScreensAuth = (): JSX.Element => {
   };
 
   useEffect(() => {
+    dispatch(bdGetAllAuthors());
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setLoading());
-        user
-          .getIdToken()
-          .then((token) => {
-            if (token) {
-              signIn(token, () => navigate(fromPage, { replace: true }));
-            } else {
-              logOut();
-            }
-          })
-          .finally(() => dispatch(stopLoading()));
+        user.getIdToken().then((token) => {
+          if (token) {
+            signIn(token, () => navigate(fromPage, { replace: true }));
+          } else {
+            logOut();
+          }
+        });
       }
     });
   }, []);
