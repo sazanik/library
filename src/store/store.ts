@@ -3,9 +3,11 @@ import logger from 'redux-logger';
 import { authorsAdapter, authorsSlice } from './authors/authorsSlice';
 import { booksAdapter, booksSlice } from './books/booksSlice';
 import { usersAdapter, usersSlice } from './users/usersSlice';
+import { appSlice } from './app/appSlice';
 
 export const store = configureStore({
   reducer: {
+    app: appSlice.reducer,
     authors: authorsSlice.reducer,
     books: booksSlice.reducer,
     users: usersSlice.reducer,

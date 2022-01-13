@@ -1,10 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  createAuthor,
-  updateAuthor,
-} from '../../../store/authors/authorsSlice';
+import { updateAuthor } from '../../../store/authors/authorsSlice';
 import { AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,7 +10,7 @@ import { styles } from './AuthorForm.styles';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
 import { CustomInput } from '../../UI/CustomInput/CustomInput';
 import { getAuthorSchema } from './validation';
-import { nanoid } from '@reduxjs/toolkit';
+import { bdCreateAuthor } from '../../../store/authors/actions';
 
 export interface ComponentProps {
   edit: boolean;
@@ -43,7 +40,6 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   });
 
   const onSubmit = async (data: AuthorProps): Promise<void> => {
-    const id = nanoid();
     if (edit && author) {
       dispatch(
         updateAuthor({
@@ -52,12 +48,8 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         })
       );
     } else {
-      dispatch(
-        createAuthor({
-          ...data,
-          id,
-        })
-      );
+      console.log('ENTRY');
+      dispatch(bdCreateAuthor(data));
     }
     setOpenModal(false);
   };

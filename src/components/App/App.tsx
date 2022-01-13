@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Root } from '../../screens/Root';
-import { setLocalStore } from '../../services/LocalStorage/LocalStorage.service';
 import { store } from '../../store/store';
 import '../../i18n/i18n';
 import { theme } from '../../theme/theme';
@@ -15,10 +14,10 @@ import { ErrorFallback } from '../UI/ErrorFallback/ErrorFallback';
 import '../../firebase';
 
 export const App = (): JSX.Element => {
-  useEffect(() => {
-    window.addEventListener('beforeunload', setLocalStore);
-    return () => window.removeEventListener('beforeunload', setLocalStore);
-  });
+  // useEffect(() => {
+  //   window.addEventListener('beforeunload', setLocalStore);
+  //   return () => window.removeEventListener('beforeunload', setLocalStore);
+  // });
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

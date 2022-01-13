@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { AuthFormProps } from '../../types/inerfaces';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Typography, Link, Box } from '@mui/material';
 import { styles } from './ScreensAuth.styles';
@@ -15,8 +15,12 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../../firebase';
+import { Loader } from '../../components/UI/Loader/Loader';
+import { setLoading, stopLoading } from '../../store/app/appSlice';
 
 export const ScreensAuth = (): JSX.Element => {
+  const { loading } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -37,10 +41,10 @@ export const ScreensAuth = (): JSX.Element => {
   });
 
   const onSubmit = (data: { email: string; password: string }): void => {
+    dispatch(setLoading());
     const wrapperAuth = isRegistered
       ? signInWithEmailAndPassword
       : createUserWithEmailAndPassword;
-
     wrapperAuth(auth, data.email, data.password)
       .then((userCredential) => userCredential.user.getIdToken())
       .then((token) => {
@@ -50,9 +54,7 @@ export const ScreensAuth = (): JSX.Element => {
       .catch((firebaseError) => {
         setError(firebaseError.message);
       })
-      .finally(() => {
-        console.log('success');
-      });
+      .finally(() => dispatch(stopLoading()));
   };
 
   const handleClick = (): void => {
@@ -67,19 +69,24 @@ export const ScreensAuth = (): JSX.Element => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        user.getIdToken().then((token) => {
-          if (token) {
-            console.log(token);
-            signIn(token, () => navigate(fromPage, { replace: true }));
-          } else {
-            logOut();
-          }
-        });
+        dispatch(setLoading());
+        user
+          .getIdToken()
+          .then((token) => {
+            if (token) {
+              signIn(token, () => navigate(fromPage, { replace: true }));
+            } else {
+              logOut();
+            }
+          })
+          .finally(() => dispatch(stopLoading()));
       }
     });
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <Box component='form' sx={styles.box}>
       <Typography variant='h4' align='center'>
         {isRegistered ? t('signIn') : t('signUp')}

@@ -1,5 +1,15 @@
 import { Dispatch, SetStateAction } from 'react';
 
+export interface AppProps {
+  loading: boolean;
+}
+
+export interface UserProps {
+  id: string;
+  email: string;
+  token: string;
+}
+
 export interface AuthorProps {
   id: string;
   firstName: string;
@@ -17,12 +27,6 @@ export interface BookProps {
   publishingYear: string;
   authorId: string;
   authorName: string;
-}
-
-export interface UserProps {
-  id: string;
-  email: string;
-  token: string;
 }
 
 export interface AuthContextProps {
