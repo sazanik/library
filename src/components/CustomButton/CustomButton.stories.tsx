@@ -15,7 +15,7 @@ export const Default = Template.bind({});
 
 Default.args = {
   disabled: false,
-  children: 'Button',
+  children: 'CustomButton',
   variant: 'outlined',
   size: 'medium',
   color: 'primary',

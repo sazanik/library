@@ -9,7 +9,7 @@ import { styles } from '../../Author/Form/AuthorForm.styles';
 import { Box, Button, Typography } from '@mui/material';
 import { AuthorSelect } from '../../Author/Select/AuthorSelect';
 import { authorsSelectors, store } from '../../../store/store';
-import { CustomInput } from '../../UI/CustomInput/CustomInput';
+import { Input } from '../../Input/Input';
 import { getBookSchema } from './validation';
 import { nanoid } from '@reduxjs/toolkit';
 
@@ -81,7 +81,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
 
   return (
     <Box component='form' sx={styles.box}>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('title')}
@@ -92,7 +92,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         {errors?.title?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         multiline
@@ -105,7 +105,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         {errors?.description?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('code')}
@@ -116,7 +116,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         {errors?.code?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='number'
         {...register('pagesCount')}
@@ -133,7 +133,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         defaultValue={propsAuthor.id}
       />
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='number'
         {...register('publishingYear')}

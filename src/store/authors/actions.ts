@@ -1,44 +1,70 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthorProps } from '../../types/inerfaces';
+import { AuthorProps, AuthorsFormProps } from '../../types/inerfaces';
 import {
+  addDoc,
   collection,
+  deleteDoc,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
 } from 'firebase/firestore/lite';
 import { db } from '../../firebase';
+import { store } from '../store';
+import { setError } from '../app/appSlice';
 
-const getBdEntity = async (
-  data: AuthorProps
+const createDoc = async (
+  data: AuthorsFormProps
 ): Promise<AuthorProps | undefined> => {
   try {
-    await setDoc(doc(db, 'authors', data.id), data);
-    return data;
-  } catch (e) {
-    console.error('Error adding document: ', e);
+    const docRef = await addDoc(collection(db, 'authors'), data);
+    await setDoc(docRef, { id: docRef.id }, { merge: true });
+    return (await getDoc(docRef)).data() as AuthorProps;
+  } catch (error) {
+    store.dispatch(setError(error as Error));
   }
 };
 
-export const bdCreateAuthor = createAsyncThunk(
-  'authors/bdCreateAuthor',
-  getBdEntity
-);
-
-export const bdUpdateAuthor = createAsyncThunk(
-  'authors/bdUpdateAuthor',
-  getBdEntity
-);
-
-export const bdGetAllAuthors = createAsyncThunk(
-  'authors/bdGetAllAuthors',
-  async (): Promise<AuthorProps[]> => {
-    const q = query(collection(db, 'authors'));
-    const querySnapshot = await getDocs(q);
-    const authors: AuthorProps[] = [];
-    querySnapshot.forEach((docItem) => {
-      authors.push(docItem.data() as AuthorProps);
-    });
-    return authors;
+const updateDoc = async (
+  data: AuthorProps
+): Promise<AuthorProps | undefined> => {
+  try {
+    const docRef = doc(db, 'authors', data.id);
+    await setDoc(docRef, data);
+    return (await getDoc(docRef)).data() as AuthorProps;
+  } catch (error) {
+    store.dispatch(setError(error as Error));
   }
+};
+
+const removeDoc = async (id: string): Promise<string | undefined> => {
+  try {
+    const docRef = doc(db, 'authors', id);
+    await deleteDoc(docRef);
+    return docRef.id;
+  } catch (error) {
+    store.dispatch(setError(error as Error));
+  }
+};
+
+const readDocs = async (): Promise<AuthorProps[]> => {
+  const collectionRef = query(collection(db, 'authors'));
+  const querySnapshot = await getDocs(collectionRef);
+  const authors: AuthorProps[] = [];
+  querySnapshot.forEach((docItem) => {
+    authors.push(docItem.data() as AuthorProps);
+  });
+  return authors;
+};
+
+export const createAuthor = createAsyncThunk('authors/createAuthor', createDoc);
+
+export const updateAuthor = createAsyncThunk('authors/updateAuthor', updateDoc);
+
+export const removeAuthor = createAsyncThunk('authors/removeAuthor', removeDoc);
+
+export const getAllAuthors = createAsyncThunk(
+  'authors/getAllAuthors',
+  readDocs
 );

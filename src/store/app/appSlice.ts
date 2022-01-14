@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  bdCreateAuthor,
-  bdGetAllAuthors,
-  bdUpdateAuthor,
+  createAuthor,
+  getAllAuthors,
+  removeAuthor,
+  updateAuthor,
 } from '../authors/actions';
 
-const initialState = {
+interface stateProps {
+  loading: boolean;
+  additionalError?: Error;
+}
+
+const initialState: stateProps = {
   loading: true,
 };
 
@@ -13,6 +19,10 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    setError: (state, action) => {
+      const { payload } = action;
+      state.additionalError = payload;
+    },
     setLoading: (state) => {
       state.loading = true;
     },
@@ -22,25 +32,31 @@ export const appSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(bdCreateAuthor.pending, (state) => {
+      .addCase(createAuthor.pending, (state) => {
         state.loading = true;
       })
-      .addCase(bdCreateAuthor.fulfilled, (state) => {
+      .addCase(createAuthor.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(bdUpdateAuthor.pending, (state) => {
+      .addCase(updateAuthor.pending, (state) => {
         state.loading = true;
       })
-      .addCase(bdUpdateAuthor.fulfilled, (state) => {
+      .addCase(updateAuthor.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(bdGetAllAuthors.pending, (state) => {
+      .addCase(removeAuthor.pending, (state) => {
         state.loading = true;
       })
-      .addCase(bdGetAllAuthors.fulfilled, (state) => {
+      .addCase(removeAuthor.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getAllAuthors.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllAuthors.fulfilled, (state) => {
         state.loading = false;
       });
   },
 });
 
-export const { setLoading, stopLoading } = appSlice.actions;
+export const { setLoading, stopLoading, setError } = appSlice.actions;

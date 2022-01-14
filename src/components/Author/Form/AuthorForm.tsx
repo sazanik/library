@@ -1,28 +1,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { bdCreateAuthor, bdUpdateAuthor } from '../../../store/authors/actions';
-import { AuthorProps } from '../../../types/inerfaces';
+import { createAuthor, updateAuthor } from '../../../store/authors/actions';
+import { AuthorProps, AuthorsFormProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
-import { CustomInput } from '../../UI/CustomInput/CustomInput';
+import { Input } from '../../Input/Input';
 import { Box, Button, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getAuthorSchema } from './validation';
 import { styles } from './AuthorForm.styles';
-import { nanoid } from '@reduxjs/toolkit';
 
 export interface ComponentProps {
   edit: boolean;
   author: AuthorProps | null;
   setOpenModal: (b: boolean) => void;
-}
-
-export interface FormProps {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  country: string;
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
@@ -34,25 +26,21 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormProps>({
+  } = useForm<AuthorsFormProps>({
     mode: 'all',
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
-  const onSubmit = async (data: AuthorProps): Promise<void> => {
-    const newData = {
-      ...data,
-      id: nanoid(),
-    };
+  const onSubmit = async (data: AuthorsFormProps): Promise<void> => {
     if (edit && author) {
       dispatch(
-        bdUpdateAuthor({
-          ...newData,
+        updateAuthor({
           id: author.id,
+          ...data,
         })
       );
     } else {
-      dispatch(bdCreateAuthor(newData));
+      dispatch(createAuthor(data));
     }
     setOpenModal(false);
   };
@@ -60,7 +48,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
 
   return (
     <Box component='form' sx={styles.box}>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('firstName')}
@@ -70,7 +58,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
       <Typography align='center' sx={styles.error}>
         {errors?.firstName?.message}
       </Typography>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('lastName')}
@@ -81,7 +69,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         {errors?.lastName?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='date'
         {...register('birthDate')}

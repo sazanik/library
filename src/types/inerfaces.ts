@@ -18,6 +18,13 @@ export interface AuthorProps {
   country: string;
 }
 
+export interface AuthorsFormProps {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  country: string;
+}
+
 export interface BookProps {
   id: string;
   title: string;

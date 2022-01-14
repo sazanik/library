@@ -13,7 +13,7 @@ describe('CustomButton component', () => {
     mockCallBack = jest.fn();
     propsData = {
       disabled: false,
-      children: 'Button name',
+      children: 'CustomButton name',
       variant: 'text',
       size: 'large',
       color: 'secondary',
@@ -34,7 +34,7 @@ describe('CustomButton component', () => {
   });
 
   it('default render without props', () => {
-    expect(wrapper.text()).toBe('Button name');
+    expect(wrapper.text()).toBe('CustomButton name');
   });
 
   it('render with props', () => {

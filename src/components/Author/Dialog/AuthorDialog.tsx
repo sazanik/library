@@ -8,10 +8,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { removeAuthor } from '../../../store/authors/authorsSlice';
 import { removeBook } from '../../../store/books/booksSlice';
 import { AuthorProps } from '../../../types/inerfaces';
 import { useAllBooks, useAppDispatch } from '../../../hooks';
+import { removeAuthor } from '../../../store/authors/actions';
 
 interface Props {
   author: AuthorProps;

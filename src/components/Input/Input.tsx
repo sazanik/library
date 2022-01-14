@@ -12,10 +12,10 @@ interface ComponentProps {
   variant?: 'standard';
 }
 
-export const CustomInput = forwardRef(
+export const Input = forwardRef(
   (props: ComponentProps, ref): JSX.Element => (
     <TextField inputRef={ref} {...props} />
   )
 );
 
-CustomInput.displayName = 'CustomInput';
+Input.displayName = 'Input';

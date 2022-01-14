@@ -3,10 +3,10 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LanguageSelect } from '../../Language/Select/LanguageSelect';
+import { LanguageSelect } from '../Language/Select/LanguageSelect';
 import { Box, Button, Typography } from '@mui/material';
 import { styles } from './MainBar.styles';
-import { useAuth } from '../../../hooks';
+import { useAuth } from '../../hooks';
 import { Navigation } from '../Navigation/Navigation';
 
 export const MainBar = (): JSX.Element => {

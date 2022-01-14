@@ -8,15 +8,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { styles } from './ScreensAuth.styles';
 import { getAuthSchema } from './validation';
-import { CustomInput } from '../../components/UI/CustomInput/CustomInput';
+import { Input } from '../../components/Input/Input';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../../firebase';
-import { Loader } from '../../components/UI/Loader/Loader';
-import { bdGetAllAuthors } from '../../store/authors/actions';
+import { Loader } from '../../components/Loader/Loader';
+import { getAllAuthors } from '../../store/authors/actions';
 
 export const ScreensAuth = (): JSX.Element => {
   const { loading } = useAppSelector((state) => state.app);
@@ -65,7 +65,7 @@ export const ScreensAuth = (): JSX.Element => {
   };
 
   useEffect(() => {
-    dispatch(bdGetAllAuthors());
+    dispatch(getAllAuthors());
     onAuthStateChanged(auth, (user) => {
       if (user) {
         user.getIdToken().then((token) => {
@@ -86,7 +86,7 @@ export const ScreensAuth = (): JSX.Element => {
       <Typography variant='h4' align='center'>
         {isRegistered ? t('signIn') : t('signUp')}
       </Typography>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('email')}
@@ -97,7 +97,7 @@ export const ScreensAuth = (): JSX.Element => {
         {errors?.email?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='password'
         {...register('password')}
@@ -110,7 +110,7 @@ export const ScreensAuth = (): JSX.Element => {
 
       {!isRegistered && (
         <>
-          <CustomInput
+          <Input
             sx={styles.textField}
             type='password'
             {...register('confirmPassword')}

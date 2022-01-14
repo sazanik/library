@@ -43,6 +43,6 @@ describe('BookSelect component', () => {
     const button = mountWrapper.find('button#basic-button');
     button.simulate('click');
 
-    // mountWrapper.find('Button#basic-button').simulate('onClick');
+    // mountWrapper.find('CustomButton#basic-button').simulate('onClick');
   });
 });
