@@ -5,6 +5,8 @@ export enum Actions {
 }
 
 export enum Fields {
+  FirstName = 'firstName',
+  LastName = 'lastName',
   Editing = 'editing',
   Books = 'books',
 }
