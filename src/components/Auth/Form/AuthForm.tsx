@@ -1,4 +1,5 @@
-import { Box, Button, Link, Typography } from '@mui/material';
+import { Box, CircularProgress, Link, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { Input } from '../../Input/Input';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -24,6 +25,7 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
   const { isRegistered, setIsRegistered, signIn } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -36,6 +38,7 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
   });
 
   const onSubmit = (data: { email: string; password: string }): void => {
+    setLoading(true);
     const wrapperAuth = isRegistered
       ? signInWithEmailAndPassword
       : createUserWithEmailAndPassword;
@@ -47,6 +50,9 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
       })
       .catch((error) => {
         setServerError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -69,7 +75,6 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
       <Typography align='center' sx={styles.error}>
         {errors?.email?.message}
       </Typography>
-
       <Input
         sx={styles.textField}
         type='password'
@@ -80,7 +85,6 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
       <Typography align='center' sx={styles.error}>
         {errors?.password?.message}
       </Typography>
-
       {!isRegistered && (
         <>
           <Input
@@ -96,14 +100,15 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
           </Typography>
         </>
       )}
-
-      <Button
+      <LoadingButton
+        loading={loading}
+        loadingIndicator={<CircularProgress color='inherit' size={16} />}
         sx={styles.buttons.submit}
         onClick={handleSubmit(onSubmit)}
         variant='contained'
       >
         {t('buttons.submit')}
-      </Button>
+      </LoadingButton>
       <Typography align='center' sx={styles.error}>
         {serverError}
       </Typography>
