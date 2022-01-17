@@ -1,6 +1,5 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import {
-  DataGrid,
   GridCellParams,
   GridColDef,
   GridRenderCellParams,
@@ -18,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
 import { styles } from './ScreensBooksList.styles';
+import { Table } from '../../components/Table/Table';
 
 export const ScreensBooksList = (): JSX.Element => {
   const { t } = useTranslation('default');
@@ -84,16 +84,18 @@ export const ScreensBooksList = (): JSX.Element => {
     navigate(`/books/${event.id}`);
   };
 
+  const renderTitleCells = (params: GridRenderCellParams): JSX.Element => (
+    <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
+      {params.value}
+    </Button>
+  );
+
   const columns: GridColDef[] = [
     {
       field: 'title',
       headerName: t('placeholders.title'),
       flex: 1,
-      renderCell: (params): JSX.Element => (
-        <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
-          {params.value}
-        </Button>
-      ),
+      renderCell: renderTitleCells,
     },
     {
       field: 'description',
@@ -142,14 +144,7 @@ export const ScreensBooksList = (): JSX.Element => {
           {t('buttons.addBook')}
         </Button>
       ) : (
-        <DataGrid
-          rows={books}
-          columns={columns}
-          pageSize={13}
-          rowsPerPageOptions={[13]}
-          disableSelectionOnClick
-          onCellClick={cellClickHandler}
-        />
+        <Table rows={books} columns={columns} onCellClick={cellClickHandler} />
       )}
       <BookModal
         edit={edit}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  DataGrid,
   GridCellParams,
   GridColDef,
   GridRenderCellParams,
@@ -10,15 +9,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { BookSelect } from '../../components/Book/Select/BookSelect';
 import { AuthorDialog } from '../../components/Author/Dialog/AuthorDialog';
 import { AuthorModal } from '../../components/Author/Modal/AuthorModal';
 import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../types/inerfaces';
 import { useAllAuthors, useAppSelector } from '../../hooks';
-import { styles } from './ScreensAuthorsList.styles';
 import { Loader } from '../../components/Loader/Loader';
+import { Table } from '../../components/Table/Table';
+import { styles } from './ScreensAuthorsList.styles';
+import { BookSelect } from '../../components/Book/Select/BookSelect';
 
 export const ScreensAuthorsList = (): JSX.Element => {
   const { t } = useTranslation('default');
@@ -74,30 +74,28 @@ export const ScreensAuthorsList = (): JSX.Element => {
     </>
   );
 
-  const openAuthor = (event: GridRenderCellParams): void => {
-    navigate(`/authors/${event.id}`);
+  const openAuthor = (params: GridRenderCellParams): void => {
+    navigate(`/authors/${params.id}`);
   };
+
+  const renderNameCells = (params: GridRenderCellParams): JSX.Element => (
+    <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
+      {params.value}
+    </Button>
+  );
 
   const columns: GridColDef[] = [
     {
       field: 'firstName',
       headerName: t('placeholders.firstName'),
       flex: 1,
-      renderCell: (params): JSX.Element => (
-        <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
-          {params.value}
-        </Button>
-      ),
+      renderCell: renderNameCells,
     },
     {
       field: 'lastName',
       headerName: t('placeholders.lastName'),
       flex: 1,
-      renderCell: (params): JSX.Element => (
-        <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
-          {params.value}
-        </Button>
-      ),
+      renderCell: renderNameCells,
     },
     {
       field: 'birthDate',
@@ -135,12 +133,9 @@ export const ScreensAuthorsList = (): JSX.Element => {
           {t('buttons.addAuthor')}
         </Button>
       ) : (
-        <DataGrid
+        <Table
           rows={authors}
           columns={columns}
-          pageSize={13}
-          rowsPerPageOptions={[13]}
-          disableSelectionOnClick
           onCellClick={cellClickHandler}
         />
       )}
