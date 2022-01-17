@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { authorsSelectors, store } from '../../store/store';
 import { BookDialog } from '../../components/Book/Dialog/BookDialog';
 import { BookModal } from '../../components/Book/Modal/BookModal';
-import { Actions, Fields } from '../../types/enums';
+import { Actions, Entities, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
@@ -144,7 +144,12 @@ export const ScreensBooksList = (): JSX.Element => {
           {t('buttons.addBook')}
         </Button>
       ) : (
-        <Table rows={books} columns={columns} onCellClick={cellClickHandler} />
+        <Table
+          entity={Entities.Book}
+          rows={books}
+          columns={columns}
+          onCellClick={cellClickHandler}
+        />
       )}
       <BookModal
         edit={edit}

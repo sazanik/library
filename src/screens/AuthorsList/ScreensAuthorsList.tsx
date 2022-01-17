@@ -11,7 +11,7 @@ import { Box, Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { AuthorDialog } from '../../components/Author/Dialog/AuthorDialog';
 import { AuthorModal } from '../../components/Author/Modal/AuthorModal';
-import { Actions, Fields } from '../../types/enums';
+import { Actions, Entities, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
 import { AuthorProps } from '../../types/inerfaces';
 import { useAllAuthors, useAppSelector } from '../../hooks';
@@ -41,10 +41,10 @@ export const ScreensAuthorsList = (): JSX.Element => {
   }): void => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
-      case Actions.Add:
-        setEdit(false);
-        setOpenModal(true);
-        break;
+      // case Actions.Add:
+      //   setEdit(false);
+      //   setOpenModal(true);
+      //   break;
 
       case Actions.Edit:
         setEdit(true);
@@ -62,9 +62,6 @@ export const ScreensAuthorsList = (): JSX.Element => {
 
   const editingCell = (): JSX.Element => (
     <>
-      <IconButton onClick={clickHandler} aria-label='add'>
-        <AddIcon fontSize='small' color='success' />
-      </IconButton>
       <IconButton onClick={clickHandler} aria-label='edit'>
         <EditIcon fontSize='small' />
       </IconButton>
@@ -134,6 +131,7 @@ export const ScreensAuthorsList = (): JSX.Element => {
         </Button>
       ) : (
         <Table
+          entity={Entities.Author}
           rows={authors}
           columns={columns}
           onCellClick={cellClickHandler}
