@@ -10,13 +10,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { authorsSelectors, store } from '../../../store/store';
-import { BookDialog } from '../../../components/Book/Dialog/BookDialog';
-import { BookModal } from '../../../components/Book/Modal/BookModal';
-import { Actions, Fields } from '../../../types/enums';
+import { authorsSelectors, store } from '../../store/store';
+import { BookDialog } from '../../components/Book/Dialog/BookDialog';
+import { BookModal } from '../../components/Book/Modal/BookModal';
+import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
-import { AuthorProps, BookProps } from '../../../types/inerfaces';
-import { useAllAuthors, useAllBooks, useAppSelector } from '../../../hooks';
+import { AuthorProps, BookProps } from '../../types/inerfaces';
+import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
 import { styles } from './ScreensBooksList.styles';
 
 export const ScreensBooksList = (): JSX.Element => {

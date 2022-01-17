@@ -10,19 +10,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { BookSelect } from '../../../components/Book/Select/BookSelect';
-import { AuthorDialog } from '../../../components/Author/Dialog/AuthorDialog';
-import { AuthorModal } from '../../../components/Author/Modal/AuthorModal';
-import { Actions, Fields } from '../../../types/enums';
+import { BookSelect } from '../../components/Book/Select/BookSelect';
+import { AuthorDialog } from '../../components/Author/Dialog/AuthorDialog';
+import { AuthorModal } from '../../components/Author/Modal/AuthorModal';
+import { Actions, Fields } from '../../types/enums';
 import { useNavigate } from 'react-router-dom';
-import { AuthorProps } from '../../../types/inerfaces';
-import { useAllAuthors, useAppSelector } from '../../../hooks';
+import { AuthorProps } from '../../types/inerfaces';
+import { useAllAuthors, useAppSelector } from '../../hooks';
 import { styles } from './ScreensAuthorsList.styles';
-import { Loader } from '../../../components/Loader/Loader';
+import { Loader } from '../../components/Loader/Loader';
 
 export const ScreensAuthorsList = (): JSX.Element => {
   const { t } = useTranslation('default');
-  const authorsNormalize = useAppSelector((state) => state.authors);
   const { loading } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const authors = useAllAuthors();

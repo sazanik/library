@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import { styles } from './ScreensBooksCard.styles';
+import { styles } from './ScreensBookCard.styles';
 import { useNavigate, useParams } from 'react-router-dom';
-import bookCover from '../../../assets/images/bookCover.jpg';
-import { useAllBooks } from '../../../hooks';
-import { BookProps } from '../../../types/inerfaces';
-import { booksSelectors, store } from '../../../store/store';
-import { ScreensNotFound } from '../../NotFound/ScreensNotFound';
-import { LayoutCard } from '../../../components/Layout/Card/LayoutCard';
-import { Entities } from '../../../types/enums';
+import bookCover from '../../assets/images/bookCover.jpg';
+import { useAllBooks } from '../../hooks';
+import { BookProps } from '../../types/inerfaces';
+import { booksSelectors, store } from '../../store/store';
+import { ScreensNotFound } from '../NotFound/ScreensNotFound';
+import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
+import { Entities } from '../../types/enums';
 
-export const ScreensBooksCard = (): JSX.Element => {
+export const ScreensBookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');

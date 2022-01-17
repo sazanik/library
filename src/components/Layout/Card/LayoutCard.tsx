@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
-import { styles } from '../../../screens/Books/Card/ScreensBooksCard.styles';
+import { styles } from '../../../screens/BookCard/ScreensBookCard.styles';
 import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
