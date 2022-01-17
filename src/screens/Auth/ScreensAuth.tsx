@@ -22,7 +22,7 @@ export const ScreensAuth = (): JSX.Element => {
   const { loading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const { t } = useTranslation('default');
-  const [error, setError] = useState(null);
+  const [serverError, setServerError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,10 +33,9 @@ export const ScreensAuth = (): JSX.Element => {
     register,
     handleSubmit,
     reset,
-    watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<AuthFormProps>({
-    mode: 'all',
+    mode: 'onSubmit',
     resolver: yupResolver(getAuthSchema(t, isRegistered)),
   });
 
@@ -50,18 +49,13 @@ export const ScreensAuth = (): JSX.Element => {
         signIn(token, () => navigate(fromPage, { replace: true }));
         reset();
       })
-      .catch((firebaseError) => {
-        setError(firebaseError.message);
+      .catch((error) => {
+        setServerError(error.message);
       });
   };
 
   const handleClick = (): void => {
     setIsRegistered((prev) => !prev);
-  };
-
-  const passwordCheck = (): boolean => {
-    if (isRegistered) return true;
-    return watch('password') === watch('confirmPassword');
   };
 
   useEffect(() => {
@@ -79,9 +73,11 @@ export const ScreensAuth = (): JSX.Element => {
     });
   }, []);
 
-  return loading ? (
-    <Loader />
-  ) : (
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
     <Box component='form' sx={styles.box}>
       <Typography variant='h4' align='center'>
         {isRegistered ? t('signIn') : t('signUp')}
@@ -117,15 +113,10 @@ export const ScreensAuth = (): JSX.Element => {
             label={t('placeholders.confirmPassword')}
             variant='standard'
           />
-          {passwordCheck() ? (
-            <Typography align='center' sx={styles.error}>
-              {errors?.confirmPassword?.message}
-            </Typography>
-          ) : (
-            <Typography align='center' sx={styles.error}>
-              {t('errors.passwordMismatch')}
-            </Typography>
-          )}
+
+          <Typography align='center' sx={styles.error}>
+            {errors?.confirmPassword?.message}
+          </Typography>
         </>
       )}
 
@@ -133,12 +124,11 @@ export const ScreensAuth = (): JSX.Element => {
         sx={styles.buttons.submit}
         onClick={handleSubmit(onSubmit)}
         variant='contained'
-        disabled={!isValid}
       >
         {t('buttons.submit')}
       </Button>
       <Typography align='center' sx={styles.error}>
-        {error}
+        {serverError}
       </Typography>
       <Typography align='center'>
         {!isRegistered ? t('goSignIn') : t('goSignUp')}

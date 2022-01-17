@@ -40,7 +40,6 @@ export const BookForm = (props: componentProps): JSX.Element => {
     watch,
     formState: { errors },
   } = useForm<FormProps>({
-    mode: 'all',
     resolver: yupResolver(getBookSchema(t)),
   });
 

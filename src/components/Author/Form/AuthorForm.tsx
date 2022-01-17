@@ -27,7 +27,6 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     handleSubmit,
     formState: { errors },
   } = useForm<AuthorsFormProps>({
-    mode: 'all',
     resolver: yupResolver(getAuthorSchema(t)),
   });
 

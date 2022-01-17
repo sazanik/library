@@ -1,6 +1,6 @@
 import { TFunction } from 'react-i18next';
-import { AnyObjectSchema } from 'yup';
 import * as yup from 'yup';
+import { AnyObjectSchema } from 'yup';
 import { MAX_LENGTH, MIN_LENGTH } from '../../constants';
 
 export const getAuthSchema = (
@@ -22,7 +22,7 @@ export const getAuthSchema = (
     ...(!isRegistered && {
       confirmPassword: yup
         .string()
-        .oneOf([yup.ref('password'), null])
-        .required(t('errors.passwordMismatch')),
+        .required(t('errors.passwordMismatch'))
+        .oneOf([yup.ref('password'), null], t('errors.passwordMismatch')),
     }),
   });
