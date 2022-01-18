@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import { Box, CircularProgress, Link, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Input } from '../../Input/Input';
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthFormProps } from '../../../types/inerfaces';
 import { yupResolver } from '@hookform/resolvers/yup';

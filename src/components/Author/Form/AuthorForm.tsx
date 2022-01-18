@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { createAuthor, updateAuthor } from '../../../store/authors/actions';
-import { AuthorProps, AuthorsFormProps } from '../../../types/inerfaces';
+import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
 import { Input } from '../../Input/Input';
@@ -26,16 +26,16 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AuthorsFormProps>({
+  } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
-  const onSubmit = async (data: AuthorsFormProps): Promise<void> => {
+  const onSubmit = async (data: AuthorFormProps): Promise<void> => {
     if (edit && author) {
       dispatch(
         updateAuthor({
-          id: author.id,
           ...data,
+          id: author.id,
         })
       );
     } else {

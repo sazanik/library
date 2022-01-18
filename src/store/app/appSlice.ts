@@ -5,6 +5,12 @@ import {
   removeAuthor,
   updateAuthor,
 } from '../authors/actions';
+import {
+  createBook,
+  getAllBooks,
+  removeBook,
+  updateBook,
+} from '../books/actions';
 
 interface stateProps {
   loading: boolean;
@@ -54,6 +60,30 @@ export const appSlice = createSlice({
         state.loading = true;
       })
       .addCase(getAllAuthors.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(createBook.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createBook.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateBook.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateBook.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(removeBook.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeBook.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getAllBooks.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllBooks.fulfilled, (state) => {
         state.loading = false;
       });
   },

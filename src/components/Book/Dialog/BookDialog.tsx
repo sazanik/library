@@ -1,8 +1,8 @@
 import React from 'react';
-import { removeBook } from '../../../store/books/booksSlice';
 import { BookProps } from '../../../types/inerfaces';
 import { useAppDispatch } from '../../../hooks';
 import { DialogBox } from '../../DialogBox/DialogBox';
+import { removeBook } from '../../../store/books/actions';
 
 interface Props {
   book: BookProps;

@@ -41,8 +41,8 @@ export const authorsSlice = createSlice({
         }
       })
       .addCase(getAllAuthors.fulfilled, (state, action) => {
-        const { payload } = action;
-        authorsAdapter.setAll(state, payload);
+        const { payload: authors } = action;
+        authorsAdapter.setAll(state, authors);
       });
   },
 });

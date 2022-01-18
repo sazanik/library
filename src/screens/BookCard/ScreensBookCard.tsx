@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import bookCover from '../../assets/images/bookCover.jpg';
 import { useAllBooks } from '../../hooks';
 import { BookProps } from '../../types/inerfaces';
-import { booksSelectors, store } from '../../store/store';
+import { authorsSelectors, booksSelectors, store } from '../../store/store';
 import { ScreensNotFound } from '../NotFound/ScreensNotFound';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { Entities } from '../../types/enums';
@@ -45,6 +45,12 @@ export const ScreensBookCard = (): JSX.Element => {
     }
   }, [id]);
 
+  const getAuthorName = (): string | undefined => {
+    if (!book) return;
+    const author = authorsSelectors.selectById(store.getState(), book.authorId);
+    return `${author?.firstName} ${author?.lastName}`;
+  };
+
   if (!book) {
     return <ScreensNotFound />;
   }
@@ -66,7 +72,7 @@ export const ScreensBookCard = (): JSX.Element => {
           {t('placeholders:description')}: {book.description}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:authorName')}: {book.authorName}
+          {t('placeholders:authorName')}: {getAuthorName()}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
           {t('placeholders:pagesCount')}: {book.pagesCount}

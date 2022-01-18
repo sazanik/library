@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { Loader } from '../../components/Loader/Loader';
-import { getAllAuthors } from '../../store/authors/actions';
 import { AuthForm } from '../../components/Auth/Form/AuthForm';
+import { getAllAuthors } from '../../store/authors/actions';
+import { getAllBooks } from '../../store/books/actions';
 
 export const ScreensAuth = (): JSX.Element => {
   const { loading } = useAppSelector((state) => state.app);
@@ -18,8 +19,7 @@ export const ScreensAuth = (): JSX.Element => {
   const fromPage = (location?.state as Location)?.pathname || '/authors';
 
   useEffect(() => {
-    dispatch(getAllAuthors());
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         user.getIdToken().then((token) => {
           if (token) {
@@ -30,6 +30,13 @@ export const ScreensAuth = (): JSX.Element => {
         });
       }
     });
+    return () => unsubscribe();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllAuthors());
+    dispatch(getAllBooks());
     // eslint-disable-next-line
   }, []);
 

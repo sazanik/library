@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import {
   GridCellParams,
   GridColDef,
@@ -18,13 +18,14 @@ import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
 import { styles } from './ScreensBooksList.styles';
 import { Table } from '../../components/Table/Table';
+import { Loader } from '../../components/Loader/Loader';
 
 export const ScreensBooksList = (): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const booksState = useAppSelector((state) => state.books);
+  const { loading } = useAppSelector((state) => state.app);
   const authors = useAllAuthors();
-  const [books, setBooks] = useState<BookProps[]>(useAllBooks);
+  const books = useAllBooks();
   const [edit, setEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -127,9 +128,23 @@ export const ScreensBooksList = (): JSX.Element => {
     },
   ];
 
-  useEffect(() => {
-    setBooks(useAllBooks);
-  }, [booksState]);
+  const booksWithAuthors = (): BookProps[] => {
+    return books.map((book) => {
+      const author = authorsSelectors.selectById(
+        store.getState(),
+        book.authorId
+      );
+      const authorName = `${author?.firstName} ${author?.lastName}`;
+      return {
+        ...book,
+        authorName,
+      };
+    });
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Box sx={styles.box}>
@@ -143,7 +158,7 @@ export const ScreensBooksList = (): JSX.Element => {
       ) : (
         <Table
           entity={Entities.Book}
-          rows={books}
+          rows={booksWithAuthors()}
           columns={columns}
           onCellClick={cellClickHandler}
           setEdit={setEdit}

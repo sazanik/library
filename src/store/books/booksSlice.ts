@@ -1,29 +1,42 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  EntityState,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { BookProps } from '../../types/inerfaces';
+import { createBook, getAllBooks, removeBook, updateBook } from './actions';
 
 export const booksAdapter = createEntityAdapter<BookProps>({
   selectId: (book) => book.id,
   sortComparer: (a, b) => a.title.localeCompare(b.title),
 });
 
-let books: EntityState<BookProps>;
-const localData = localStorage.getItem('store');
-if (localData) {
-  books = JSON.parse(localData).books;
-}
-
 export const booksSlice = createSlice({
   name: 'books',
-  initialState: booksAdapter.getInitialState(books!),
-  reducers: {
-    createBook: booksAdapter.addOne,
-    updateBook: booksAdapter.updateOne,
-    removeBook: booksAdapter.removeOne,
+  initialState: booksAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createBook.fulfilled, (state, action) => {
+        const { payload: book } = action;
+        booksAdapter.addOne(state, <BookProps>book);
+      })
+      .addCase(updateBook.fulfilled, (state, action) => {
+        const { payload: book } = action;
+        if (book) {
+          booksAdapter.updateOne(state, {
+            id: book.id,
+            changes: {
+              ...book,
+            },
+          });
+        }
+      })
+      .addCase(removeBook.fulfilled, (state, action) => {
+        const { payload: id } = action;
+        if (id) {
+          booksAdapter.removeOne(state, id);
+        }
+      })
+      .addCase(getAllBooks.fulfilled, (state, action) => {
+        const { payload: books } = action;
+        booksAdapter.setAll(state, books);
+      });
   },
 });
-
-export const { createBook, updateBook, removeBook } = booksSlice.actions;

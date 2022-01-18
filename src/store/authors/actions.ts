@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthorProps, AuthorsFormProps } from '../../types/inerfaces';
+import { AuthorFormProps, AuthorProps } from '../../types/inerfaces';
 import {
   addDoc,
   collection,
@@ -15,7 +15,7 @@ import { store } from '../store';
 import { setError } from '../app/appSlice';
 
 const createDoc = async (
-  data: AuthorsFormProps
+  data: AuthorFormProps
 ): Promise<AuthorProps | undefined> => {
   try {
     const docRef = await addDoc(collection(db, 'authors'), data);
