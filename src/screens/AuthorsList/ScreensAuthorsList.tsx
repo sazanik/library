@@ -41,10 +41,10 @@ export const ScreensAuthorsList = (): JSX.Element => {
   }): void => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
-      case Actions.Add:
-        setEdit(false);
-        setOpenModal(true);
-        break;
+      // case Actions.Add:
+      //   setEdit(false);
+      //   setOpenModal(true);
+      //   break;
 
       case Actions.Edit:
         setEdit(true);
