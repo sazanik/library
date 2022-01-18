@@ -18,7 +18,7 @@ export interface ComponentProps {
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
 
@@ -43,7 +43,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     }
     setOpenModal(false);
   };
-  const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
+  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
@@ -51,7 +51,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         sx={styles.textField}
         type='text'
         {...register('firstName')}
-        label={t('placeholders.firstName')}
+        label={t('placeholders:firstName')}
         defaultValue={edit ? author?.firstName : ''}
       />
       <Typography align='center' sx={styles.error}>
@@ -61,7 +61,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         sx={styles.textField}
         type='text'
         {...register('lastName')}
-        label={t('placeholders.lastName')}
+        label={t('placeholders:lastName')}
         defaultValue={edit ? author?.lastName : ''}
       />
       <Typography align='center' sx={styles.error}>
@@ -72,7 +72,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         sx={styles.textField}
         type='date'
         {...register('birthDate')}
-        label={t('placeholders.birthDate')}
+        label={t('placeholders:birthDate')}
         defaultValue={edit ? author?.birthDate : ''}
         InputLabelProps={{
           shrink: true,

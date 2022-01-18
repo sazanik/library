@@ -15,7 +15,7 @@ import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 export const ScreensAuthorCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
 
   const authors = useAllAuthors();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -62,16 +62,16 @@ export const ScreensAuthorCard = (): JSX.Element => {
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.firstName')}: {author.firstName}
+          {t('placeholders:firstName')}: {author.firstName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.lastName')}: {author.lastName}
+          {t('placeholders:lastName')}: {author.lastName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.country')}: {author.country}
+          {t('placeholders:country')}: {author.country}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.birthDate')}: {author.birthDate}
+          {t('placeholders:birthDate')}: {author.birthDate}
         </Typography>
       </CardContent>
     </LayoutCard>

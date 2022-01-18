@@ -84,35 +84,35 @@ export const ScreensAuthorsList = (): JSX.Element => {
   const columns: GridColDef[] = [
     {
       field: 'firstName',
-      headerName: t('placeholders.firstName'),
+      headerName: t('placeholders:firstName'),
       flex: 1,
       renderCell: renderNameCells,
     },
     {
       field: 'lastName',
-      headerName: t('placeholders.lastName'),
+      headerName: t('placeholders:lastName'),
       flex: 1,
       renderCell: renderNameCells,
     },
     {
       field: 'birthDate',
-      headerName: t('placeholders.birthDate'),
+      headerName: t('placeholders:birthDate'),
       flex: 1,
     },
     {
       field: 'country',
-      headerName: t('placeholders.country'),
+      headerName: t('placeholders:country'),
       flex: 1,
     },
     {
       field: 'books',
-      headerName: t('placeholders.books'),
+      headerName: t('placeholders:books'),
       flex: 0.7,
       renderCell: () => <BookSelect author={currentAuthor} />,
     },
     {
       field: 'editing',
-      headerName: t('placeholders.editing'),
+      headerName: t('placeholders:editing'),
       flex: 0.5,
       renderCell: editingCell,
     },
@@ -127,7 +127,7 @@ export const ScreensAuthorsList = (): JSX.Element => {
       {!authors.length ? (
         <Button onClick={clickHandler} aria-label='add' sx={styles.button}>
           <AddIcon fontSize='large' color='primary' />
-          {t('buttons.addAuthor')}
+          {t('buttons:addAuthor')}
         </Button>
       ) : (
         <Table

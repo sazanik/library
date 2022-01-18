@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const AuthForm = ({ fromPage }: Props): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
   const { isRegistered, setIsRegistered, signIn } = useAuth();
@@ -63,13 +63,13 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
   return (
     <Box component='form' sx={styles.box}>
       <Typography variant='h4' align='center'>
-        {isRegistered ? t('signIn') : t('signUp')}
+        {isRegistered ? t('glossary:signIn') : t('glossary:signUp')}
       </Typography>
       <Input
         sx={styles.textField}
         type='text'
         {...register('email')}
-        label={t('placeholders.email')}
+        label={t('placeholders:email')}
         variant='standard'
       />
       <Typography align='center' sx={styles.error}>
@@ -79,7 +79,7 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
         sx={styles.textField}
         type='password'
         {...register('password')}
-        label={t('placeholders.password')}
+        label={t('placeholders:password')}
         variant='standard'
       />
       <Typography align='center' sx={styles.error}>
@@ -91,7 +91,7 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
             sx={styles.textField}
             type='password'
             {...register('confirmPassword')}
-            label={t('placeholders.confirmPassword')}
+            label={t('placeholders:confirmPassword')}
             variant='standard'
           />
 
@@ -107,15 +107,15 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
         onClick={handleSubmit(onSubmit)}
         variant='contained'
       >
-        {t('buttons.submit')}
+        {t('buttons:submit')}
       </LoadingButton>
       <Typography align='center' sx={styles.error}>
         {serverError}
       </Typography>
       <Typography align='center'>
-        {!isRegistered ? t('goSignIn') : t('goSignUp')}
+        {!isRegistered ? t('glossary:goSignIn') : t('glossary:goSignUp')}
         <Link sx={styles.buttons.link} onClick={handleClick} underline='none'>
-          {!isRegistered ? t('signIn') : t('signUp')}
+          {!isRegistered ? t('glossary:signIn') : t('glossary:signUp')}
         </Link>
       </Typography>
     </Box>

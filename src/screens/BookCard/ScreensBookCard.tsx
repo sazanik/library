@@ -15,7 +15,7 @@ import { Entities } from '../../types/enums';
 export const ScreensBookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
 
   const books = useAllBooks();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -60,22 +60,22 @@ export const ScreensBookCard = (): JSX.Element => {
     >
       <CardContent style={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.title')}: {book.title}
+          {t('placeholders:title')}: {book.title}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.description')}: {book.description}
+          {t('placeholders:description')}: {book.description}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.authorName')}: {book.authorName}
+          {t('placeholders:authorName')}: {book.authorName}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.pagesCount')}: {book.pagesCount}
+          {t('placeholders:pagesCount')}: {book.pagesCount}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.publishingYear')}: {book.publishingYear}
+          {t('placeholders:publishingYear')}: {book.publishingYear}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.code')}: {book.code}
+          {t('placeholders:code')}: {book.code}
         </Typography>
       </CardContent>
     </LayoutCard>

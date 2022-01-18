@@ -10,7 +10,7 @@ import { useAuth } from '../../hooks';
 import { Navigation } from '../Navigation/Navigation';
 
 export const MainBar = (): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const location = useLocation();
   const { logOut } = useAuth();
 
@@ -22,7 +22,7 @@ export const MainBar = (): JSX.Element => {
       <AppBar position='static'>
         <Toolbar variant='dense'>
           <Typography variant='h6' noWrap component='div' sx={styles.text}>
-            {t('library')}
+            {t('glossary:library')}
           </Typography>
           <LanguageSelect />
           <Navigation />
@@ -32,7 +32,7 @@ export const MainBar = (): JSX.Element => {
               variant='contained'
               onClick={handleClick}
             >
-              {t('buttons.logOut')}
+              {t('buttons:logOut')}
             </Button>
           )}
         </Toolbar>

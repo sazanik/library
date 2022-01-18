@@ -7,7 +7,7 @@ import { Box, styled } from '@mui/material';
 const CustomLink = styled(NavLink)(styles.link);
 
 export const Navigation = (): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
 
   return (
     <Box sx={styles.box}>
@@ -15,13 +15,13 @@ export const Navigation = (): JSX.Element => {
         style={({ isActive }) => ({ color: isActive ? 'white' : 'lightgrey' })}
         to='/authors'
       >
-        {t('authors')}
+        {t('glossary:authors')}
       </CustomLink>
       <CustomLink
         style={({ isActive }) => ({ color: isActive ? 'white' : 'lightgrey' })}
         to='/books'
       >
-        {t('books')}
+        {t('glossary:books')}
       </CustomLink>
     </Box>
   );

@@ -11,18 +11,21 @@ export const getAuthSchema = (
     email: yup
       .string()
       .email()
-      .required(t('errors.required'))
-      .min(MIN_LENGTH.EMAIL, t('errors.minLength') + MIN_LENGTH.EMAIL)
-      .max(MAX_LENGTH.EMAIL, t('errors.maxLength') + MAX_LENGTH.EMAIL),
+      .required(t('validation:required'))
+      .min(MIN_LENGTH.EMAIL, t('validation:minLength') + MIN_LENGTH.EMAIL)
+      .max(MAX_LENGTH.EMAIL, t('validation:maxLength') + MAX_LENGTH.EMAIL),
     password: yup
       .string()
       .required(t('errors.required'))
-      .min(MIN_LENGTH.PASSWORD, t('errors.minLength') + MIN_LENGTH.PASSWORD)
-      .max(MAX_LENGTH.PASSWORD, t('errors.maxLength') + MAX_LENGTH.PASSWORD),
+      .min(MIN_LENGTH.PASSWORD, t('validation:minLength') + MIN_LENGTH.PASSWORD)
+      .max(
+        MAX_LENGTH.PASSWORD,
+        t('validation:maxLength') + MAX_LENGTH.PASSWORD
+      ),
     ...(!isRegistered && {
       confirmPassword: yup
         .string()
-        .required(t('errors.passwordMismatch'))
-        .oneOf([yup.ref('password'), null], t('errors.passwordMismatch')),
+        .required(t('validation:passwordMismatch'))
+        .oneOf([yup.ref('password'), null], t('validation:passwordMismatch')),
     }),
   });

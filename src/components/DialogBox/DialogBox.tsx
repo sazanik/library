@@ -22,16 +22,16 @@ export const DialogBox = ({
   handleClickDelete,
   entity,
 }: Props): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
 
   const translate = {
     author: {
-      title: t('dialogs.titles.author'),
-      description: t('dialogs.descriptions.author'),
+      title: t('dialogs:titles.author'),
+      description: t('dialogs:descriptions.author'),
     },
     book: {
-      title: t('dialogs.titles.book'),
-      description: t('dialogs.descriptions.book'),
+      title: t('dialogs:titles.book'),
+      description: t('dialogs:descriptions.book'),
     },
   };
 
@@ -52,10 +52,10 @@ export const DialogBox = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setOpenDialog(false)}>
-          {t('buttons.cancel')}
+          {t('buttons:cancel')}
         </Button>
         <Button onClick={handleClickDelete} autoFocus>
-          {t('buttons.delete')}
+          {t('buttons:delete')}
         </Button>
       </DialogActions>
     </Dialog>
