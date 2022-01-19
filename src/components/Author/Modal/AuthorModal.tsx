@@ -1,8 +1,9 @@
-import React from 'react';
 import { Box, Modal } from '@mui/material';
-import styles from './AuthorModal.styles';
-import { AuthorForm } from '../Form/AuthorForm';
+import React from 'react';
+
 import { AuthorProps } from '../../../types/inerfaces';
+import { AuthorForm } from '../Form/AuthorForm';
+import styles from './AuthorModal.styles';
 
 interface Props {
   edit: boolean;

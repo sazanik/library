@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import authorPhoto from '../../assets/images/authorPhoto.jpg';
-import { useAllAuthors } from '../../hooks';
-import { AuthorProps } from '../../types/inerfaces';
-import { authorsSelectors, store } from '../../store/store';
-import { styles } from './ScreensAuthorCard.styles';
-import { ScreensNotFound } from '../NotFound/ScreensNotFound';
-import { Entities } from '../../types/enums';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
+import { useAllAuthors } from '../../hooks';
+import { authorsSelectors, store } from '../../store/store';
+import { Entities } from '../../types/enums';
+import { AuthorProps } from '../../types/inerfaces';
+import { ScreensNotFound } from '../NotFound/ScreensNotFound';
+import { styles } from './ScreensAuthorCard.styles';
 
 export const ScreensAuthorCard = (): JSX.Element => {
   const navigate = useNavigate();

@@ -1,7 +1,8 @@
-import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
-import { styles } from './ErrorFallback.styles';
+import React from 'react';
+
 import { useAppSelector } from '../../hooks';
+import { styles } from './ErrorFallback.styles';
 
 interface Props {
   error: Error;

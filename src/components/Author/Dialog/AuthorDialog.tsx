@@ -1,9 +1,10 @@
 import React from 'react';
-import { AuthorProps } from '../../../types/inerfaces';
+
 import { useAllBooks, useAppDispatch } from '../../../hooks';
 import { removeAuthor } from '../../../store/authors/actions';
-import { DialogBox } from '../../DialogBox/DialogBox';
 import { removeBook } from '../../../store/books/actions';
+import { AuthorProps } from '../../../types/inerfaces';
+import { DialogBox } from '../../DialogBox/DialogBox';
 
 interface Props {
   author: AuthorProps;

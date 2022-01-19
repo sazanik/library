@@ -1,5 +1,6 @@
-import React, { forwardRef } from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import React, { forwardRef } from 'react';
+
 import { COUNTRIES } from '../../../constants';
 
 interface Props {

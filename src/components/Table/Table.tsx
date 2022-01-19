@@ -1,7 +1,8 @@
-import React from 'react';
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
-import { AuthorProps, BookProps } from '../../types/inerfaces';
+import React from 'react';
+
 import { Entities } from '../../types/enums';
+import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
 
 interface Props {

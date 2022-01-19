@@ -1,11 +1,11 @@
+import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase';
-import { Loader } from '../../components/Loader/Loader';
 import { AuthForm } from '../../components/Auth/Form/AuthForm';
+import { Loader } from '../../components/Loader/Loader';
+import { auth } from '../../firebase';
+import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { getAllAuthors } from '../../store/authors/actions';
 import { getAllBooks } from '../../store/books/actions';
 

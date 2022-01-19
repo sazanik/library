@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import Card from '@mui/material/Card';
-import { styles } from '../../../screens/BookCard/ScreensBookCard.styles';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import { AuthorProps, BookProps } from '../../../types/inerfaces';
-import { Entities } from '../../../types/enums';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardMedia from '@mui/material/CardMedia';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { styles } from '../../../screens/BookCard/ScreensBookCard.styles';
+import { Entities } from '../../../types/enums';
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
 interface CardProps {
   children: JSX.Element;

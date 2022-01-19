@@ -1,6 +1,7 @@
 import 'jest-enzyme';
-import Enzyme, { shallow, render, mount } from 'enzyme';
+
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import Enzyme, { mount, render, shallow } from 'enzyme';
 
 Enzyme.configure({ adapter: new Adapter() });
 

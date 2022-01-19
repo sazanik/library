@@ -23,11 +23,14 @@
     "react",
     "react-hooks",
     "import",
-    "prettier"
+    "prettier",
+    "simple-import-sort"
   ],
   "rules": {
     "no-use-before-define": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "quotes": [
       "error",
       "single",

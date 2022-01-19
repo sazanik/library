@@ -78,6 +78,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^27.4.5",
     "jest-environment-enzyme": "^7.1.2",
     "jest-enzyme": "^7.1.2",
@@ -90,6 +91,7 @@
     "start": "react-scripts start",
     "build": "CI=false && react-scripts build",
     "test": "jest --coverage",
+    "lint": "eslint . --fix",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"

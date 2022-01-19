@@ -1,7 +1,8 @@
-import React from 'react';
-import { Navigation } from '../Navigation';
 import { mount, ReactWrapper } from 'enzyme';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import { Navigation } from '../Navigation';
 
 const setUp = (): ReactWrapper =>
   mount(

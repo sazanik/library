@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { BookFormProps, BookProps } from '../../types/inerfaces';
 import {
   addDoc,
   collection,
@@ -10,9 +9,11 @@ import {
   query,
   setDoc,
 } from 'firebase/firestore/lite';
+
 import { db } from '../../firebase';
-import { store } from '../store';
+import { BookFormProps, BookProps } from '../../types/inerfaces';
 import { setError } from '../app/appSlice';
+import { store } from '../store';
 
 const createDoc = async (
   data: BookFormProps

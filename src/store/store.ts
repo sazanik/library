@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
+
+import { appSlice } from './app/appSlice';
 import { authorsAdapter, authorsSlice } from './authors/authorsSlice';
 import { booksAdapter, booksSlice } from './books/booksSlice';
 import { usersAdapter, usersSlice } from './users/usersSlice';
-import { appSlice } from './app/appSlice';
 
 export const store = configureStore({
   reducer: {

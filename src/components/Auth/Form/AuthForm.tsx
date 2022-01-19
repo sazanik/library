@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { Box, CircularProgress, Link, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { Input } from '../../Input/Input';
-import { useForm } from 'react-hook-form';
-import { AuthFormProps } from '../../../types/inerfaces';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
+import { Box, CircularProgress, Link, Typography } from '@mui/material';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth } from '../../../firebase';
-import { useAuth } from '../../../hooks';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { getAuthSchema } from './validation';
+
+import { auth } from '../../../firebase';
+import { useAuth } from '../../../hooks';
+import { AuthFormProps } from '../../../types/inerfaces';
+import { Input } from '../../Input/Input';
 import { styles } from './AuthForm.styles';
+import { getAuthSchema } from './validation';
 
 interface Props {
   fromPage: string;

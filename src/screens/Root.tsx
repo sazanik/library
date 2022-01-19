@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+
 import { WithAuthRequirement } from '../components/HOC/WithAuthRequirement';
 import { LayoutMain } from '../components/Layout/Main/LayoutMain';
 import { ScreensAuth } from './Auth/ScreensAuth';
-import { ScreensAuthorsList } from './AuthorsList/ScreensAuthorsList';
 import { ScreensAuthorCard } from './AuthorCard/ScreensAuthorCard';
-import { ScreensBooksList } from './BooksList/ScreensBooksList';
+import { ScreensAuthorsList } from './AuthorsList/ScreensAuthorsList';
 import { ScreensBookCard } from './BookCard/ScreensBookCard';
+import { ScreensBooksList } from './BooksList/ScreensBooksList';
 import { ScreensNotFound } from './NotFound/ScreensNotFound';
 
 export const Root = (): JSX.Element => {

@@ -1,8 +1,9 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { styles } from './Navigation.styles';
-import { useTranslation } from 'react-i18next';
 import { Box, styled } from '@mui/material';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+
+import { styles } from './Navigation.styles';
 
 const CustomLink = styled(NavLink)(styles.link);
 

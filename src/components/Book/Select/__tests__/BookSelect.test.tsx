@@ -1,7 +1,8 @@
-import React from 'react';
-import { BookSelect } from '../BookSelect';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import { BookSelect } from '../BookSelect';
 
 const authorProps = {
   id: 'string',

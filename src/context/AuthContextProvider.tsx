@@ -1,6 +1,7 @@
-import React, { createContext, useState } from 'react';
-import { AuthContextProps } from '../types/inerfaces';
 import { getAuth } from 'firebase/auth';
+import React, { createContext, useState } from 'react';
+
+import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
 

@@ -1,24 +1,25 @@
-import React, { MouseEvent, useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import {
   GridCellParams,
   GridColDef,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import React, { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { authorsSelectors, store } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+
 import { BookDialog } from '../../components/Book/Dialog/BookDialog';
 import { BookModal } from '../../components/Book/Modal/BookModal';
-import { Actions, Entities, Fields } from '../../types/enums';
-import { useNavigate } from 'react-router-dom';
-import { AuthorProps, BookProps } from '../../types/inerfaces';
-import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
-import { styles } from './ScreensBooksList.styles';
-import { Table } from '../../components/Table/Table';
 import { Loader } from '../../components/Loader/Loader';
+import { Table } from '../../components/Table/Table';
+import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
+import { authorsSelectors, store } from '../../store/store';
+import { Actions, Entities, Fields } from '../../types/enums';
+import { AuthorProps, BookProps } from '../../types/inerfaces';
+import { styles } from './ScreensBooksList.styles';
 
 export const ScreensBooksList = (): JSX.Element => {
   const { t } = useTranslation();

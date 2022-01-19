@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import { UserProps } from '../../types/inerfaces';
 
 export const usersAdapter = createEntityAdapter<UserProps>({

@@ -1,9 +1,9 @@
-import React from 'react';
 import { Box, Modal } from '@mui/material';
-import styles from './BookModal.styles';
-import { BookForm } from '../Form/BookForm';
+import React from 'react';
 
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
+import { BookForm } from '../Form/BookForm';
+import styles from './BookModal.styles';
 
 interface Props {
   edit: boolean;

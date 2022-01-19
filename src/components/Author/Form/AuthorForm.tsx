@@ -1,15 +1,16 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import { useAppDispatch } from '../../../hooks';
 import { createAuthor, updateAuthor } from '../../../store/authors/actions';
 import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
-import { useAppDispatch } from '../../../hooks';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
 import { Input } from '../../Input/Input';
-import { Box, Button, Typography } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { getAuthorSchema } from './validation';
 import { styles } from './AuthorForm.styles';
+import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
   edit: boolean;
