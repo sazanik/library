@@ -20,7 +20,7 @@ interface componentProps {
   edit: boolean;
   author: AuthorProps;
   book: BookProps | undefined;
-  setOpenModal: (b: boolean) => void;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 interface FormProps {
@@ -34,7 +34,7 @@ interface FormProps {
 
 export const BookForm = (props: componentProps): JSX.Element => {
   const { t } = useTranslation();
-  const { edit, author: propsAuthor, book: propsBook, setOpenModal } = props;
+  const { edit, author: propsAuthor, book: propsBook, setIsOpenModal } = props;
   const dispatch = useAppDispatch();
 
   const {
@@ -60,7 +60,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         })
       );
     }
-    setOpenModal(false);
+    setIsOpenModal(false);
   };
 
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');

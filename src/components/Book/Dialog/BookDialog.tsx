@@ -7,27 +7,26 @@ import { DialogBox } from '../../DialogBox/DialogBox';
 
 interface Props {
   book: BookProps;
-  openDialog: boolean;
-
-  setOpenDialog(b: boolean): void;
+  isOpenDialog: boolean;
+  setIsOpenDialog: (params: boolean) => void;
 }
 
 export const BookDialog = ({
   book,
-  openDialog,
-  setOpenDialog,
+  isOpenDialog,
+  setIsOpenDialog,
 }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const handleClickDelete = (): void => {
     if (!book) return;
     dispatch(removeBook(book.id));
-    setOpenDialog(false);
+    setIsOpenDialog(false);
   };
 
   return (
     <DialogBox
-      openDialog={openDialog}
-      setOpenDialog={setOpenDialog}
+      isOpenDialog={isOpenDialog}
+      setIsOpenDialog={setIsOpenDialog}
       handleClickDelete={handleClickDelete}
       entity='book'
     />

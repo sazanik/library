@@ -28,8 +28,8 @@ export const ScreensBooksList = (): JSX.Element => {
   const authors = useAllAuthors();
   const books = useAllBooks();
   const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
 
@@ -49,16 +49,16 @@ export const ScreensBooksList = (): JSX.Element => {
     switch (action) {
       case Actions.Add:
         setEdit(false);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Edit:
         setEdit(true);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Delete:
-        setOpenDialog(true);
+        setIsOpenDialog(true);
         break;
 
       default:
@@ -163,20 +163,20 @@ export const ScreensBooksList = (): JSX.Element => {
           columns={columns}
           onCellClick={cellClickHandler}
           setEdit={setEdit}
-          setOpenModal={setOpenModal}
+          setIsOpenModal={setIsOpenModal}
         />
       )}
       <BookModal
         edit={edit}
         author={currentAuthor}
         book={currentBook}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
       />
       <BookDialog
         book={currentBook}
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
+        isOpenDialog={isOpenDialog}
+        setIsOpenDialog={setIsOpenDialog}
       />
     </Box>
   );

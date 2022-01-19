@@ -8,26 +8,29 @@ import styles from './AuthorModal.styles';
 interface Props {
   edit: boolean;
   author: AuthorProps;
-  openModal: boolean;
-
-  setOpenModal(b: boolean): void;
+  isOpenModal: boolean;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorModal = ({
   edit,
   author,
-  openModal,
-  setOpenModal,
+  isOpenModal,
+  setIsOpenModal,
 }: Props): JSX.Element => {
   return (
     <Modal
-      open={openModal}
-      onClose={() => setOpenModal(false)}
+      open={isOpenModal}
+      onClose={() => setIsOpenModal(false)}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
       <Box sx={styles.box}>
-        <AuthorForm edit={edit} author={author} setOpenModal={setOpenModal} />
+        <AuthorForm
+          edit={edit}
+          author={author}
+          setIsOpenModal={setIsOpenModal}
+        />
       </Box>
     </Modal>
   );

@@ -11,7 +11,7 @@ interface Props {
   columns: GridColDef[];
   onCellClick: (params: GridCellParams) => void;
   setEdit: (params: boolean) => void;
-  setOpenModal: (params: boolean) => void;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 export const Table = ({
@@ -20,7 +20,7 @@ export const Table = ({
   onCellClick,
   entity,
   setEdit,
-  setOpenModal,
+  setIsOpenModal,
 }: Props): JSX.Element => {
   return (
     <DataGrid
@@ -32,7 +32,7 @@ export const Table = ({
           TableToolbar({
             entity,
             setEdit,
-            setOpenModal,
+            setIsOpenModal,
           }),
       }}
       rowsPerPageOptions={[13]}

@@ -9,19 +9,19 @@ import { styles } from './TableToolbar.styles';
 interface Props {
   entity: Entities;
   setEdit: (params: boolean) => void;
-  setOpenModal: (params: boolean) => void;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 export const TableToolbar = ({
   entity,
   setEdit,
-  setOpenModal,
+  setIsOpenModal,
 }: Props): JSX.Element => {
   const title = entity === Entities.Author ? Entities.Author : Entities.Book;
 
   const handleClick = (): void => {
     setEdit(false);
-    setOpenModal(true);
+    setIsOpenModal(true);
   };
 
   return (

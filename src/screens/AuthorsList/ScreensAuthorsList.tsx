@@ -28,8 +28,8 @@ export const ScreensAuthorsList = (): JSX.Element => {
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field === Fields.Editing || params.field === Fields.Books) {
@@ -44,16 +44,16 @@ export const ScreensAuthorsList = (): JSX.Element => {
     switch (action) {
       case Actions.Add:
         setEdit(false);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Edit:
         setEdit(true);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Delete:
-        setOpenDialog(true);
+        setIsOpenDialog(true);
         break;
 
       default:
@@ -136,19 +136,19 @@ export const ScreensAuthorsList = (): JSX.Element => {
           columns={columns}
           onCellClick={cellClickHandler}
           setEdit={setEdit}
-          setOpenModal={setOpenModal}
+          setIsOpenModal={setIsOpenModal}
         />
       )}
       <AuthorModal
         edit={edit}
         author={currentAuthor}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
       />
       <AuthorDialog
         author={currentAuthor}
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
+        isOpenDialog={isOpenDialog}
+        setIsOpenDialog={setIsOpenDialog}
       />
     </Box>
   );

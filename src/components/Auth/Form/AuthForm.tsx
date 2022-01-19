@@ -24,7 +24,7 @@ interface Props {
 export const AuthForm = ({ fromPage }: Props): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [serverError, setServerError] = useState('');
+  const [serverError, setServerError] = useState(null);
   const { isRegistered, setIsRegistered, signIn } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +38,7 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
     resolver: yupResolver(getAuthSchema(t, isRegistered)),
   });
 
-  const onSubmit = (data: { email: string; password: string }): void => {
+  const onSubmit = (data: AuthFormProps): void => {
     setLoading(true);
     const wrapperAuth = isRegistered
       ? signInWithEmailAndPassword

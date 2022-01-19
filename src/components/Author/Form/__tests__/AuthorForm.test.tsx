@@ -11,7 +11,7 @@ const mockSetOpenModal = (boolean: boolean): jest.Mock =>
 const propsData: ComponentProps = {
   edit: true,
   author: null,
-  setOpenModal: mockSetOpenModal,
+  setIsOpenModal: mockSetOpenModal,
 };
 
 const setUp = (props: ComponentProps): ReactWrapper =>

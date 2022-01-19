@@ -15,13 +15,13 @@ import { getAuthorSchema } from './validation';
 export interface ComponentProps {
   edit: boolean;
   author: AuthorProps | null;
-  setOpenModal: (b: boolean) => void;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { edit, author, setOpenModal } = props;
+  const { edit, author, setIsOpenModal } = props;
 
   const {
     register,
@@ -42,7 +42,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     } else {
       dispatch(createAuthor(data));
     }
-    setOpenModal(false);
+    setIsOpenModal(false);
   };
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
 

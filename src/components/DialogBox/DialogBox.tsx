@@ -10,15 +10,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-  openDialog: boolean;
-  setOpenDialog: (b: boolean) => void;
+  isOpenDialog: boolean;
+  setIsOpenDialog: (params: boolean) => void;
   handleClickDelete: () => void;
   entity: 'author' | 'book';
 }
 
 export const DialogBox = ({
-  openDialog,
-  setOpenDialog,
+  isOpenDialog,
+  setIsOpenDialog,
   handleClickDelete,
   entity,
 }: Props): JSX.Element => {
@@ -37,8 +37,8 @@ export const DialogBox = ({
 
   return (
     <Dialog
-      open={openDialog}
-      onClose={() => setOpenDialog(false)}
+      open={isOpenDialog}
+      onClose={() => setIsOpenDialog(false)}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
@@ -51,7 +51,7 @@ export const DialogBox = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpenDialog(false)}>
+        <Button onClick={() => setIsOpenDialog(false)}>
           {t('buttons:cancel')}
         </Button>
         <Button onClick={handleClickDelete} autoFocus>
