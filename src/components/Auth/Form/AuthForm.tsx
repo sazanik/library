@@ -1,37 +1,27 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, CircularProgress, Link, Typography } from '@mui/material';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../../../firebase';
-import { useAuth } from '../../../hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
+import { userAuth } from '../../../store/users/actions';
 import { AuthFormProps } from '../../../types/inerfaces';
 import { Input } from '../../Input/Input';
 import { styles } from './AuthForm.styles';
 import { getAuthSchema } from './validation';
 
-interface Props {
-  fromPage: string;
-}
-
-export const AuthForm = ({ fromPage }: Props): JSX.Element => {
+export const AuthForm = (): JSX.Element => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [serverError, setServerError] = useState(null);
-  const { isRegistered, setIsRegistered, signIn } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { additionalError, loading } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
+  const { isRegistered, setIsRegistered } = useAuth();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<AuthFormProps>({
     mode: 'onSubmit',
@@ -39,22 +29,14 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
   });
 
   const onSubmit = (data: AuthFormProps): void => {
-    setLoading(true);
-    const wrapperAuth = isRegistered
-      ? signInWithEmailAndPassword
-      : createUserWithEmailAndPassword;
-    wrapperAuth(auth, data.email, data.password)
-      .then((userCredential) => userCredential.user.getIdToken())
-      .then((token) => {
-        signIn(token, () => navigate(fromPage, { replace: true }));
-        reset();
+    dispatch(
+      userAuth({
+        auth,
+        email: data.email,
+        password: data.password,
+        isRegistered,
       })
-      .catch((error) => {
-        setServerError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    );
   };
 
   const handleClick = (): void => {
@@ -111,7 +93,7 @@ export const AuthForm = ({ fromPage }: Props): JSX.Element => {
         {t('buttons:submit')}
       </LoadingButton>
       <Typography align='center' sx={styles.error}>
-        {serverError}
+        {additionalError}
       </Typography>
       <Typography align='center'>
         {!isRegistered ? t('glossary:goSignIn') : t('glossary:goSignUp')}

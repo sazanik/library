@@ -12,6 +12,7 @@ import {
   removeBook,
   updateBook,
 } from '../books/actions';
+import { userAuth } from '../users/actions';
 
 interface stateProps {
   loading: boolean;
@@ -85,6 +86,12 @@ export const appSlice = createSlice({
         state.loading = true;
       })
       .addCase(getAllBooks.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(userAuth.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(userAuth.fulfilled, (state) => {
         state.loading = false;
       });
   },

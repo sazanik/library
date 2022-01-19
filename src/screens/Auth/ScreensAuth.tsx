@@ -44,5 +44,5 @@ export const ScreensAuth = (): JSX.Element => {
     return <Loader />;
   }
 
-  return <AuthForm fromPage={fromPage} />;
+  return <AuthForm />;
 };
