@@ -14,6 +14,18 @@ import {
 } from '../books/actions';
 import { userAuth } from '../users/actions';
 
+const actionFunctions = [
+  createAuthor,
+  getAllAuthors,
+  removeAuthor,
+  updateAuthor,
+  createBook,
+  getAllBooks,
+  removeBook,
+  updateBook,
+  userAuth,
+];
+
 interface stateProps {
   loading: boolean;
   additionalError?: Error;
@@ -39,61 +51,16 @@ export const appSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(createAuthor.pending, (state) => {
+    actionFunctions.forEach((f) => {
+      builder.addCase(f.pending, (state) => {
         state.loading = true;
-      })
-      .addCase(createAuthor.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(updateAuthor.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateAuthor.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(removeAuthor.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(removeAuthor.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(getAllAuthors.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getAllAuthors.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(createBook.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(createBook.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(updateBook.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateBook.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(removeBook.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(removeBook.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(getAllBooks.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getAllBooks.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(userAuth.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(userAuth.fulfilled, (state) => {
+      });
+    });
+    actionFunctions.forEach((f) => {
+      builder.addCase(f.fulfilled, (state) => {
         state.loading = false;
       });
+    });
   },
 });
 
