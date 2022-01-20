@@ -5,15 +5,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { auth } from '../../../firebase';
-import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
-import { userAuth } from '../../../store/users/actions';
-import { AuthFormProps } from '../../../types/inerfaces';
-import { Input } from '../../Input/Input';
-import { styles } from './AuthForm.styles';
-import { getAuthSchema } from './validation';
+import { auth } from '../../../../firebase';
+import { useAppDispatch, useAppSelector, useAuth } from '../../../../hooks';
+import { signInUser } from '../../../../store/users/actions';
+import { AuthFormProps } from '../../../../types/inerfaces';
+import { Input } from '../../../Input/Input';
+import { getAuthSchema } from '../validation';
+import { styles } from './AuthFormSignIn.styles';
 
-export const AuthForm = (): JSX.Element => {
+export const AuthFormSignIn = (): JSX.Element => {
   const { t } = useTranslation();
   const { additionalError, loading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
@@ -30,11 +30,10 @@ export const AuthForm = (): JSX.Element => {
 
   const onSubmit = (data: AuthFormProps): void => {
     dispatch(
-      userAuth({
+      signInUser({
         auth,
         email: data.email,
         password: data.password,
-        isRegistered,
       })
     );
   };
@@ -68,21 +67,6 @@ export const AuthForm = (): JSX.Element => {
       <Typography align='center' sx={styles.error}>
         {errors?.password?.message}
       </Typography>
-      {!isRegistered && (
-        <>
-          <Input
-            sx={styles.textField}
-            type='password'
-            {...register('confirmPassword')}
-            label={t('placeholders:confirmPassword')}
-            variant='standard'
-          />
-
-          <Typography align='center' sx={styles.error}>
-            {errors?.confirmPassword?.message}
-          </Typography>
-        </>
-      )}
       <LoadingButton
         loading={loading}
         loadingIndicator={<CircularProgress color='inherit' size={16} />}

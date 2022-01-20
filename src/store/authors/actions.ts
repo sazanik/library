@@ -12,41 +12,27 @@ import {
 
 import { db } from '../../firebase';
 import { AuthorFormProps, AuthorProps } from '../../types/inerfaces';
-import { setError } from '../app/appSlice';
-import { store } from '../store';
 
 const createDoc = async (
   data: AuthorFormProps
 ): Promise<AuthorProps | undefined> => {
-  try {
-    const docRef = await addDoc(collection(db, 'authors'), data);
-    await setDoc(docRef, { id: docRef.id }, { merge: true });
-    return (await getDoc(docRef)).data() as AuthorProps;
-  } catch (error) {
-    store.dispatch(setError(error as Error));
-  }
+  const docRef = await addDoc(collection(db, 'authors'), data);
+  await setDoc(docRef, { id: docRef.id }, { merge: true });
+  return (await getDoc(docRef)).data() as AuthorProps;
 };
 
 const updateDoc = async (
   data: AuthorProps
 ): Promise<AuthorProps | undefined> => {
-  try {
-    const docRef = doc(db, 'authors', data.id);
-    await setDoc(docRef, data);
-    return (await getDoc(docRef)).data() as AuthorProps;
-  } catch (error) {
-    store.dispatch(setError(error as Error));
-  }
+  const docRef = doc(db, 'authors', data.id);
+  await setDoc(docRef, data);
+  return (await getDoc(docRef)).data() as AuthorProps;
 };
 
 const removeDoc = async (id: string): Promise<string | undefined> => {
-  try {
-    const docRef = doc(db, 'authors', id);
-    await deleteDoc(docRef);
-    return docRef.id;
-  } catch (error) {
-    store.dispatch(setError(error as Error));
-  }
+  const docRef = doc(db, 'authors', id);
+  await deleteDoc(docRef);
+  return docRef.id;
 };
 
 const readDocs = async (): Promise<AuthorProps[]> => {

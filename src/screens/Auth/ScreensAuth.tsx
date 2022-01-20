@@ -2,7 +2,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { AuthForm } from '../../components/Auth/Form/AuthForm';
+import { AuthFormSignIn } from '../../components/Auth/Form/SignIn/AuthFormSignIn';
+import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp';
 import { Loader } from '../../components/Loader/Loader';
 import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
@@ -15,7 +16,7 @@ export const ScreensAuth = (): JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { signIn, logOut } = useAuth();
+  const { signIn, logOut, isRegistered } = useAuth();
   const fromPage = (location?.state as Location)?.pathname || '/authors';
 
   useEffect(() => {
@@ -44,5 +45,5 @@ export const ScreensAuth = (): JSX.Element => {
     return <Loader />;
   }
 
-  return <AuthForm />;
+  return isRegistered ? <AuthFormSignIn /> : <AuthFormSignUp />;
 };

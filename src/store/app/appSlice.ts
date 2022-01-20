@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AuthError } from 'firebase/auth';
 
 import {
   createAuthor,
@@ -12,7 +13,7 @@ import {
   removeBook,
   updateBook,
 } from '../books/actions';
-import { userAuth } from '../users/actions';
+import { signInUser, signUpUser } from '../users/actions';
 
 const actionFunctions = [
   createAuthor,
@@ -23,26 +24,24 @@ const actionFunctions = [
   getAllBooks,
   removeBook,
   updateBook,
-  userAuth,
+  signInUser,
+  signUpUser,
 ];
 
 interface stateProps {
   loading: boolean;
-  additionalError?: Error;
+  additionalError: string | null;
 }
 
 const initialState: stateProps = {
   loading: true,
+  additionalError: null,
 };
 
 export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setError: (state, action) => {
-      const { payload } = action;
-      state.additionalError = payload;
-    },
     setLoading: (state) => {
       state.loading = true;
     },
@@ -59,9 +58,16 @@ export const appSlice = createSlice({
     actionFunctions.forEach((f) => {
       builder.addCase(f.fulfilled, (state) => {
         state.loading = false;
+        state.additionalError = null;
+      });
+    });
+    actionFunctions.forEach((f) => {
+      builder.addCase(f.rejected, (state, action) => {
+        state.additionalError = (action.error as AuthError).message as string;
+        state.loading = false;
       });
     });
   },
 });
 
-export const { setLoading, stopLoading, setError } = appSlice.actions;
+export const { setLoading, stopLoading } = appSlice.actions;

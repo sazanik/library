@@ -1,36 +1,31 @@
 import { Auth } from '@firebase/auth/dist/node-esm';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  AuthError,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-
-import { setError } from '../app/appSlice';
-import { store } from '../store';
 
 interface Props {
   auth: Auth;
   email: string;
   password: string;
-  isRegistered: boolean;
 }
 
-const authRequest = async ({
+const sigInRequest = async ({
   auth,
   email,
   password,
-  isRegistered,
 }: Props): Promise<void> => {
-  const userAuth = isRegistered
-    ? signInWithEmailAndPassword
-    : createUserWithEmailAndPassword;
-
-  try {
-    await userAuth(auth, email, password);
-  } catch (error) {
-    store.dispatch(setError((error as AuthError).code as string));
-  }
+  await signInWithEmailAndPassword(auth, email, password);
 };
 
-export const userAuth = createAsyncThunk('users/userAuth', authRequest);
+const sigUpRequest = async ({
+  auth,
+  email,
+  password,
+}: Props): Promise<void> => {
+  await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInUser = createAsyncThunk('users/signInUser', sigInRequest);
+export const signUpUser = createAsyncThunk('users/signUpUser', sigUpRequest);
