@@ -6,20 +6,8 @@ import { en } from './locales/en';
 import { ru } from './locales/ru';
 
 const resources = {
-  en: {
-    buttons: en.buttons,
-    dialogs: en.dialogs,
-    glossary: en.glossary,
-    placeholders: en.placeholders,
-    validation: en.validation,
-  },
-  ru: {
-    buttons: ru.buttons,
-    dialogs: ru.dialogs,
-    glossary: ru.glossary,
-    placeholders: ru.placeholders,
-    validation: ru.validation,
-  },
+  en,
+  ru,
 };
 
 i18n

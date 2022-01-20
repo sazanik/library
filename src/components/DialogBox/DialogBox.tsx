@@ -24,7 +24,7 @@ export const DialogBox = ({
 }: Props): JSX.Element => {
   const { t } = useTranslation();
 
-  const translate = {
+  const dialogsTranslation = {
     author: {
       title: t('dialogs:titles.author'),
       description: t('dialogs:descriptions.author'),
@@ -43,11 +43,11 @@ export const DialogBox = ({
       aria-describedby='alert-dialog-description'
     >
       <DialogTitle id='alert-dialog-title'>
-        {translate[entity].title}
+        {dialogsTranslation[entity].title}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id='alert-dialog-description'>
-          {translate[entity].description}
+          {dialogsTranslation[entity].description}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
