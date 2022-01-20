@@ -25,7 +25,7 @@ export const getBookSchema = (t: TFunction): AnyObjectSchema =>
       ),
     code: yup
       .string()
-      .required(t('errors.required'))
+      .required(t('validation:required'))
       .matches(MASKS.NUMBER, t('validation:invalidData'))
       .min(MIN_LENGTH.CODE, t('validation:minLength') + MIN_LENGTH.CODE)
       .max(MAX_LENGTH.CODE, t('validation:maxLength') + MAX_LENGTH.CODE),

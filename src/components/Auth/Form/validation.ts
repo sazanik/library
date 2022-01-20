@@ -17,7 +17,7 @@ export const getAuthSchema = (
       .max(MAX_LENGTH.EMAIL, t('validation:maxLength') + MAX_LENGTH.EMAIL),
     password: yup
       .string()
-      .required(t('errors.required'))
+      .required(t('validation:required'))
       .min(MIN_LENGTH.PASSWORD, t('validation:minLength') + MIN_LENGTH.PASSWORD)
       .max(
         MAX_LENGTH.PASSWORD,
