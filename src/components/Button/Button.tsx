@@ -1,7 +1,7 @@
-import { Button } from '@material-ui/core/';
+import { Button as MaterialButton } from '@material-ui/core/';
 import React from 'react';
 
-export interface ButtonProps {
+export interface Props {
   /**
    * Disabled
    */
@@ -32,6 +32,6 @@ export interface ButtonProps {
  * Primary UI component for user interaction
  */
 
-export const CustomButton = ({ ...props }: ButtonProps): JSX.Element => (
-  <Button {...props}>Button name</Button>
+export const Button = ({ ...props }: Props): JSX.Element => (
+  <MaterialButton {...props}>Button name</MaterialButton>
 );

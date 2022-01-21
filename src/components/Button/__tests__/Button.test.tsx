@@ -1,20 +1,19 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
-import { ButtonProps, CustomButton } from '../CustomButton';
+import { Button, Props } from '../Button';
 
-const setUp = (props: ButtonProps): ReactWrapper =>
-  mount(<CustomButton {...props} />);
+const setUp = (props: Props): ReactWrapper => mount(<Button {...props} />);
 
-describe('CustomButton component', () => {
+describe('Button component', () => {
   let mockCallBack: jest.Mock;
   let wrapper: ReactWrapper;
-  let propsData: ButtonProps;
+  let propsData: Props;
   beforeEach(() => {
     mockCallBack = jest.fn();
     propsData = {
       disabled: false,
-      children: 'CustomButton name',
+      children: 'Button name',
       variant: 'text',
       size: 'large',
       color: 'secondary',
@@ -35,7 +34,7 @@ describe('CustomButton component', () => {
   });
 
   it('default render without props', () => {
-    expect(wrapper.text()).toBe('CustomButton name');
+    expect(wrapper.text()).toBe('Button name');
   });
 
   it('render with props', () => {
