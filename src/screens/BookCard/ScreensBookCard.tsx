@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import bookCover from '../../assets/images/bookCover.jpg';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllBooks } from '../../hooks';
-import { booksSelectors, store } from '../../store/store';
+import { authorsSelectors, booksSelectors, store } from '../../store/store';
 import { BookProps } from '../../types/inerfaces';
 import { ScreensNotFound } from '../NotFound/ScreensNotFound';
 import { styles } from './ScreensBookCard.styles';
@@ -21,6 +21,12 @@ export const ScreensBookCard = (): JSX.Element => {
   const [book, setBook] = useState<BookProps | undefined>(
     booksSelectors.selectById(store.getState(), id)
   );
+
+  const getAuthorName = (): string | undefined => {
+    if (!book) return;
+    const author = authorsSelectors.selectById(store.getState(), book.authorId);
+    return `${author?.firstName} ${author?.lastName}`;
+  };
 
   const previousBook = (): void => {
     const previousId = booksSelectors.selectIds(store.getState())[
@@ -71,7 +77,7 @@ export const ScreensBookCard = (): JSX.Element => {
           {t('placeholders.description')}: {book.description}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.authorName')}: {book.authorName}
+          {t('placeholders.authorName')}: {getAuthorName()}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
           {t('placeholders.pagesCount')}: {book.pagesCount}

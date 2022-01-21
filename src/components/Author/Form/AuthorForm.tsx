@@ -15,48 +15,34 @@ import { getAuthorSchema } from './validation';
 export interface ComponentProps {
   edit: boolean;
   author: AuthorProps | null;
-  setOpenModal: (b: boolean) => void;
-}
-
-export interface FormProps {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  country: string;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { edit, author, setOpenModal } = props;
+  const { edit, author, setIsOpenModal } = props;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormProps>({
-    mode: 'all',
+  } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
-  const onSubmit = (data: AuthorProps): void => {
-    const id = Date.now().toString().slice(5);
+  const onSubmit = async (data: AuthorFormProps): Promise<void> => {
     if (edit && author) {
       dispatch(
         updateAuthor({
+          ...data,
           id: author.id,
-          changes: { ...data },
         })
       );
     } else {
-      dispatch(
-        createAuthor({
-          ...data,
-          id,
-        })
-      );
+      dispatch(createAuthor(data));
     }
-    setOpenModal(false);
+    setIsOpenModal(false);
   };
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
 

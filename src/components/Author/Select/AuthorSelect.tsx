@@ -1,5 +1,6 @@
-import React, { forwardRef } from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import React, { forwardRef } from 'react';
+
 import { useAllAuthors } from '../../../hooks';
 
 interface Props {

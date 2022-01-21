@@ -23,12 +23,13 @@ import { styles } from './ScreensAuthorsList.styles';
 
 export const ScreensAuthorsList = (): JSX.Element => {
   const { t } = useTranslation('default');
+  const { loading } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field === Fields.Editing || params.field === Fields.Books) {
@@ -43,16 +44,16 @@ export const ScreensAuthorsList = (): JSX.Element => {
     switch (action) {
       case Actions.Add:
         setEdit(false);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Edit:
         setEdit(true);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Delete:
-        setOpenDialog(true);
+        setIsOpenDialog(true);
         break;
 
       default:
@@ -62,9 +63,6 @@ export const ScreensAuthorsList = (): JSX.Element => {
 
   const editingCell = (): JSX.Element => (
     <>
-      <IconButton onClick={clickHandler} aria-label='add'>
-        <AddIcon fontSize='small' color='success' />
-      </IconButton>
       <IconButton onClick={clickHandler} aria-label='edit'>
         <EditIcon fontSize='small' />
       </IconButton>
@@ -74,30 +72,28 @@ export const ScreensAuthorsList = (): JSX.Element => {
     </>
   );
 
-  const openAuthor = (event: GridRenderCellParams): void => {
-    navigate(`/authors/${event.id}`);
+  const openAuthor = (params: GridRenderCellParams): void => {
+    navigate(`/authors/${params.id}`);
   };
+
+  const renderNameCells = (params: GridRenderCellParams): JSX.Element => (
+    <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
+      {params.value}
+    </Button>
+  );
 
   const columns: GridColDef[] = [
     {
       field: 'firstName',
       headerName: t('placeholders:firstName'),
       flex: 1,
-      renderCell: (params): JSX.Element => (
-        <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
-          {params.value}
-        </Button>
-      ),
+      renderCell: renderNameCells,
     },
     {
       field: 'lastName',
       headerName: t('placeholders:lastName'),
       flex: 1,
-      renderCell: (params): JSX.Element => (
-        <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
-          {params.value}
-        </Button>
-      ),
+      renderCell: renderNameCells,
     },
     {
       field: 'birthDate',
@@ -122,6 +118,9 @@ export const ScreensAuthorsList = (): JSX.Element => {
       renderCell: editingCell,
     },
   ];
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Box sx={styles.box}>
@@ -131,25 +130,25 @@ export const ScreensAuthorsList = (): JSX.Element => {
           {t('buttons:addAuthor')}
         </Button>
       ) : (
-        <DataGrid
+        <Table
+          entity={Entities.Author}
           rows={authors}
           columns={columns}
-          pageSize={13}
-          rowsPerPageOptions={[13]}
-          disableSelectionOnClick
           onCellClick={cellClickHandler}
+          setEdit={setEdit}
+          setIsOpenModal={setIsOpenModal}
         />
       )}
       <AuthorModal
         edit={edit}
         author={currentAuthor}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
       />
       <AuthorDialog
         author={currentAuthor}
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
+        isOpenDialog={isOpenDialog}
+        setIsOpenDialog={setIsOpenDialog}
       />
     </Box>
   );

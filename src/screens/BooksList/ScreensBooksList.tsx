@@ -22,14 +22,14 @@ import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { styles } from './ScreensBooksList.styles';
 
 export const ScreensBooksList = (): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const booksState = useAppSelector((state) => state.books);
+  const { loading } = useAppSelector((state) => state.app);
   const authors = useAllAuthors();
-  const [books, setBooks] = useState<BookProps[]>(useAllBooks);
+  const books = useAllBooks();
   const [edit, setEdit] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
 
@@ -49,16 +49,16 @@ export const ScreensBooksList = (): JSX.Element => {
     switch (action) {
       case Actions.Add:
         setEdit(false);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Edit:
         setEdit(true);
-        setOpenModal(true);
+        setIsOpenModal(true);
         break;
 
       case Actions.Delete:
-        setOpenDialog(true);
+        setIsOpenDialog(true);
         break;
 
       default:
@@ -69,9 +69,6 @@ export const ScreensBooksList = (): JSX.Element => {
   function editingCell(): JSX.Element {
     return (
       <>
-        <IconButton onClick={clickHandler} aria-label='add'>
-          <AddIcon fontSize='small' color='success' />
-        </IconButton>
         <IconButton onClick={clickHandler} aria-label='edit'>
           <EditIcon fontSize='small' />
         </IconButton>
@@ -85,6 +82,12 @@ export const ScreensBooksList = (): JSX.Element => {
   const openBook = (event: GridRenderCellParams): void => {
     navigate(`/books/${event.id}`);
   };
+
+  const renderTitleCells = (params: GridRenderCellParams): JSX.Element => (
+    <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
+      {params.value}
+    </Button>
+  );
 
   const columns: GridColDef[] = [
     {
@@ -126,9 +129,23 @@ export const ScreensBooksList = (): JSX.Element => {
     },
   ];
 
-  useEffect(() => {
-    setBooks(useAllBooks);
-  }, [booksState]);
+  const booksWithAuthors = (): BookProps[] => {
+    return books.map((book) => {
+      const author = authorsSelectors.selectById(
+        store.getState(),
+        book.authorId
+      );
+      const authorName = `${author?.firstName} ${author?.lastName}`;
+      return {
+        ...book,
+        authorName,
+      };
+    });
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Box sx={styles.box}>
@@ -140,26 +157,26 @@ export const ScreensBooksList = (): JSX.Element => {
           {t('buttons:addBook')}
         </Button>
       ) : (
-        <DataGrid
-          rows={books}
+        <Table
+          entity={Entities.Book}
+          rows={booksWithAuthors()}
           columns={columns}
-          pageSize={13}
-          rowsPerPageOptions={[13]}
-          disableSelectionOnClick
           onCellClick={cellClickHandler}
+          setEdit={setEdit}
+          setIsOpenModal={setIsOpenModal}
         />
       )}
       <BookModal
         edit={edit}
         author={currentAuthor}
         book={currentBook}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
       />
       <BookDialog
         book={currentBook}
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
+        isOpenDialog={isOpenDialog}
+        setIsOpenDialog={setIsOpenDialog}
       />
     </Box>
   );
