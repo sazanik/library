@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector, useAuth } from '../../../../hooks';
 import { signUpUser } from '../../../../store/users/actions';
 import { AuthFormProps } from '../../../../types/inerfaces';
 import { Input } from '../../../Input/Input';
-import { getAuthSchema } from '../validation';
 import { styles } from './AuthFormSignUp.styles';
+import { getSignUpSchema } from './validation';
 
 export const AuthFormSignUp = (): JSX.Element => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ export const AuthFormSignUp = (): JSX.Element => {
     formState: { errors },
   } = useForm<AuthFormProps>({
     mode: 'onSubmit',
-    resolver: yupResolver(getAuthSchema(t, isRegistered)),
+    resolver: yupResolver(getSignUpSchema(t)),
   });
 
   const onSubmit = (data: AuthFormProps): void => {
