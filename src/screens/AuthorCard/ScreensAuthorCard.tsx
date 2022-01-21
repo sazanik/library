@@ -7,7 +7,6 @@ import authorPhoto from '../../assets/images/authorPhoto.jpg';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllAuthors } from '../../hooks';
 import { authorsSelectors, store } from '../../store/store';
-import { Entities } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { ScreensNotFound } from '../NotFound/ScreensNotFound';
 import { styles } from './ScreensAuthorCard.styles';
@@ -15,7 +14,7 @@ import { styles } from './ScreensAuthorCard.styles';
 export const ScreensAuthorCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
-  const { t } = useTranslation();
+  const { t } = useTranslation('default');
 
   const authors = useAllAuthors();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -51,27 +50,33 @@ export const ScreensAuthorCard = (): JSX.Element => {
     return <ScreensNotFound />;
   }
 
+  const content = {
+    altImageText: t('glossary:authorCover'),
+    previousButtonText: t('buttons:previousAuthor'),
+    nextButtonText: t('buttons:nextAuthor'),
+  };
+
   return (
     <LayoutCard
       id={currentIndex}
-      entity={Entities.Author}
       entities={authors}
       onNextCard={nextAuthor}
       onPreviousCard={previousAuthor}
       image={authorPhoto}
+      content={content}
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:firstName')}: {author.firstName}
+          {t('placeholders.firstName')}: {author.firstName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:lastName')}: {author.lastName}
+          {t('placeholders.lastName')}: {author.lastName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:country')}: {author.country}
+          {t('placeholders.country')}: {author.country}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:birthDate')}: {author.birthDate}
+          {t('placeholders.birthDate')}: {author.birthDate}
         </Typography>
       </CardContent>
     </LayoutCard>

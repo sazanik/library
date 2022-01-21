@@ -11,25 +11,31 @@ import { Navigation } from '../Navigation/Navigation';
 import { styles } from './MainBar.styles';
 
 export const MainBar = (): JSX.Element => {
-  const { t } = useTranslation('default');
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const location = useLocation();
   const { logOut } = useAuth();
 
   const handleClick = (): void => {
-    logOut(() => navigate('/'));
+    logOut();
   };
   return (
     <Box sx={styles.box}>
       <AppBar position='static'>
         <Toolbar variant='dense'>
           <Typography variant='h6' noWrap component='div' sx={styles.text}>
-            {t('library')}
+            {t('glossary:library')}
           </Typography>
           <LanguageSelect />
           <Navigation />
-          <Button sx={styles.button} variant='contained' onClick={handleClick}>
-            {t('buttons.logOut')}
-          </Button>
+          {location.pathname !== '/' && (
+            <Button
+              sx={styles.button}
+              variant='contained'
+              onClick={handleClick}
+            >
+              {t('buttons:logOut')}
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

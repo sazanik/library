@@ -29,8 +29,8 @@ interface FormProps {
 }
 
 export const BookForm = (props: componentProps): JSX.Element => {
-  const { t } = useTranslation('default');
-  const { edit, author: propsAuthor, book: propsBook, setOpenModal } = props;
+  const { t } = useTranslation();
+  const { edit, author: propsAuthor, book: propsBook, setIsOpenModal } = props;
   const dispatch = useAppDispatch();
 
   const {
@@ -76,50 +76,50 @@ export const BookForm = (props: componentProps): JSX.Element => {
     setOpenModal(false);
   };
 
-  const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
+  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('title')}
-        label={t('placeholders.title')}
+        label={t('placeholders:title')}
         defaultValue={edit ? propsBook?.title : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.title?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         multiline
         maxRows={10}
         {...register('description')}
-        label={t('placeholders.description')}
+        label={t('placeholders:description')}
         defaultValue={edit ? propsBook?.description : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.description?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('code')}
-        label={t('placeholders.code')}
+        label={t('placeholders:code')}
         defaultValue={edit ? propsBook?.code : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.code?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='number'
         {...register('pagesCount')}
-        label={t('placeholders.pagesCount')}
+        label={t('placeholders:pagesCount')}
         defaultValue={edit ? propsBook?.pagesCount : ''}
       />
       <Typography align='center' sx={styles.error}>
@@ -132,11 +132,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         defaultValue={propsAuthor.id}
       />
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='number'
         {...register('publishingYear')}
-        label={t('placeholders.publishingYear')}
+        label={t('placeholders:publishingYear')}
         defaultValue={edit ? propsBook?.publishingYear : ''}
       />
       <Typography align='center' sx={styles.error}>

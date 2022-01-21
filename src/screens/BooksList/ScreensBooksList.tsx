@@ -89,42 +89,38 @@ export const ScreensBooksList = (): JSX.Element => {
   const columns: GridColDef[] = [
     {
       field: 'title',
-      headerName: t('placeholders.title'),
+      headerName: t('placeholders:title'),
       flex: 1,
-      renderCell: (params): JSX.Element => (
-        <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
-          {params.value}
-        </Button>
-      ),
+      renderCell: renderTitleCells,
     },
     {
       field: 'description',
-      headerName: t('placeholders.description'),
+      headerName: t('placeholders:description'),
       flex: 1,
     },
     {
       field: 'code',
-      headerName: t('placeholders.code'),
+      headerName: t('placeholders:code'),
       flex: 1,
     },
     {
       field: 'authorName',
-      headerName: t('placeholders.authorName'),
+      headerName: t('placeholders:authorName'),
       flex: 1,
     },
     {
       field: 'pagesCount',
-      headerName: t('placeholders.pagesCount'),
+      headerName: t('placeholders:pagesCount'),
       flex: 1,
     },
     {
       field: 'publishingYear',
-      headerName: t('placeholders.publishingYear'),
+      headerName: t('placeholders:publishingYear'),
       flex: 1,
     },
     {
       field: 'editing',
-      headerName: t('placeholders.editing'),
+      headerName: t('placeholders:editing'),
       width: 120,
       renderCell: editingCell,
     },
@@ -137,11 +133,11 @@ export const ScreensBooksList = (): JSX.Element => {
   return (
     <Box sx={styles.box}>
       {!authors.length ? (
-        <Typography>{t('infoBooks')}</Typography>
+        <Typography>{t('glossary:infoBooks')}</Typography>
       ) : !books?.length ? (
         <Button onClick={clickHandler} aria-label='add' sx={styles.button}>
           <AddIcon fontSize='large' color='primary' />
-          {t('buttons.addBook')}
+          {t('buttons:addBook')}
         </Button>
       ) : (
         <DataGrid
