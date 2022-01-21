@@ -1,8 +1,5 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  EntityState,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
 import { UserProps } from '../../types/inerfaces';
 
 export const usersAdapter = createEntityAdapter<UserProps>({
@@ -10,15 +7,9 @@ export const usersAdapter = createEntityAdapter<UserProps>({
   sortComparer: (a, b) => a.email.localeCompare(b.email),
 });
 
-let users: EntityState<UserProps>;
-const localData = localStorage.getItem('store');
-if (localData) {
-  users = JSON.parse(localData).users;
-}
-
 export const usersSlice = createSlice({
   name: 'users',
-  initialState: usersAdapter.getInitialState(users!),
+  initialState: usersAdapter.getInitialState(),
   reducers: {
     createUser: usersAdapter.addOne,
   },
