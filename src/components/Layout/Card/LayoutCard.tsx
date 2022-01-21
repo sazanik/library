@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
-import Card from '@mui/material/Card';
-import { styles } from '../../../screens/Books/Card/ScreensBooksCard.styles';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import { AuthorProps, BookProps } from '../../../types/inerfaces';
-import { Entities } from '../../../types/enums';
+import { Box, Button, Card, CardActions, CardMedia } from '@mui/material';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { styles } from '../../../screens/BookCard/ScreensBookCard.styles';
+import { Entities } from '../../../types/enums';
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
 interface CardProps {
   children: JSX.Element;
@@ -28,25 +25,19 @@ export const LayoutCard = ({
   image,
   id,
 }: CardProps): JSX.Element => {
-  const { t } = useTranslation('default');
-  const translations = {
+  const { t } = useTranslation();
+  const cardsTranslation = {
     author: {
-      cover: 'authorCover',
-      previous: 'previousAuthor',
-      next: 'nextAuthor',
+      cover: t('glossary:authorCover'),
+      previous: t('buttons:previousAuthor'),
+      next: t('buttons:nextAuthor'),
     },
     book: {
-      cover: 'bookCover',
-      previous: 'previousBook',
-      next: 'nextBook',
+      cover: t('glossary:bookCover'),
+      previous: t('buttons:previousBook'),
+      next: t('buttons:nextBook'),
     },
   };
-
-  const [translation, setTranslation] = useState<typeof translations.author>(
-    translations[entity]
-  );
-  // eslint-disable-next-line
-  useEffect(() => setTranslation(translations[entity]), [entity]);
 
   return (
     <Box>
@@ -56,20 +47,20 @@ export const LayoutCard = ({
           component='img'
           height='100%'
           image={image}
-          alt={t(translation.cover)}
+          alt={cardsTranslation[entity].cover}
         />
         {children}
       </Card>
       <CardActions style={styles.cardActions}>
         <Button disabled={id === 0} onClick={onPreviousCard} size='small'>
-          {t(translation.previous)}
+          {cardsTranslation[entity].previous}
         </Button>
         <Button
           disabled={id >= entities.length - 1}
           onClick={onNextCard}
           size='small'
         >
-          {t(translation.next)}
+          {cardsTranslation[entity].next}
         </Button>
       </CardActions>
     </Box>

@@ -1,17 +1,15 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  createAuthor,
-  updateAuthor,
-} from '../../../store/authors/authorsSlice';
-import { AuthorProps } from '../../../types/inerfaces';
+
 import { useAppDispatch } from '../../../hooks';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Typography } from '@mui/material';
-import { styles } from './AuthorForm.styles';
+import { createAuthor, updateAuthor } from '../../../store/authors/actions';
+import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
-import { CustomInput } from '../../UI/CustomInput/CustomInput';
+import { Input } from '../../Input/Input';
+import { styles } from './AuthorForm.styles';
 import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
@@ -28,7 +26,7 @@ export interface FormProps {
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { edit, author, setOpenModal } = props;
 
@@ -60,37 +58,36 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     }
     setOpenModal(false);
   };
-
-  const buttonName: string = edit ? t('buttons.confirm') : t('buttons.add');
+  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('firstName')}
-        label={t('placeholders.firstName')}
+        label={t('placeholders:firstName')}
         defaultValue={edit ? author?.firstName : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.firstName?.message}
       </Typography>
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='text'
         {...register('lastName')}
-        label={t('placeholders.lastName')}
+        label={t('placeholders:lastName')}
         defaultValue={edit ? author?.lastName : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.lastName?.message}
       </Typography>
 
-      <CustomInput
+      <Input
         sx={styles.textField}
         type='date'
         {...register('birthDate')}
-        label={t('placeholders.birthDate')}
+        label={t('placeholders:birthDate')}
         defaultValue={edit ? author?.birthDate : ''}
         InputLabelProps={{
           shrink: true,

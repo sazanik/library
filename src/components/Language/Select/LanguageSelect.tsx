@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { styles } from './LanguageSelect.styles';
 
 export const LanguageSelect = (): JSX.Element => {
-  const { t, i18n } = useTranslation('default');
+  const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState('');
 
   const handleChange = (event: SelectChangeEvent): void => {
@@ -19,7 +19,7 @@ export const LanguageSelect = (): JSX.Element => {
     <Box sx={styles.box}>
       <FormControl fullWidth variant='filled'>
         <InputLabel sx={styles.inputLabel} id='language-label'>
-          {t('changeLanguage')}
+          {t('placeholders:changeLanguage')}
         </InputLabel>
         <Select
           sx={styles.select}

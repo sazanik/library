@@ -1,0 +1,15 @@
+{
+  "addAuthor": "Add author",
+  "addBook": "Add book",
+  "previousBook": "Previous book",
+  "nextBook": "Next book",
+  "previousAuthor": "Previous author",
+  "nextAuthor": "Next author",
+  "showList": "Show list",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "add": "Add",
+  "confirm": "confirm",
+  "submit": "Submit",
+  "logOut": "Log out"
+}
