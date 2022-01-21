@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+
 import { WithAuthRequirement } from '../components/HOC/WithAuthRequirement';
 import { LayoutMain } from '../components/Layout/Main/LayoutMain';
 import { ScreensAuth } from './Auth/ScreensAuth';
-import { ScreensAuthorsList } from './Authors/List/ScreensAuthorsList';
-import { ScreensAuthorsCard } from './Authors/Card/ScreensAuthorsCard';
-import { ScreensBooksList } from './Books/List/ScreensBooksList';
-import { ScreensBooksCard } from './Books/Card/ScreensBooksCard';
+import { ScreensAuthorCard } from './AuthorCard/ScreensAuthorCard';
+import { ScreensAuthorsList } from './AuthorsList/ScreensAuthorsList';
+import { ScreensBookCard } from './BookCard/ScreensBookCard';
+import { ScreensBooksList } from './BooksList/ScreensBooksList';
 import { ScreensNotFound } from './NotFound/ScreensNotFound';
 
 export const Root = (): JSX.Element => {
@@ -26,7 +27,7 @@ export const Root = (): JSX.Element => {
           path='authors/:id'
           element={
             <WithAuthRequirement>
-              <ScreensAuthorsCard />
+              <ScreensAuthorCard />
             </WithAuthRequirement>
           }
         />
@@ -42,7 +43,7 @@ export const Root = (): JSX.Element => {
           path='books/:id'
           element={
             <WithAuthRequirement>
-              <ScreensBooksCard />
+              <ScreensBookCard />
             </WithAuthRequirement>
           }
         />

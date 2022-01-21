@@ -1,13 +1,14 @@
-import React from 'react';
+import { Box, Button, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { LanguageSelect } from '../../Language/Select/LanguageSelect';
-import { Box, Button, Typography } from '@mui/material';
-import { styles } from './MainBar.styles';
-import { useAuth } from '../../../hooks';
+import { useLocation } from 'react-router-dom';
+
+import { useAuth } from '../../hooks';
+import { LanguageSelect } from '../Language/Select/LanguageSelect';
 import { Navigation } from '../Navigation/Navigation';
+import { styles } from './MainBar.styles';
 
 export const MainBar = (): JSX.Element => {
   const { t } = useTranslation('default');

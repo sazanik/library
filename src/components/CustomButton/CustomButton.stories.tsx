@@ -1,5 +1,6 @@
-import React from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import React from 'react';
+
 import { CustomButton } from './CustomButton';
 
 export default {
@@ -15,7 +16,7 @@ export const Default = Template.bind({});
 
 Default.args = {
   disabled: false,
-  children: 'Button',
+  children: 'CustomButton',
   variant: 'outlined',
   size: 'medium',
   color: 'primary',

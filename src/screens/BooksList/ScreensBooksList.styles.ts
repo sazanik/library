@@ -9,7 +9,6 @@ export const styles = {
   button: {
     fontSize: '26px',
   },
-
   buttonLeft: {
     justifyContent: 'flex-start',
   },
