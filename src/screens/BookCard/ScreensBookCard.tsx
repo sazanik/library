@@ -1,5 +1,4 @@
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { CardContent, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,7 +15,7 @@ import { styles } from './ScreensBookCard.styles';
 export const ScreensBookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
-  const { t } = useTranslation();
+  const { t } = useTranslation('default');
 
   const books = useAllBooks();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -46,12 +45,6 @@ export const ScreensBookCard = (): JSX.Element => {
     }
   }, [id]);
 
-  const getAuthorName = (): string | undefined => {
-    if (!book) return;
-    const author = authorsSelectors.selectById(store.getState(), book.authorId);
-    return `${author?.firstName} ${author?.lastName}`;
-  };
-
   if (!book) {
     return <ScreensNotFound />;
   }
@@ -67,22 +60,22 @@ export const ScreensBookCard = (): JSX.Element => {
     >
       <CardContent style={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:title')}: {book.title}
+          {t('placeholders.title')}: {book.title}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:description')}: {book.description}
+          {t('placeholders.description')}: {book.description}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:authorName')}: {getAuthorName()}
+          {t('placeholders.authorName')}: {book.authorName}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:pagesCount')}: {book.pagesCount}
+          {t('placeholders.pagesCount')}: {book.pagesCount}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:publishingYear')}: {book.publishingYear}
+          {t('placeholders.publishingYear')}: {book.publishingYear}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:code')}: {book.code}
+          {t('placeholders.code')}: {book.code}
         </Typography>
       </CardContent>
     </LayoutCard>

@@ -1,5 +1,4 @@
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { CardContent, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,7 +15,7 @@ import { styles } from './ScreensAuthorCard.styles';
 export const ScreensAuthorCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
-  const { t } = useTranslation();
+  const { t } = useTranslation('default');
 
   const authors = useAllAuthors();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -63,16 +62,16 @@ export const ScreensAuthorCard = (): JSX.Element => {
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:firstName')}: {author.firstName}
+          {t('placeholders.firstName')}: {author.firstName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:lastName')}: {author.lastName}
+          {t('placeholders.lastName')}: {author.lastName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:country')}: {author.country}
+          {t('placeholders.country')}: {author.country}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders:birthDate')}: {author.birthDate}
+          {t('placeholders.birthDate')}: {author.birthDate}
         </Typography>
       </CardContent>
     </LayoutCard>

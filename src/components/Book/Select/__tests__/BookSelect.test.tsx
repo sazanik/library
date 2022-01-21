@@ -39,11 +39,7 @@ describe('BookSelect component', () => {
   });
 
   it('render', () => {
-    // console.log(shallowWrapper.debug());
-    // console.log(mountWrapper.debug());
     const button = mountWrapper.find('button#basic-button');
     button.simulate('click');
-
-    // mountWrapper.find('CustomButton#basic-button').simulate('onClick');
   });
 });

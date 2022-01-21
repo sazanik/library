@@ -1,6 +1,4 @@
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { Button, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +12,7 @@ export interface Props {
 
 export const BookSelect = ({ author }: Props): JSX.Element => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation('default');
   const books = useAllBooks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -32,7 +30,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
   };
 
   const getBooks = (): BookProps[] =>
-    books.filter((book) => book?.authorId === author?.id);
+    books.filter((book) => book.authorId === author.id);
 
   return (
     <div>
@@ -43,7 +41,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        {t('buttons:showList')}
+        {t('showList')}
       </Button>
       <Menu
         id='basic-menu'
@@ -61,7 +59,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
             </MenuItem>
           ))
         ) : (
-          <MenuItem>{t('glossary:empty')}</MenuItem>
+          <MenuItem>{t('empty')}</MenuItem>
         )}
       </Menu>
     </div>

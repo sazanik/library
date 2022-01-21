@@ -1,15 +1,19 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+<<<<<<<< HEAD:src/components/CustomButton/__tests__/CustomButton.test.tsx
 
 import { ButtonProps, CustomButton } from '../CustomButton';
+========
+>>>>>>>> origin/dev:src/components/Button/__tests__/Button.test.tsx
 
-const setUp = (props: ButtonProps): ReactWrapper =>
-  mount(<CustomButton {...props} />);
+import { Button, Props } from '../Button';
 
-describe('CustomButton component', () => {
+const setUp = (props: Props): ReactWrapper => mount(<Button {...props} />);
+
+describe('Button component', () => {
   let mockCallBack: jest.Mock;
   let wrapper: ReactWrapper;
-  let propsData: ButtonProps;
+  let propsData: Props;
   beforeEach(() => {
     mockCallBack = jest.fn();
     propsData = {
