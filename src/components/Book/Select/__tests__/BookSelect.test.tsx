@@ -1,7 +1,8 @@
-import React from 'react';
-import { BookSelect } from '../BookSelect';
 import { ReactWrapper, ShallowWrapper } from 'enzyme';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import { BookSelect } from '../BookSelect';
 
 const authorProps = {
   id: 'string',
@@ -38,11 +39,7 @@ describe('BookSelect component', () => {
   });
 
   it('render', () => {
-    // console.log(shallowWrapper.debug());
-    // console.log(mountWrapper.debug());
     const button = mountWrapper.find('button#basic-button');
     button.simulate('click');
-
-    // mountWrapper.find('Button#basic-button').simulate('onClick');
   });
 });

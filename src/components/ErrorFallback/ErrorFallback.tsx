@@ -1,5 +1,6 @@
-import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
+import React from 'react';
+
 import { styles } from './ErrorFallback.styles';
 
 interface Props {
@@ -14,7 +15,7 @@ export const ErrorFallback = ({ error }: Props): JSX.Element => {
           Something went wrong:
         </Typography>
         <Typography variant='h5' align='center'>
-          {error.message}
+          {error}
         </Typography>
       </Box>
     </Container>

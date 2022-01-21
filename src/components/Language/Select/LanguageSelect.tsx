@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { SelectChangeEvent } from '@mui/material/Select';
-import { styles } from './LanguageSelect.styles';
-import { useTranslation } from 'react-i18next';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { styles } from './LanguageSelect.styles';
 
 export const LanguageSelect = (): JSX.Element => {
   const { t, i18n } = useTranslation('default');

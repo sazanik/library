@@ -1,11 +1,10 @@
+import { Button, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AuthorProps, BookProps } from '../../../types/inerfaces';
+
 import { useAllBooks } from '../../../hooks';
+import { AuthorProps, BookProps } from '../../../types/inerfaces';
 
 export interface Props {
   author: AuthorProps;

@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Box, Button, IconButton } from '@mui/material';
 import {
-  DataGrid,
   GridCellParams,
   GridColDef,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, IconButton } from '@mui/material';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BookSelect } from '../../../components/Book/Select/BookSelect';
-import { AuthorDialog } from '../../../components/Author/Dialog/AuthorDialog';
-import { AuthorModal } from '../../../components/Author/Modal/AuthorModal';
-import { Actions, Fields } from '../../../types/enums';
 import { useNavigate } from 'react-router-dom';
-import { AuthorProps } from '../../../types/inerfaces';
-import { useAllAuthors } from '../../../hooks';
+
+import { AuthorDialog } from '../../components/Author/Dialog/AuthorDialog';
+import { AuthorModal } from '../../components/Author/Modal/AuthorModal';
+import { BookSelect } from '../../components/Book/Select/BookSelect';
+import { Loader } from '../../components/Loader/Loader';
+import { Table } from '../../components/Table/Table';
+import { useAllAuthors, useAppSelector } from '../../hooks';
+import { Actions, Entities, Fields } from '../../types/enums';
+import { AuthorProps } from '../../types/inerfaces';
 import { styles } from './ScreensAuthorsList.styles';
 
 export const ScreensAuthorsList = (): JSX.Element => {

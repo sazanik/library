@@ -1,18 +1,18 @@
+import { CardContent, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import { styles } from './ScreensBooksCard.styles';
 import { useNavigate, useParams } from 'react-router-dom';
-import bookCover from '../../../assets/images/bookCover.jpg';
-import { useAllBooks } from '../../../hooks';
-import { BookProps } from '../../../types/inerfaces';
-import { booksSelectors, store } from '../../../store/store';
-import { ScreensNotFound } from '../../NotFound/ScreensNotFound';
-import { LayoutCard } from '../../../components/Layout/Card/LayoutCard';
-import { Entities } from '../../../types/enums';
 
-export const ScreensBooksCard = (): JSX.Element => {
+import bookCover from '../../assets/images/bookCover.jpg';
+import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
+import { useAllBooks } from '../../hooks';
+import { authorsSelectors, booksSelectors, store } from '../../store/store';
+import { Entities } from '../../types/enums';
+import { BookProps } from '../../types/inerfaces';
+import { ScreensNotFound } from '../NotFound/ScreensNotFound';
+import { styles } from './ScreensBookCard.styles';
+
+export const ScreensBookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
