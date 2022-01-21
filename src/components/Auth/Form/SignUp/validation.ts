@@ -2,12 +2,9 @@ import { TFunction } from 'react-i18next';
 import * as yup from 'yup';
 import { AnyObjectSchema } from 'yup';
 
-import { MAX_LENGTH, MIN_LENGTH } from '../../../constants';
+import { MAX_LENGTH, MIN_LENGTH } from '../../../../constants';
 
-export const getAuthSchema = (
-  t: TFunction,
-  isRegistered: boolean
-): AnyObjectSchema =>
+export const getSignUpSchema = (t: TFunction): AnyObjectSchema =>
   yup.object().shape({
     email: yup
       .string()
@@ -20,10 +17,8 @@ export const getAuthSchema = (
       .required(t('errors:required'))
       .min(MIN_LENGTH.PASSWORD, t('errors:minLength') + MIN_LENGTH.PASSWORD)
       .max(MAX_LENGTH.PASSWORD, t('errors:maxLength') + MAX_LENGTH.PASSWORD),
-    ...(!isRegistered && {
-      confirmPassword: yup
-        .string()
-        .required(t('errors:passwordMismatch'))
-        .oneOf([yup.ref('password'), null], t('errors: passwordMismatch')),
-    }),
+    confirmPassword: yup
+      .string()
+      .required(t('errors:passwordMismatch'))
+      .oneOf([yup.ref('password'), null], t('errors: passwordMismatch')),
   });
