@@ -7,7 +7,6 @@ import authorPhoto from '../../assets/images/authorPhoto.jpg';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllAuthors } from '../../hooks';
 import { authorsSelectors, store } from '../../store/store';
-import { Entities } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { ScreensNotFound } from '../NotFound/ScreensNotFound';
 import { styles } from './ScreensAuthorCard.styles';
@@ -51,14 +50,20 @@ export const ScreensAuthorCard = (): JSX.Element => {
     return <ScreensNotFound />;
   }
 
+  const cardsTranslation = {
+    cover: t('glossary:authorCover'),
+    previous: t('buttons:previousAuthor'),
+    next: t('buttons:nextAuthor'),
+  };
+
   return (
     <LayoutCard
       id={currentIndex}
-      entity={Entities.Author}
       entities={authors}
       onNextCard={nextAuthor}
       onPreviousCard={previousAuthor}
       image={authorPhoto}
+      translation={cardsTranslation}
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>

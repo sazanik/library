@@ -6,8 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import bookCover from '../../assets/images/bookCover.jpg';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllBooks } from '../../hooks';
-import { authorsSelectors, booksSelectors, store } from '../../store/store';
-import { Entities } from '../../types/enums';
+import { booksSelectors, store } from '../../store/store';
 import { BookProps } from '../../types/inerfaces';
 import { ScreensNotFound } from '../NotFound/ScreensNotFound';
 import { styles } from './ScreensBookCard.styles';
@@ -49,14 +48,20 @@ export const ScreensBookCard = (): JSX.Element => {
     return <ScreensNotFound />;
   }
 
+  const cardTranslations = {
+    cover: t('glossary:bookCover'),
+    previous: t('buttons:previousBook'),
+    next: t('buttons:nextBook'),
+  };
+
   return (
     <LayoutCard
       id={currentIndex}
-      entity={Entities.Book}
       entities={books}
       onNextCard={nextBook}
       onPreviousCard={previousBook}
       image={bookCover}
+      translation={cardTranslations}
     >
       <CardContent style={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
