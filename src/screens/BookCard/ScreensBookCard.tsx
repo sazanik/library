@@ -48,10 +48,10 @@ export const ScreensBookCard = (): JSX.Element => {
     return <ScreensNotFound />;
   }
 
-  const cardTranslations = {
-    cover: t('glossary:bookCover'),
-    previous: t('buttons:previousBook'),
-    next: t('buttons:nextBook'),
+  const content = {
+    altImageText: t('glossary:bookCover'),
+    previousButtonText: t('buttons:previousBook'),
+    nextButtonText: t('buttons:nextBook'),
   };
 
   return (
@@ -61,7 +61,7 @@ export const ScreensBookCard = (): JSX.Element => {
       onNextCard={nextBook}
       onPreviousCard={previousBook}
       image={bookCover}
-      translation={cardTranslations}
+      content={content}
     >
       <CardContent style={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>

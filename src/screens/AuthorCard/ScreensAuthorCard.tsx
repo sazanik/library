@@ -50,10 +50,10 @@ export const ScreensAuthorCard = (): JSX.Element => {
     return <ScreensNotFound />;
   }
 
-  const cardsTranslation = {
-    cover: t('glossary:authorCover'),
-    previous: t('buttons:previousAuthor'),
-    next: t('buttons:nextAuthor'),
+  const content = {
+    altImageText: t('glossary:authorCover'),
+    previousButtonText: t('buttons:previousAuthor'),
+    nextButtonText: t('buttons:nextAuthor'),
   };
 
   return (
@@ -63,7 +63,7 @@ export const ScreensAuthorCard = (): JSX.Element => {
       onNextCard={nextAuthor}
       onPreviousCard={previousAuthor}
       image={authorPhoto}
-      translation={cardsTranslation}
+      content={content}
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>

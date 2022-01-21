@@ -11,10 +11,10 @@ interface CardProps {
   onNextCard: () => void;
   image: string;
   id: number;
-  translation: {
-    cover: string;
-    next: string;
-    previous: string;
+  content: {
+    altImageText: string;
+    previousButtonText: string;
+    nextButtonText: string;
   };
 }
 
@@ -25,7 +25,7 @@ export const LayoutCard = ({
   onNextCard,
   image,
   id,
-  translation,
+  content,
 }: CardProps): JSX.Element => {
   return (
     <Box>
@@ -35,20 +35,20 @@ export const LayoutCard = ({
           component='img'
           height='100%'
           image={image}
-          alt={translation.cover}
+          alt={content.altImageText}
         />
         {children}
       </Card>
       <CardActions style={styles.cardActions}>
         <Button disabled={id === 0} onClick={onPreviousCard} size='small'>
-          {translation.previous}
+          {content.previousButtonText}
         </Button>
         <Button
           disabled={id >= entities.length - 1}
           onClick={onNextCard}
           size='small'
         >
-          {translation.next}
+          {content.nextButtonText}
         </Button>
       </CardActions>
     </Box>
