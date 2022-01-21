@@ -30,7 +30,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
   };
 
   const getBooks = (): BookProps[] =>
-    books.filter((book) => book?.authorId === author?.id);
+    books.filter((book) => book.authorId === author.id);
 
   return (
     <div>
