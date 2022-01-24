@@ -11,5 +11,7 @@
   "add": "Add",
   "confirm": "confirm",
   "submit": "Submit",
-  "logOut": "Log out"
+  "logOut": "Log out",
+  "signIn": "Login",
+  "signUp": "Registration"
 }
