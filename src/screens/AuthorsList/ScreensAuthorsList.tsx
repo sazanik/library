@@ -32,7 +32,7 @@ export const ScreensAuthorsList = (): JSX.Element => {
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field === Fields.Editing || params.field === Fields.Books) {
+    if (params.field === Fields.EDITING || params.field === Fields.BOOKS) {
       setCurrentAuthor(params.row);
     }
   };
@@ -42,17 +42,17 @@ export const ScreensAuthorsList = (): JSX.Element => {
   }): void => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
-      case Actions.Add:
+      case Actions.ADD:
         setEdit(false);
         setIsOpenModal(true);
         break;
 
-      case Actions.Edit:
+      case Actions.EDIT:
         setEdit(true);
         setIsOpenModal(true);
         break;
 
-      case Actions.Delete:
+      case Actions.DELETE:
         setIsOpenDialog(true);
         break;
 

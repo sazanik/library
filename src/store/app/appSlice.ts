@@ -48,6 +48,9 @@ export const appSlice = createSlice({
     stopLoading: (state) => {
       state.loading = false;
     },
+    setError: (state, action) => {
+      state.additionalError = action.payload;
+    },
   },
   extraReducers: (builder) => {
     actionFunctions.forEach((f) => {
@@ -70,4 +73,4 @@ export const appSlice = createSlice({
   },
 });
 
-export const { setLoading, stopLoading } = appSlice.actions;
+export const { setLoading, stopLoading, setError } = appSlice.actions;

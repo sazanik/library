@@ -34,7 +34,7 @@ export const ScreensBooksList = (): JSX.Element => {
   const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field !== Fields.Editing) return;
+    if (params.field !== Fields.EDITING) return;
     const book: BookProps = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
@@ -47,17 +47,17 @@ export const ScreensBooksList = (): JSX.Element => {
   const clickHandler = (event: MouseEvent<HTMLButtonElement>): void => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
-      case Actions.Add:
+      case Actions.ADD:
         setEdit(false);
         setIsOpenModal(true);
         break;
 
-      case Actions.Edit:
+      case Actions.EDIT:
         setEdit(true);
         setIsOpenModal(true);
         break;
 
-      case Actions.Delete:
+      case Actions.DELETE:
         setIsOpenDialog(true);
         break;
 

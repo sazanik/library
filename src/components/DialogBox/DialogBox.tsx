@@ -13,27 +13,19 @@ interface Props {
   isOpenDialog: boolean;
   setIsOpenDialog: (params: boolean) => void;
   handleClickDelete: () => void;
-  entity: 'author' | 'book';
+  content: {
+    title: string;
+    description: string;
+  };
 }
 
 export const DialogBox = ({
   isOpenDialog,
   setIsOpenDialog,
   handleClickDelete,
-  entity,
+  content,
 }: Props): JSX.Element => {
   const { t } = useTranslation();
-
-  const dialogsTranslation = {
-    author: {
-      title: t('dialogs:titles.author'),
-      description: t('dialogs:descriptions.author'),
-    },
-    book: {
-      title: t('dialogs:titles.book'),
-      description: t('dialogs:descriptions.book'),
-    },
-  };
 
   return (
     <Dialog
@@ -42,12 +34,10 @@ export const DialogBox = ({
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
-      <DialogTitle id='alert-dialog-title'>
-        {dialogsTranslation[entity].title}
-      </DialogTitle>
+      <DialogTitle id='alert-dialog-title'>{content.title}</DialogTitle>
       <DialogContent>
         <DialogContentText id='alert-dialog-description'>
-          {dialogsTranslation[entity].description}
+          {content.description}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

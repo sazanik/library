@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../hooks';
 import { removeBook } from '../../../store/books/actions';
@@ -16,19 +17,26 @@ export const BookDialog = ({
   isOpenDialog,
   setIsOpenDialog,
 }: Props): JSX.Element => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const handleClickDelete = (): void => {
-    if (!book) return;
+    if (!book) {
+      return;
+    }
     dispatch(removeBook(book.id));
     setIsOpenDialog(false);
+  };
+  const content = {
+    title: t('dialogs:titles.book'),
+    description: t('dialogs:descriptions.book'),
   };
 
   return (
     <DialogBox
+      content={content}
       isOpenDialog={isOpenDialog}
       setIsOpenDialog={setIsOpenDialog}
       handleClickDelete={handleClickDelete}
-      entity='book'
     />
   );
 };

@@ -1,6 +1,7 @@
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 
+import { ROWS_COUNT } from '../../constants';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
 
@@ -25,7 +26,7 @@ export const Table = ({
     <DataGrid
       rows={rows}
       columns={columns}
-      pageSize={13}
+      pageSize={ROWS_COUNT}
       components={{
         Toolbar: () =>
           TableToolbar({
@@ -34,7 +35,7 @@ export const Table = ({
             setIsOpenModal,
           }),
       }}
-      rowsPerPageOptions={[13]}
+      rowsPerPageOptions={[ROWS_COUNT]}
       disableSelectionOnClick
       onCellClick={onCellClick}
     />

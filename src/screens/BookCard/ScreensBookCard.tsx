@@ -23,7 +23,9 @@ export const ScreensBookCard = (): JSX.Element => {
   );
 
   const getAuthorName = (): string | undefined => {
-    if (!book) return;
+    if (!book) {
+      return;
+    }
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     return `${author?.firstName} ${author?.lastName}`;
   };

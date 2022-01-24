@@ -1,5 +1,6 @@
 import { Countries } from '../types/inerfaces';
 
+export const ROWS_COUNT = 13;
 export const MASKS = {
   TEXT: /[a-zA-Zа-яА-Я]/,
   DATE: /^(19|20)\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01])$/,
