@@ -17,7 +17,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
 import { authorsSelectors, store } from '../../store/store';
-import { Actions, Entities, Fields } from '../../types/enums';
+import { Actions, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { styles } from './ScreensBooksList.styles';
 
@@ -158,7 +158,7 @@ export const ScreensBooksList = (): JSX.Element => {
         </Button>
       ) : (
         <Table
-          entity={Entities.Book}
+          buttonTitle={t('buttons:addBook')}
           rows={booksWithAuthors()}
           columns={columns}
           onCellClick={cellClickHandler}

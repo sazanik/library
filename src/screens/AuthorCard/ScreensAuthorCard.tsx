@@ -67,16 +67,16 @@ export const ScreensAuthorCard = (): JSX.Element => {
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.firstName')}: {author.firstName}
+          {t('placeholders:firstName')}: {author.firstName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.lastName')}: {author.lastName}
+          {t('placeholders:lastName')}: {author.lastName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.country')}: {author.country}
+          {t('placeholders:country')}: {author.country}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.birthDate')}: {author.birthDate}
+          {t('placeholders:birthDate')}: {author.birthDate}
         </Typography>
       </CardContent>
     </LayoutCard>

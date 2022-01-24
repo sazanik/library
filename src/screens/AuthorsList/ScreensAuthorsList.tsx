@@ -17,12 +17,12 @@ import { BookSelect } from '../../components/Book/Select/BookSelect';
 import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppSelector } from '../../hooks';
-import { Actions, Entities, Fields } from '../../types/enums';
+import { Actions, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { styles } from './ScreensAuthorsList.styles';
 
 export const ScreensAuthorsList = (): JSX.Element => {
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const { loading } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const authors = useAllAuthors();
@@ -131,7 +131,7 @@ export const ScreensAuthorsList = (): JSX.Element => {
         </Button>
       ) : (
         <Table
-          entity={Entities.Author}
+          buttonTitle={t('buttons:addAuthor')}
           rows={authors}
           columns={columns}
           onCellClick={cellClickHandler}

@@ -1,12 +1,11 @@
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 
-import { Entities } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
 
 interface Props {
-  entity: Entities;
+  buttonTitle: string;
   rows: AuthorProps[] | BookProps[];
   columns: GridColDef[];
   onCellClick: (params: GridCellParams) => void;
@@ -18,7 +17,7 @@ export const Table = ({
   rows,
   columns,
   onCellClick,
-  entity,
+  buttonTitle,
   setEdit,
   setIsOpenModal,
 }: Props): JSX.Element => {
@@ -30,7 +29,7 @@ export const Table = ({
       components={{
         Toolbar: () =>
           TableToolbar({
-            entity,
+            buttonTitle,
             setEdit,
             setIsOpenModal,
           }),

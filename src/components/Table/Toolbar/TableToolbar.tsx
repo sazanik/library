@@ -3,22 +3,19 @@ import { Button } from '@mui/material';
 import { GridToolbarContainer } from '@mui/x-data-grid';
 import React from 'react';
 
-import { Entities } from '../../../types/enums';
 import { styles } from './TableToolbar.styles';
 
 interface Props {
-  entity: Entities;
+  buttonTitle: string;
   setEdit: (params: boolean) => void;
   setIsOpenModal: (params: boolean) => void;
 }
 
 export const TableToolbar = ({
-  entity,
+  buttonTitle,
   setEdit,
   setIsOpenModal,
 }: Props): JSX.Element => {
-  const title = entity === Entities.Author ? Entities.Author : Entities.Book;
-
   const handleClick = (): void => {
     setEdit(false);
     setIsOpenModal(true);
@@ -32,7 +29,7 @@ export const TableToolbar = ({
         variant='outlined'
         endIcon={<AddIcon />}
       >
-        {title}
+        {buttonTitle}
       </Button>
     </GridToolbarContainer>
   );
