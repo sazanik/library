@@ -5,16 +5,12 @@ import TextField from '@mui/material/TextField';
 import enLocale from 'date-fns/locale/en-US';
 import ruLocale from 'date-fns/locale/ru';
 import * as React from 'react';
-import { UseFormRegister, UseFormWatch } from 'react-hook-form/dist/types/form';
 import { useTranslation } from 'react-i18next';
 
-import { AuthorFormProps } from '../../../types/inerfaces';
-
 interface Props {
-  register: UseFormRegister<AuthorFormProps>;
-  watch: UseFormWatch<AuthorFormProps>;
   label: string;
-  value?: string;
+  value: string;
+  onChange: (event: Date | null) => void;
 }
 
 interface LocaleMapProps {
@@ -26,16 +22,8 @@ const localeMap: LocaleMapProps = {
   ru: ruLocale,
 };
 
-export const DateSelect = ({
-  register,
-  watch,
-  label,
-  value,
-}: Props): JSX.Element => {
+export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
   const { i18n } = useTranslation();
-  const [currentValue, setCurrentValue] = React.useState<
-    string | null | undefined
-  >(value);
 
   return (
     <LocalizationProvider
@@ -45,10 +33,10 @@ export const DateSelect = ({
       <DatePicker
         mask='__/__/____'
         label={label}
-        value={currentValue}
-        onChange={(newValue) => setCurrentValue(newValue)}
+        value={value}
+        onChange={onChange}
         renderInput={(params) => {
-          return <TextField {...params} {...register('birthDate')} />;
+          return <TextField {...params} />;
         }}
       />
     </LocalizationProvider>

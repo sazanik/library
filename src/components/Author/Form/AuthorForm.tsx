@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
+import { format } from 'date-fns';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../hooks';
@@ -27,7 +28,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
@@ -71,11 +72,20 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         {errors?.lastName?.message}
       </Typography>
 
-      <DateSelect
-        value={edit ? author?.birthDate : ''}
-        register={register}
-        watch={watch}
-        label={t('placeholders:birthDate')}
+      <Controller
+        name='birthDate'
+        defaultValue={edit ? author?.birthDate : ''}
+        control={control}
+        render={({ field }) => (
+          <DateSelect
+            label={t('placeholders:birthDate')}
+            value={field.value}
+            onChange={(date) => {
+              const formatDate = format(new Date(date as Date), 'dd/MM/yyyy');
+              field.onChange(formatDate);
+            }}
+          />
+        )}
       />
 
       <Typography align='center' sx={styles.error}>
