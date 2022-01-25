@@ -25,6 +25,9 @@ export const AuthFormSignUp = ({ errors, register }: Props): JSX.Element => {
         label={t('placeholders:email')}
         variant='standard'
       />
+      <Typography align='center' sx={styles.error}>
+        {errors?.email?.message}
+      </Typography>
       <Input
         sx={styles.textField}
         type='password'

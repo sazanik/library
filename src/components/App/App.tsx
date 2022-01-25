@@ -1,8 +1,6 @@
 import '../../firebase';
 import '../../i18n/i18n';
 
-import { LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -22,11 +20,9 @@ export const App = (): JSX.Element => {
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <AuthContextProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <CssBaseline>
-                  <Root />
-                </CssBaseline>
-              </LocalizationProvider>
+              <CssBaseline>
+                <Root />
+              </CssBaseline>
             </AuthContextProvider>
           </ThemeProvider>
         </BrowserRouter>

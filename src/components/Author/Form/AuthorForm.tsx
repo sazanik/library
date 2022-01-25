@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../../hooks';
 import { createAuthor, updateAuthor } from '../../../store/authors/actions';
 import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
+import { DateSelect } from '../../Date/Select/DateSelect';
 import { Input } from '../../Input/Input';
 import { styles } from './AuthorForm.styles';
 import { getAuthorSchema } from './validation';
@@ -26,6 +27,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
@@ -69,15 +71,11 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         {errors?.lastName?.message}
       </Typography>
 
-      <Input
-        sx={styles.textField}
-        type='date'
-        {...register('birthDate')}
+      <DateSelect
+        value={edit ? author?.birthDate : ''}
+        register={register}
+        watch={watch}
         label={t('placeholders:birthDate')}
-        defaultValue={edit ? author?.birthDate : ''}
-        InputLabelProps={{
-          shrink: true,
-        }}
       />
 
       <Typography align='center' sx={styles.error}>
