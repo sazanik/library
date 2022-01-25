@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, ControllerRenderProps, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../hooks';
@@ -33,6 +33,20 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
   });
+
+  const handleChangeDate = (
+    date: Date,
+    field: ControllerRenderProps<AuthorFormProps, 'birthDate'>
+  ): void => {
+    if (!isValid(date)) {
+      return;
+    }
+    const year = new Date(date).getFullYear();
+    const month = new Date(date).getMonth();
+    const day = new Date(date).getDate();
+    const formatDate = format(new Date(year, month, day), 'MM/dd/yyyy');
+    field.onChange(formatDate);
+  };
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
     if (edit && author) {
@@ -80,10 +94,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
           <DateSelect
             label={t('placeholders:birthDate')}
             value={field.value}
-            onChange={(date) => {
-              const formatDate = format(new Date(date as Date), 'dd/MM/yyyy');
-              field.onChange(formatDate);
-            }}
+            onChange={(date) => handleChangeDate(date as Date, field)}
           />
         )}
       />

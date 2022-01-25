@@ -10,16 +10,25 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   label: string;
   value: string;
-  onChange: (event: Date | null) => void;
+  onChange: (date: Date | null) => void;
 }
 
 interface LocaleMapProps {
   [key: string]: Locale;
 }
 
+interface MaskMapProps {
+  [key: string]: string;
+}
+
 const localeMap: LocaleMapProps = {
   en: enLocale,
   ru: ruLocale,
+};
+
+const maskMap: MaskMapProps = {
+  en: '__/__/____',
+  ru: '__.__.____',
 };
 
 export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
@@ -31,12 +40,12 @@ export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
       locale={localeMap[i18n.language]}
     >
       <DatePicker
-        mask='__/__/____'
+        mask={maskMap[i18n.language]}
         label={label}
         value={value}
         onChange={onChange}
         renderInput={(params) => {
-          return <TextField {...params} />;
+          return <TextField {...params} value={value} />;
         }}
       />
     </LocalizationProvider>
