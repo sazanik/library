@@ -3,23 +3,23 @@ import { Route, Routes } from 'react-router-dom';
 
 import { WithAuthRequirement } from '../components/HOC/WithAuthRequirement';
 import { LayoutMain } from '../components/Layout/Main/LayoutMain';
-import { ScreensAuth } from './Auth/ScreensAuth';
-import { ScreensAuthorCard } from './AuthorCard/ScreensAuthorCard';
-import { ScreensAuthorsList } from './AuthorsList/ScreensAuthorsList';
-import { ScreensBookCard } from './BookCard/ScreensBookCard';
-import { ScreensBooksList } from './BooksList/ScreensBooksList';
-import { ScreensNotFound } from './NotFound/ScreensNotFound';
+import { Auth } from './Auth';
+import { AuthorCard } from './AuthorCard';
+import { AuthorsList } from './AuthorsList';
+import { BookCard } from './BookCard';
+import { BooksList } from './BooksList';
+import { NotFound } from './NotFound';
 
 export const Root = (): JSX.Element => {
   return (
     <Routes>
       <Route path='/' element={<LayoutMain />}>
-        <Route index element={<ScreensAuth />} />
+        <Route index element={<Auth />} />
         <Route
           path='authors'
           element={
             <WithAuthRequirement>
-              <ScreensAuthorsList />
+              <AuthorsList />
             </WithAuthRequirement>
           }
         />
@@ -27,7 +27,7 @@ export const Root = (): JSX.Element => {
           path='authors/:id'
           element={
             <WithAuthRequirement>
-              <ScreensAuthorCard />
+              <AuthorCard />
             </WithAuthRequirement>
           }
         />
@@ -35,7 +35,7 @@ export const Root = (): JSX.Element => {
           path='books'
           element={
             <WithAuthRequirement>
-              <ScreensBooksList />
+              <BooksList />
             </WithAuthRequirement>
           }
         />
@@ -43,11 +43,11 @@ export const Root = (): JSX.Element => {
           path='books/:id'
           element={
             <WithAuthRequirement>
-              <ScreensBookCard />
+              <BookCard />
             </WithAuthRequirement>
           }
         />
-        <Route path='*' element={<ScreensNotFound />} />
+        <Route path='*' element={<NotFound />} />
       </Route>
     </Routes>
   );

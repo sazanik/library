@@ -19,9 +19,9 @@ import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppSelector } from '../../hooks';
 import { Actions, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
-import { styles } from './ScreensAuthorsList.styles';
+import { styles } from './styles';
 
-export const ScreensAuthorsList = (): JSX.Element => {
+export const AuthorsList = (): JSX.Element => {
   const { t } = useTranslation();
   const { loading } = useAppSelector((state) => state.app);
   const navigate = useNavigate();

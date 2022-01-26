@@ -19,9 +19,9 @@ import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
 import { authorsSelectors, store } from '../../store/store';
 import { Actions, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
-import { styles } from './ScreensBooksList.styles';
+import { styles } from './styles';
 
-export const ScreensBooksList = (): JSX.Element => {
+export const BooksList = (): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { loading } = useAppSelector((state) => state.app);

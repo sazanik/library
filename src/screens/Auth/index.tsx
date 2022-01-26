@@ -19,7 +19,7 @@ import { signInUser, signUpUser } from '../../store/users/actions';
 import { AuthFormProps } from '../../types/inerfaces';
 import { styles } from './styles';
 
-export const ScreensAuth = (): JSX.Element => {
+export const Auth = (): JSX.Element => {
   const { t } = useTranslation();
   const { additionalError, loading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();

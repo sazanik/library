@@ -1,8 +1,8 @@
 import { Box, Button, Card, CardActions, CardMedia } from '@mui/material';
 import React from 'react';
 
-import { styles } from '../../../screens/BookCard/ScreensBookCard.styles';
 import { AuthorProps, BookProps } from '../../../types/inerfaces';
+import { styles } from './LayoutCard.styles';
 
 interface CardProps {
   children: JSX.Element;

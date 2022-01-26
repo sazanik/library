@@ -8,10 +8,10 @@ import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllBooks } from '../../hooks';
 import { authorsSelectors, booksSelectors, store } from '../../store/store';
 import { BookProps } from '../../types/inerfaces';
-import { ScreensNotFound } from '../NotFound/ScreensNotFound';
-import { styles } from './ScreensBookCard.styles';
+import { NotFound } from '../NotFound';
+import { styles } from './styles';
 
-export const ScreensBookCard = (): JSX.Element => {
+export const BookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
@@ -53,7 +53,7 @@ export const ScreensBookCard = (): JSX.Element => {
   }, [id]);
 
   if (!book) {
-    return <ScreensNotFound />;
+    return <NotFound />;
   }
 
   const content = {
