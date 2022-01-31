@@ -5,7 +5,7 @@ import React from 'react';
 import { Controller, ControllerRenderProps, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { createAuthor, updateAuthor } from '../../../store/authors/actions';
 import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
@@ -21,9 +21,10 @@ export interface ComponentProps {
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
+  const { edit, author, setIsOpenModal } = props;
+  const { additionalError } = useAppSelector((state) => state.app);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { edit, author, setIsOpenModal } = props;
 
   const {
     register,
@@ -108,6 +109,10 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         sx={styles.textField}
         defaultValue={edit ? author?.country : ''}
       />
+
+      <Typography align='center' sx={styles.error}>
+        {additionalError}
+      </Typography>
 
       <Button
         sx={styles.buttons.submit}

@@ -7,7 +7,7 @@ import {
   GridColDef,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ import { styles } from './styles';
 
 export const AuthorsList = (): JSX.Element => {
   const { t } = useTranslation();
-  const { loading } = useAppSelector((state) => state.app);
+  const { loading, additionalError } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const authors = useAllAuthors();
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
@@ -118,6 +118,13 @@ export const AuthorsList = (): JSX.Element => {
       renderCell: editingCell,
     },
   ];
+
+  useEffect(() => {
+    if (additionalError) {
+      setIsOpenModal(true);
+    }
+  }, [additionalError]);
+
   if (loading) {
     return <Loader />;
   }
