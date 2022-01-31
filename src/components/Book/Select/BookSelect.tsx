@@ -12,7 +12,7 @@ export interface Props {
 
 export const BookSelect = ({ author }: Props): JSX.Element => {
   const navigate = useNavigate();
-  const { t } = useTranslation('default');
+  const { t } = useTranslation();
   const books = useAllBooks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -30,7 +30,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
   };
 
   const getBooks = (): BookProps[] =>
-    books.filter((book) => book.authorId === author.id);
+    books.filter((book) => book.authorId === author?.id);
 
   return (
     <div>
@@ -41,7 +41,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        {t('showList')}
+        {t('buttons:showList')}
       </Button>
       <Menu
         id='basic-menu'

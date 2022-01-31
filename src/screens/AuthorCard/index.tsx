@@ -6,12 +6,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import authorPhoto from '../../assets/images/authorPhoto.jpg';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllAuthors } from '../../hooks';
-import { authorsSelectors, store } from '../../store/store';
+import { authorsSelectors } from '../../store/authors/selectors';
+import { store } from '../../store/store';
 import { AuthorProps } from '../../types/inerfaces';
-import { ScreensNotFound } from '../NotFound/ScreensNotFound';
-import { styles } from './ScreensAuthorCard.styles';
+import { NotFound } from '../NotFound';
+import { styles } from './styles';
 
-export const ScreensAuthorCard = (): JSX.Element => {
+export const AuthorCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
@@ -47,7 +48,7 @@ export const ScreensAuthorCard = (): JSX.Element => {
   }, [id]);
 
   if (!author) {
-    return <ScreensNotFound />;
+    return <NotFound />;
   }
 
   const content = {
@@ -67,16 +68,16 @@ export const ScreensAuthorCard = (): JSX.Element => {
     >
       <CardContent sx={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.firstName')}: {author.firstName}
+          {t('placeholders:firstName')}: {author.firstName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.lastName')}: {author.lastName}
+          {t('placeholders:lastName')}: {author.lastName}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.country')}: {author.country}
+          {t('placeholders:country')}: {author.country}
         </Typography>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.birthDate')}: {author.birthDate}
+          {t('placeholders:birthDate')}: {author.birthDate}
         </Typography>
       </CardContent>
     </LayoutCard>

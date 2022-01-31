@@ -6,12 +6,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import bookCover from '../../assets/images/bookCover.jpg';
 import { LayoutCard } from '../../components/Layout/Card/LayoutCard';
 import { useAllBooks } from '../../hooks';
-import { booksSelectors, store } from '../../store/store';
+import { authorsSelectors } from '../../store/authors/selectors';
+import { booksSelectors } from '../../store/books/selectors';
+import { store } from '../../store/store';
 import { BookProps } from '../../types/inerfaces';
-import { ScreensNotFound } from '../NotFound/ScreensNotFound';
-import { styles } from './ScreensBookCard.styles';
+import { NotFound } from '../NotFound';
+import { styles } from './styles';
 
-export const ScreensBookCard = (): JSX.Element => {
+export const BookCard = (): JSX.Element => {
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const { t } = useTranslation('default');
@@ -21,6 +23,14 @@ export const ScreensBookCard = (): JSX.Element => {
   const [book, setBook] = useState<BookProps | undefined>(
     booksSelectors.selectById(store.getState(), id)
   );
+
+  const getAuthorName = (): string | undefined => {
+    if (!book) {
+      return;
+    }
+    const author = authorsSelectors.selectById(store.getState(), book.authorId);
+    return `${author?.firstName} ${author?.lastName}`;
+  };
 
   const previousBook = (): void => {
     const previousId = booksSelectors.selectIds(store.getState())[
@@ -45,7 +55,7 @@ export const ScreensBookCard = (): JSX.Element => {
   }, [id]);
 
   if (!book) {
-    return <ScreensNotFound />;
+    return <NotFound />;
   }
 
   const content = {
@@ -65,22 +75,22 @@ export const ScreensBookCard = (): JSX.Element => {
     >
       <CardContent style={styles.cardContent}>
         <Typography gutterBottom variant='h5' component='div'>
-          {t('placeholders.title')}: {book.title}
+          {t('placeholders:title')}: {book.title}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.description')}: {book.description}
+          {t('placeholders:description')}: {book.description}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.authorName')}: {book.authorName}
+          {t('placeholders:authorName')}: {getAuthorName()}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.pagesCount')}: {book.pagesCount}
+          {t('placeholders:pagesCount')}: {book.pagesCount}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.publishingYear')}: {book.publishingYear}
+          {t('placeholders:publishingYear')}: {book.publishingYear}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders.code')}: {book.code}
+          {t('placeholders:code')}: {book.code}
         </Typography>
       </CardContent>
     </LayoutCard>

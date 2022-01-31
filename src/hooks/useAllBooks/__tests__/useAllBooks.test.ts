@@ -1,4 +1,5 @@
-import { booksSelectors, store } from '../../../store/store';
+import { booksSelectors } from '../../../store/books/selectors';
+import { store } from '../../../store/store';
 import { useAllBooks } from '../useAllBooks';
 
 describe('useAllBooks hook', () => {

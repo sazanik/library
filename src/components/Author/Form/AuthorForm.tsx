@@ -1,64 +1,74 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
+import { format, isValid } from 'date-fns';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, ControllerRenderProps, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { createAuthor, updateAuthor } from '../../../store/authors/actions';
 import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
+import { DateSelect } from '../../Date/Select/DateSelect';
 import { Input } from '../../Input/Input';
 import { styles } from './AuthorForm.styles';
 import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
   edit: boolean;
-  author: AuthorProps | null;
-  setOpenModal: (b: boolean) => void;
-}
-
-export interface FormProps {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  country: string;
+  author: AuthorProps;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
+  const { edit, author, setIsOpenModal } = props;
+  const { additionalError } = useAppSelector((state) => state.app);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { edit, author, setOpenModal } = props;
 
   const {
     register,
     handleSubmit,
+    control,
+    resetField,
+    watch,
     formState: { errors },
-  } = useForm<FormProps>({
-    mode: 'all',
+  } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
-  const onSubmit = (data: AuthorProps): void => {
-    const id = Date.now().toString().slice(5);
-    if (edit && author) {
+  const handleChangeDate = (
+    date: Date,
+    field: ControllerRenderProps<AuthorFormProps, 'birthDate'>
+  ): void => {
+    resetField('birthDate');
+    console.log(date);
+    if (!isValid(date)) {
+      return;
+    }
+    const year = new Date(date).getFullYear();
+    const month = new Date(date).getMonth();
+    const day = new Date(date).getDate();
+    const formatDate = format(new Date(year, month, day), 'MM/dd/yyyy');
+    field.onChange(formatDate);
+  };
+
+  const onSubmit = async (data: AuthorFormProps): Promise<void> => {
+    if (edit) {
       dispatch(
         updateAuthor({
+          ...data,
           id: author.id,
-          changes: { ...data },
         })
       );
     } else {
-      dispatch(
-        createAuthor({
-          ...data,
-          id,
-        })
-      );
+      dispatch(createAuthor(data));
     }
-    setOpenModal(false);
+    setIsOpenModal(false);
   };
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
+
+  console.log(watch('birthDate'));
 
   return (
     <Box component='form' sx={styles.box}>
@@ -83,15 +93,17 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         {errors?.lastName?.message}
       </Typography>
 
-      <Input
-        sx={styles.textField}
-        type='date'
-        {...register('birthDate')}
-        label={t('placeholders:birthDate')}
+      <Controller
+        name='birthDate'
         defaultValue={edit ? author?.birthDate : ''}
-        InputLabelProps={{
-          shrink: true,
-        }}
+        control={control}
+        render={({ field }) => (
+          <DateSelect
+            label={t('placeholders:birthDate')}
+            value={field.value}
+            onChange={(date) => handleChangeDate(date as Date, field)}
+          />
+        )}
       />
 
       <Typography align='center' sx={styles.error}>
@@ -103,6 +115,10 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         sx={styles.textField}
         defaultValue={edit ? author?.country : ''}
       />
+
+      <Typography align='center' sx={styles.error}>
+        {additionalError}
+      </Typography>
 
       <Button
         sx={styles.buttons.submit}

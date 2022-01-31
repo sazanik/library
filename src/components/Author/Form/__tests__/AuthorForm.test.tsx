@@ -1,16 +1,23 @@
-import React from 'react';
-import { AuthorForm, ComponentProps } from '../AuthorForm';
 import { mount, ReactWrapper } from 'enzyme';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+
 import { store } from '../../../../store/store';
+import { AuthorForm, ComponentProps } from '../AuthorForm';
 
 const mockSetOpenModal = (boolean: boolean): jest.Mock =>
   jest.fn(() => boolean);
 const propsData: ComponentProps = {
   edit: true,
-  author: null,
-  setOpenModal: mockSetOpenModal,
+  author: {
+    id: 'string',
+    firstName: 'string',
+    lastName: 'string',
+    birthDate: 'string',
+    country: 'string',
+  },
+  setIsOpenModal: mockSetOpenModal,
 };
 
 const setUp = (props: ComponentProps): ReactWrapper =>
@@ -39,12 +46,5 @@ describe('AuthorForm component', () => {
       expect(form).toHaveLength(1);
       wrapper.unmount();
     });
-
-    /*it('should call method "onSubmit"', () => {
-      const form = wrapper.find('form');
-      console.log(form.debug());
-      const testFunc: jest.Mock = jest.fn();
-      form.invoke('onSubmit')?.(testFunc);
-    });*/
   });
 });

@@ -1,4 +1,7 @@
 import React, { createContext, useState } from 'react';
+
+import { useAppDispatch } from '../hooks';
+import { signOutUser } from '../store/users/actions';
 import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
@@ -8,6 +11,7 @@ interface Props {
 }
 
 export const AuthContextProvider = ({ children }: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
 
@@ -16,9 +20,9 @@ export const AuthContextProvider = ({ children }: Props): JSX.Element => {
     cb();
   };
 
-  const logOut = (cb: () => void): void => {
+  const logOut = (): void => {
     setToken(null);
-    cb();
+    dispatch(signOutUser());
   };
 
   const context: AuthContextProps = {

@@ -12,5 +12,5 @@ export const getSignUpSchema = (t: TFunction): AnyObjectSchema =>
       confirmPassword: yup
         .string()
         .required(t('errors:passwordMismatch'))
-        .oneOf([yup.ref('password'), null], t('errors: passwordMismatch')),
+        .oneOf([yup.ref('password'), null], t('errors:passwordMismatch')),
     });

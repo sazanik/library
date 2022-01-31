@@ -1,22 +1,26 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { createBook, updateBook } from '../../../store/books/booksSlice';
-import { AuthorProps, BookProps } from '../../../types/inerfaces';
+
 import { useAppDispatch } from '../../../hooks';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { createBook, updateBook } from '../../../store/books/actions';
+import {
+  AuthorProps,
+  BookFormProps,
+  BookProps,
+} from '../../../types/inerfaces';
 import { styles } from '../../Author/Form/AuthorForm.styles';
-import { Box, Button, Typography } from '@mui/material';
 import { AuthorSelect } from '../../Author/Select/AuthorSelect';
-import { authorsSelectors, store } from '../../../store/store';
-import { CustomInput } from '../../UI/CustomInput/CustomInput';
+import { Input } from '../../Input/Input';
 import { getBookSchema } from './validation';
 
 interface componentProps {
   edit: boolean;
   author: AuthorProps;
   book: BookProps | undefined;
-  setOpenModal: (b: boolean) => void;
+  setIsOpenModal: (params: boolean) => void;
 }
 
 interface FormProps {
@@ -36,44 +40,27 @@ export const BookForm = (props: componentProps): JSX.Element => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FormProps>({
-    mode: 'all',
     resolver: yupResolver(getBookSchema(t)),
   });
 
-  const getAuthorName = (): string => {
-    const author = authorsSelectors.selectById(
-      store.getState(),
-      watch('authorId')
-    );
-
-    return `${author?.firstName} ${author?.lastName}`;
-  };
-
-  const onSubmit = (data: BookProps): void => {
-    const id = Date.now().toString().slice(5);
+  const onSubmit = (data: BookFormProps): void => {
     if (edit && propsBook) {
-      const updatedBook = {
-        ...data,
-        authorName: getAuthorName(),
-      };
       dispatch(
         updateBook({
+          ...data,
           id: propsBook.id,
-          changes: { ...updatedBook },
         })
       );
     } else {
-      const newBook = {
-        ...data,
-        authorName: getAuthorName(),
-        id,
-      };
-      dispatch(createBook(newBook));
+      dispatch(
+        createBook({
+          ...data,
+        })
+      );
     }
-    setOpenModal(false);
+    setIsOpenModal(false);
   };
 
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
