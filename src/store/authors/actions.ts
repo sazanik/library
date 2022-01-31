@@ -19,17 +19,23 @@ const createDoc = async (data: AuthorFormProps): Promise<AuthorProps> => {
   return (await getDoc(docRef)).data() as AuthorProps;
 };
 
+export const createAuthor = createAsyncThunk('authors/createAuthor', createDoc);
+
 const updateDoc = async (data: AuthorProps): Promise<AuthorProps> => {
   const docRef = doc(db, 'authors', data.id);
   await setDoc(docRef, data);
   return (await getDoc(docRef)).data() as AuthorProps;
 };
 
+export const updateAuthor = createAsyncThunk('authors/updateAuthor', updateDoc);
+
 const removeDoc = async (id: string): Promise<string> => {
   const docRef = doc(db, 'authors', id);
   await deleteDoc(docRef);
   return docRef.id;
 };
+
+export const removeAuthor = createAsyncThunk('authors/removeAuthor', removeDoc);
 
 const readDocs = async (): Promise<AuthorProps[]> => {
   const collectionRef = query(collection(db, 'authors'));
@@ -40,12 +46,6 @@ const readDocs = async (): Promise<AuthorProps[]> => {
   });
   return authors;
 };
-
-export const createAuthor = createAsyncThunk('authors/createAuthor', createDoc);
-
-export const updateAuthor = createAsyncThunk('authors/updateAuthor', updateDoc);
-
-export const removeAuthor = createAsyncThunk('authors/removeAuthor', removeDoc);
 
 export const getAllAuthors = createAsyncThunk(
   'authors/getAllAuthors',

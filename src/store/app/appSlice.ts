@@ -15,6 +15,16 @@ import {
 } from '../books/actions';
 import { signInUser, signOutUser, signUpUser } from '../users/actions';
 
+interface stateProps {
+  loading: boolean;
+  additionalError: string | null;
+}
+
+const initialState: stateProps = {
+  loading: true,
+  additionalError: null,
+};
+
 const actionFunctions = [
   createAuthor,
   getAllAuthors,
@@ -29,34 +39,24 @@ const actionFunctions = [
   signOutUser,
 ];
 
-interface stateProps {
-  loading: boolean;
-  additionalError: string | null;
-}
-
-const initialState: stateProps = {
-  loading: true,
-  additionalError: null,
-};
-
 export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    actionFunctions.forEach((f) => {
-      builder.addCase(f.pending, (state) => {
+    actionFunctions.forEach((func) => {
+      builder.addCase(func.pending, (state) => {
         state.loading = true;
       });
     });
-    actionFunctions.forEach((f) => {
-      builder.addCase(f.fulfilled, (state) => {
+    actionFunctions.forEach((func) => {
+      builder.addCase(func.fulfilled, (state) => {
         state.loading = false;
         state.additionalError = null;
       });
     });
-    actionFunctions.forEach((f) => {
-      builder.addCase(f.rejected, (state, action) => {
+    actionFunctions.forEach((func) => {
+      builder.addCase(func.rejected, (state, action) => {
         state.additionalError = (action.error as AuthError).message as string;
         state.loading = false;
       });

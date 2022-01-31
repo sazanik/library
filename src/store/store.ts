@@ -2,9 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import { appSlice } from './app/appSlice';
-import { authorsAdapter, authorsSlice } from './authors/authorsSlice';
-import { booksAdapter, booksSlice } from './books/booksSlice';
-import { usersAdapter, usersSlice } from './users/usersSlice';
+import { authorsSlice } from './authors/authorsSlice';
+import { booksSlice } from './books/booksSlice';
+import { usersSlice } from './users/usersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -19,15 +19,3 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-export const authorsSelectors = authorsAdapter.getSelectors<RootState>(
-  (state) => state.authors
-);
-
-export const booksSelectors = booksAdapter.getSelectors<RootState>(
-  (state) => state.books
-);
-
-export const usersSelectors = usersAdapter.getSelectors<RootState>(
-  (state) => state.users
-);

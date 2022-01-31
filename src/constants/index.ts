@@ -29,6 +29,7 @@ export const MAX_LENGTH = {
   CODE: 20,
   PAGES_COUNT: 4,
   PUBLISHING_YEAR: 4,
+  DATE: 10,
 };
 
 export const COUNTRIES: Countries[] = [

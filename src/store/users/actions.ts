@@ -21,6 +21,8 @@ const sigInRequest = async ({
   await signInWithEmailAndPassword(auth, email, password);
 };
 
+export const signInUser = createAsyncThunk('users/signInUser', sigInRequest);
+
 const sigUpRequest = async ({
   auth,
   email,
@@ -29,10 +31,10 @@ const sigUpRequest = async ({
   await createUserWithEmailAndPassword(auth, email, password);
 };
 
+export const signUpUser = createAsyncThunk('users/signUpUser', sigUpRequest);
+
 const signOutRequest = (): Promise<void> => authObject.signOut();
 
-export const signInUser = createAsyncThunk('users/signInUser', sigInRequest);
-export const signUpUser = createAsyncThunk('users/signUpUser', sigUpRequest);
 export const signOutUser = createAsyncThunk(
   'users/signOutUser',
   signOutRequest

@@ -30,6 +30,8 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     register,
     handleSubmit,
     control,
+    resetField,
+    watch,
     formState: { errors },
   } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
@@ -39,6 +41,8 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     date: Date,
     field: ControllerRenderProps<AuthorFormProps, 'birthDate'>
   ): void => {
+    resetField('birthDate');
+    console.log(date);
     if (!isValid(date)) {
       return;
     }
@@ -63,6 +67,8 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     setIsOpenModal(false);
   };
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
+
+  console.log(watch('birthDate'));
 
   return (
     <Box component='form' sx={styles.box}>

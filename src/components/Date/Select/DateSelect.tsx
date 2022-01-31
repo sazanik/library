@@ -40,6 +40,8 @@ export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
       locale={localeMap[i18n.language]}
     >
       <DatePicker
+        onError={(error) => console.log('ERROR', error)}
+        maxDate={new Date()}
         mask={maskMap[i18n.language]}
         label={label}
         value={value}

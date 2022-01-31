@@ -10,7 +10,13 @@ const mockSetOpenModal = (boolean: boolean): jest.Mock =>
   jest.fn(() => boolean);
 const propsData: ComponentProps = {
   edit: true,
-  author: null,
+  author: {
+    id: 'string',
+    firstName: 'string',
+    lastName: 'string',
+    birthDate: 'string',
+    country: 'string',
+  },
   setIsOpenModal: mockSetOpenModal,
 };
 

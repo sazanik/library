@@ -1,4 +1,5 @@
-import { authorsSelectors, store } from '../../../store/store';
+import { authorsSelectors } from '../../../store/authors/selectors';
+import { store } from '../../../store/store';
 import { useAllAuthors } from '../useAllAuthors';
 
 describe('useAllAuthors hook', () => {

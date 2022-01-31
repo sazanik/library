@@ -20,20 +20,16 @@ export const booksSlice = createSlice({
       })
       .addCase(updateBook.fulfilled, (state, action) => {
         const { payload: book } = action;
-        if (book) {
-          booksAdapter.updateOne(state, {
-            id: book.id,
-            changes: {
-              ...book,
-            },
-          });
-        }
+        booksAdapter.updateOne(state, {
+          id: book.id,
+          changes: {
+            ...book,
+          },
+        });
       })
       .addCase(removeBook.fulfilled, (state, action) => {
         const { payload: id } = action;
-        if (id) {
-          booksAdapter.removeOne(state, id);
-        }
+        booksAdapter.removeOne(state, id);
       })
       .addCase(getAllBooks.fulfilled, (state, action) => {
         const { payload: books } = action;
