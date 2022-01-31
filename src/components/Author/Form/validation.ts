@@ -21,7 +21,7 @@ export const getAuthorSchema = (t: TFunction): AnyObjectSchema =>
     birthDate: yup
       .string()
       .required(t('errors:required'))
-      .length(10)
-      .matches(MASKS.DATE, t('errors:invalidData')),
+      .length(10, t('errors:invalidData')),
+    // .matches(MASKS.DATE, t('errors:invalidData')),
     country: yup.string().required(t('errors:required')),
   });

@@ -38,10 +38,7 @@ export const BooksList = (): JSX.Element => {
     const book: BookProps = params.row;
     const author = authorsSelectors.selectById(store.getState(), book.authorId);
     setCurrentBook(book);
-    if (!author) {
-      return;
-    }
-    setCurrentAuthor(author);
+    setCurrentAuthor(author!);
   };
 
   const clickHandler = (event: MouseEvent<HTMLButtonElement>): void => {

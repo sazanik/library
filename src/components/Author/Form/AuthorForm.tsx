@@ -16,7 +16,7 @@ import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
   edit: boolean;
-  author: AuthorProps | null;
+  author: AuthorProps;
   setIsOpenModal: (params: boolean) => void;
 }
 
@@ -50,7 +50,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   };
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
-    if (edit && author) {
+    if (edit) {
       dispatch(
         updateAuthor({
           ...data,

@@ -25,20 +25,17 @@ export const authorsSlice = createSlice({
       })
       .addCase(updateAuthor.fulfilled, (state, action) => {
         const { payload: author } = action;
-        if (author) {
-          authorsAdapter.updateOne(state, {
-            id: author.id,
-            changes: {
-              ...author,
-            },
-          });
-        }
+        authorsAdapter.updateOne(state, {
+          id: author.id,
+          changes: {
+            ...author,
+          },
+        });
+        // }
       })
       .addCase(removeAuthor.fulfilled, (state, action) => {
         const { payload: id } = action;
-        if (id) {
-          authorsAdapter.removeOne(state, id);
-        }
+        authorsAdapter.removeOne(state, id);
       })
       .addCase(getAllAuthors.fulfilled, (state, action) => {
         const { payload: authors } = action;

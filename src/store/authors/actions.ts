@@ -13,23 +13,19 @@ import {
 import { db } from '../../firebase';
 import { AuthorFormProps, AuthorProps } from '../../types/inerfaces';
 
-const createDoc = async (
-  data: AuthorFormProps
-): Promise<AuthorProps | undefined> => {
+const createDoc = async (data: AuthorFormProps): Promise<AuthorProps> => {
   const docRef = await addDoc(collection(db, 'authors'), data);
   await setDoc(docRef, { id: docRef.id }, { merge: true });
   return (await getDoc(docRef)).data() as AuthorProps;
 };
 
-const updateDoc = async (
-  data: AuthorProps
-): Promise<AuthorProps | undefined> => {
+const updateDoc = async (data: AuthorProps): Promise<AuthorProps> => {
   const docRef = doc(db, 'authors', data.id);
   await setDoc(docRef, data);
   return (await getDoc(docRef)).data() as AuthorProps;
 };
 
-const removeDoc = async (id: string): Promise<string | undefined> => {
+const removeDoc = async (id: string): Promise<string> => {
   const docRef = doc(db, 'authors', id);
   await deleteDoc(docRef);
   return docRef.id;
