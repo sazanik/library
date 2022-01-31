@@ -1,8 +1,7 @@
-import { getAuth } from 'firebase/auth';
 import React, { createContext, useState } from 'react';
 
 import { useAppDispatch } from '../hooks';
-import { setError } from '../store/app/appSlice';
+import { signOutUser } from '../store/users/actions';
 import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
@@ -15,7 +14,6 @@ export const AuthContextProvider = ({ children }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
-  const auth = getAuth();
 
   const signIn = (newToken: string, cb: () => void): void => {
     setToken(newToken);
@@ -24,7 +22,7 @@ export const AuthContextProvider = ({ children }: Props): JSX.Element => {
 
   const logOut = (): void => {
     setToken(null);
-    auth.signOut().catch((error) => dispatch(setError(error)));
+    dispatch(signOutUser());
   };
 
   const context: AuthContextProps = {

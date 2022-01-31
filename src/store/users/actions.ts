@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
+import { auth as authObject } from '../../firebase';
+
 interface Props {
   auth: Auth;
   email: string;
@@ -27,5 +29,11 @@ const sigUpRequest = async ({
   await createUserWithEmailAndPassword(auth, email, password);
 };
 
+const signOutRequest = (): Promise<void> => authObject.signOut();
+
 export const signInUser = createAsyncThunk('users/signInUser', sigInRequest);
 export const signUpUser = createAsyncThunk('users/signUpUser', sigUpRequest);
+export const signOutUser = createAsyncThunk(
+  'users/signOutUser',
+  signOutRequest
+);

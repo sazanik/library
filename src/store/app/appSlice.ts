@@ -13,7 +13,7 @@ import {
   removeBook,
   updateBook,
 } from '../books/actions';
-import { signInUser, signUpUser } from '../users/actions';
+import { signInUser, signOutUser, signUpUser } from '../users/actions';
 
 const actionFunctions = [
   createAuthor,
@@ -26,6 +26,7 @@ const actionFunctions = [
   updateBook,
   signInUser,
   signUpUser,
+  signOutUser,
 ];
 
 interface stateProps {
@@ -41,17 +42,7 @@ const initialState: stateProps = {
 export const appSlice = createSlice({
   name: 'app',
   initialState,
-  reducers: {
-    setLoading: (state) => {
-      state.loading = true;
-    },
-    stopLoading: (state) => {
-      state.loading = false;
-    },
-    setError: (state, action) => {
-      state.additionalError = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     actionFunctions.forEach((f) => {
       builder.addCase(f.pending, (state) => {
@@ -72,5 +63,3 @@ export const appSlice = createSlice({
     });
   },
 });
-
-export const { setLoading, stopLoading, setError } = appSlice.actions;
