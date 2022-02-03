@@ -27,8 +27,8 @@ interface FormProps {
   title: string;
   description: string;
   code: string;
-  pagesCount: number;
-  publishingYear: number;
+  pagesCount: string;
+  publishingYear: string;
   authorId: string;
 }
 

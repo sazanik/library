@@ -7,6 +7,8 @@ import ruLocale from 'date-fns/locale/ru';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { MIN_VALUE } from '../../../constants';
+
 interface Props {
   label: string;
   value: string;
@@ -40,14 +42,14 @@ export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
       locale={localeMap[i18n.language]}
     >
       <DatePicker
-        onError={(error) => console.log('ERROR', error)}
+        minDate={new Date(MIN_VALUE.BIRTH_DAY)}
         maxDate={new Date()}
         mask={maskMap[i18n.language]}
         label={label}
         value={value}
         onChange={onChange}
         renderInput={(params) => {
-          return <TextField {...params} value={value} />;
+          return <TextField {...params} type='date' />;
         }}
       />
     </LocalizationProvider>

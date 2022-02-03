@@ -3,10 +3,13 @@ import { Countries } from '../types/inerfaces';
 export const ROWS_COUNT = 13;
 export const MASKS = {
   TEXT: /[a-zA-Zа-яА-Я]/,
-  DATE: /^(19|20)\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01])$/,
   NUMBER: /[\w-]/,
   PAGES_COUNT: /^[0-9]{4}&/,
   PUBLISHING_YEAR: /^\d{2,4}$/,
+};
+
+export const MIN_VALUE = {
+  BIRTH_DAY: '1000-01-01',
 };
 
 export const MIN_LENGTH = {
@@ -29,7 +32,6 @@ export const MAX_LENGTH = {
   CODE: 20,
   PAGES_COUNT: 4,
   PUBLISHING_YEAR: 4,
-  DATE: 10,
 };
 
 export const COUNTRIES: Countries[] = [

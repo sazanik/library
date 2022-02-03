@@ -1,8 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
-import { format, isValid } from 'date-fns';
 import React from 'react';
-import { Controller, ControllerRenderProps, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -30,28 +29,10 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     register,
     handleSubmit,
     control,
-    resetField,
-    watch,
     formState: { errors },
   } = useForm<AuthorFormProps>({
     resolver: yupResolver(getAuthorSchema(t)),
   });
-
-  const handleChangeDate = (
-    date: Date,
-    field: ControllerRenderProps<AuthorFormProps, 'birthDate'>
-  ): void => {
-    resetField('birthDate');
-    console.log(date);
-    if (!isValid(date)) {
-      return;
-    }
-    const year = new Date(date).getFullYear();
-    const month = new Date(date).getMonth();
-    const day = new Date(date).getDate();
-    const formatDate = format(new Date(year, month, day), 'MM/dd/yyyy');
-    field.onChange(formatDate);
-  };
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
     if (edit) {
@@ -67,8 +48,6 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     setIsOpenModal(false);
   };
   const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
-
-  console.log(watch('birthDate'));
 
   return (
     <Box component='form' sx={styles.box}>
@@ -95,13 +74,13 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
 
       <Controller
         name='birthDate'
-        defaultValue={edit ? author?.birthDate : ''}
+        defaultValue={edit ? author?.birthDate : undefined}
         control={control}
         render={({ field }) => (
           <DateSelect
             label={t('placeholders:birthDate')}
             value={field.value}
-            onChange={(date) => handleChangeDate(date as Date, field)}
+            onChange={field.onChange}
           />
         )}
       />

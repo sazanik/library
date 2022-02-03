@@ -99,6 +99,7 @@ export const AuthorsList = (): JSX.Element => {
       field: 'birthDate',
       headerName: t('placeholders:birthDate'),
       flex: 1,
+      type: 'date',
     },
     {
       field: 'country',
