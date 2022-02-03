@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
+import { format } from 'date-fns';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -35,15 +36,27 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   });
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
+    const birthDate = data.birthDate;
+    const year = new Date(birthDate).getFullYear();
+    const month = new Date(birthDate).getMonth();
+    const day = new Date(birthDate).getDate();
+    const formatBirthDate = format(new Date(year, month, day), 'MM/dd/yyyy');
+
     if (edit) {
       dispatch(
         updateAuthor({
           ...data,
+          birthDate: formatBirthDate,
           id: author.id,
         })
       );
     } else {
-      dispatch(createAuthor(data));
+      dispatch(
+        createAuthor({
+          ...data,
+          birthDate: formatBirthDate,
+        })
+      );
     }
     setIsOpenModal(false);
   };
@@ -74,7 +87,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
 
       <Controller
         name='birthDate'
-        defaultValue={edit ? author?.birthDate : undefined}
+        defaultValue={edit ? author?.birthDate : new Date().toDateString()}
         control={control}
         render={({ field }) => (
           <DateSelect

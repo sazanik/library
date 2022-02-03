@@ -12,7 +12,7 @@ import { MIN_VALUE } from '../../../constants';
 interface Props {
   label: string;
   value: string;
-  onChange: (date: Date | null) => void;
+  onChange: (date: Date | null | string) => void;
 }
 
 interface LocaleMapProps {
