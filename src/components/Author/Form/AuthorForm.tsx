@@ -32,6 +32,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     control,
     formState: { errors },
   } = useForm<AuthorFormProps>({
+    mode: 'onSubmit',
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
@@ -103,10 +104,15 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
       </Typography>
 
       <CountrySelect
-        {...register('country')}
         sx={styles.textField}
+        {...register('country')}
+        label={t('placeholders:country')}
         defaultValue={edit ? author?.country : ''}
       />
+
+      <Typography align='center' sx={styles.error}>
+        {errors?.country?.message}
+      </Typography>
 
       <Typography align='center' sx={styles.error}>
         {additionalError}
