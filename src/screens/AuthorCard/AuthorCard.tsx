@@ -9,8 +9,8 @@ import { useAllAuthors } from '../../hooks';
 import { authorsSelectors } from '../../store/authors/selectors';
 import { store } from '../../store/store';
 import { AuthorProps } from '../../types/inerfaces';
-import { NotFound } from '../NotFound';
-import { styles } from './styles';
+import { NotFound } from '../NotFound/NotFound';
+import { styles } from './AuthorCard.styles';
 
 export const AuthorCard = (): JSX.Element => {
   const navigate = useNavigate();

@@ -13,15 +13,18 @@ import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp
 import { Loader } from '../../components/Loader/Loader';
 import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
+import { checkLoading } from '../../services/checkLoading';
+import { setLoading } from '../../store/app/appSlice';
 import { getAllAuthors } from '../../store/authors/actions';
 import { getAllBooks } from '../../store/books/actions';
 import { signInUser, signUpUser } from '../../store/users/actions';
 import { AuthFormProps } from '../../types/inerfaces';
-import { styles } from './styles';
+import { styles } from './Auth.styles';
 
 export const Auth = (): JSX.Element => {
   const { t } = useTranslation();
-  const { additionalError, loading } = useAppSelector((state) => state.app);
+  const store = useAppSelector((state) => state);
+  const { generalError, generalLoading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,7 +85,14 @@ export const Auth = (): JSX.Element => {
     // eslint-disable-next-line
   }, []);
 
-  if (loading) {
+  useEffect(() => {
+    if (store.app.generalLoading === checkLoading()) {
+      return;
+    }
+    dispatch(setLoading(checkLoading()));
+  }, [store.authors.loading, store.books.loading, store.users.loading]);
+
+  if (generalLoading) {
     return <Loader />;
   }
 
@@ -99,7 +109,7 @@ export const Auth = (): JSX.Element => {
       )}
 
       <LoadingButton
-        loading={loading}
+        loading={generalLoading}
         loadingIndicator={<CircularProgress color='inherit' size={16} />}
         sx={styles.buttons.submit}
         onClick={handleSubmit(onSubmit)}
@@ -108,7 +118,7 @@ export const Auth = (): JSX.Element => {
         {t('buttons:submit')}
       </LoadingButton>
       <Typography align='center' sx={styles.error}>
-        {additionalError}
+        {generalError}
       </Typography>
       <Typography align='center'>
         {!isRegistered ? t('glossary:goSignIn') : t('glossary:goSignUp')}

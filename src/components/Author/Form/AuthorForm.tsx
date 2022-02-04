@@ -22,7 +22,7 @@ export interface ComponentProps {
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
   const { edit, author, setIsOpenModal } = props;
-  const { additionalError } = useAppSelector((state) => state.app);
+  const { generalError } = useAppSelector((state) => state.app);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -115,7 +115,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
       </Typography>
 
       <Typography align='center' sx={styles.error}>
-        {additionalError}
+        {generalError}
       </Typography>
 
       <Button
