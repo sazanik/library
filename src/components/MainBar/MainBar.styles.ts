@@ -1,13 +1,15 @@
 export const styles = {
-  box: {},
-
-  text: {
-    minWidth: 140,
+  logo: {
+    minWidth: 150,
     mr: 2,
     display: {
       xs: 'none',
       md: 'flex',
     },
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    cursor: 'pointer',
   },
 
   button: {
