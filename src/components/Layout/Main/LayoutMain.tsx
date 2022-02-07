@@ -8,9 +8,9 @@ import { styles } from './LayoutMain.styles';
 
 export const LayoutMain = (): JSX.Element => {
   return (
-    <Container maxWidth={false} disableGutters={true}>
+    <Container sx={styles.container} maxWidth={false} disableGutters={true}>
       <MainBar />
-      <Box sx={styles.box}>
+      <Box sx={styles.centerBox}>
         <Outlet />
       </Box>
       <Footer />
