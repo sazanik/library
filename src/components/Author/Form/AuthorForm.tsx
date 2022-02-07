@@ -37,10 +37,10 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   });
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
-    const { birthDate } = data;
-    const year = new Date(birthDate).getFullYear();
-    const month = new Date(birthDate).getMonth();
-    const day = new Date(birthDate).getDate();
+    const birthDate = new Date(data.birthDate);
+    const year = birthDate.getFullYear();
+    const month = birthDate.getMonth();
+    const day = birthDate.getDate();
     const formatBirthDate = format(new Date(year, month, day), 'MM/dd/yyyy');
 
     if (isEdit) {
