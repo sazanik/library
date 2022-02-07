@@ -114,7 +114,7 @@ export const BooksList = (): JSX.Element => {
     },
     {
       field: 'authorName',
-      headerName: t('placeholders:authorName'),
+      headerName: t('placeholders:author'),
       flex: 1,
     },
     {
