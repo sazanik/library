@@ -36,7 +36,7 @@ export const BooksList = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const books = useAllBooks();
-  const [edit, setEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
@@ -54,12 +54,12 @@ export const BooksList = (): JSX.Element => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
       case Actions.ADD:
-        setEdit(false);
+        setIsEdit(false);
         setIsOpenModal(true);
         break;
 
       case Actions.EDIT:
-        setEdit(true);
+        setIsEdit(true);
         setIsOpenModal(true);
         break;
 
@@ -75,7 +75,7 @@ export const BooksList = (): JSX.Element => {
   function editingCell(): JSX.Element {
     return (
       <>
-        <IconButton onClick={clickHandler} aria-label='edit'>
+        <IconButton onClick={clickHandler} aria-label='isEdit'>
           <EditIcon fontSize='small' />
         </IconButton>
         <IconButton onClick={clickHandler} aria-label='delete'>
@@ -172,12 +172,12 @@ export const BooksList = (): JSX.Element => {
           rows={booksWithAuthors()}
           columns={columns}
           onCellClick={cellClickHandler}
-          setEdit={setEdit}
+          setIsEdit={setIsEdit}
           setIsOpenModal={setIsOpenModal}
         />
       )}
       <BookModal
-        edit={edit}
+        isEdit={isEdit}
         author={currentAuthor}
         book={currentBook}
         isOpenModal={isOpenModal}

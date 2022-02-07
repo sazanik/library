@@ -31,7 +31,7 @@ export const AuthorsList = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state);
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
-  const [edit, setEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
@@ -47,12 +47,12 @@ export const AuthorsList = (): JSX.Element => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
       case Actions.ADD:
-        setEdit(false);
+        setIsEdit(false);
         setIsOpenModal(true);
         break;
 
       case Actions.EDIT:
-        setEdit(true);
+        setIsEdit(true);
         setIsOpenModal(true);
         break;
 
@@ -67,7 +67,7 @@ export const AuthorsList = (): JSX.Element => {
 
   const editingCell = (): JSX.Element => (
     <>
-      <IconButton onClick={clickHandler} aria-label='edit'>
+      <IconButton onClick={clickHandler} aria-label='isEdit'>
         <EditIcon fontSize='small' />
       </IconButton>
       <IconButton onClick={clickHandler} aria-label='delete'>
@@ -154,12 +154,12 @@ export const AuthorsList = (): JSX.Element => {
           rows={authors}
           columns={columns}
           onCellClick={cellClickHandler}
-          setEdit={setEdit}
+          setIsEdit={setIsEdit}
           setIsOpenModal={setIsOpenModal}
         />
       )}
       <AuthorModal
-        edit={edit}
+        isEdit={isEdit}
         author={currentAuthor}
         isOpenModal={isOpenModal}
         setIsOpenModal={setIsOpenModal}

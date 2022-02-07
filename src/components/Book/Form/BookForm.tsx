@@ -17,7 +17,7 @@ import { Input } from '../../Input/Input';
 import { getBookSchema } from './validation';
 
 interface componentProps {
-  edit: boolean;
+  isEdit: boolean;
   author: AuthorProps;
   book: BookProps | undefined;
   setIsOpenModal: (params: boolean) => void;
@@ -34,7 +34,12 @@ interface FormProps {
 
 export const BookForm = (props: componentProps): JSX.Element => {
   const { t } = useTranslation();
-  const { edit, author: propsAuthor, book: propsBook, setIsOpenModal } = props;
+  const {
+    isEdit,
+    author: propsAuthor,
+    book: propsBook,
+    setIsOpenModal,
+  } = props;
   const dispatch = useAppDispatch();
 
   const {
@@ -46,7 +51,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
   });
 
   const onSubmit = (data: BookFormProps): void => {
-    if (edit && propsBook) {
+    if (isEdit && propsBook) {
       dispatch(
         updateBook({
           ...data,
@@ -63,7 +68,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
     setIsOpenModal(false);
   };
 
-  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
+  const buttonName: string = isEdit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
@@ -72,7 +77,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         type='text'
         {...register('title')}
         label={t('placeholders:title')}
-        defaultValue={edit ? propsBook?.title : ''}
+        defaultValue={isEdit ? propsBook?.title : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.title?.message}
@@ -85,7 +90,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         maxRows={10}
         {...register('description')}
         label={t('placeholders:description')}
-        defaultValue={edit ? propsBook?.description : ''}
+        defaultValue={isEdit ? propsBook?.description : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.description?.message}
@@ -96,7 +101,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         type='text'
         {...register('code')}
         label={t('placeholders:code')}
-        defaultValue={edit ? propsBook?.code : ''}
+        defaultValue={isEdit ? propsBook?.code : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.code?.message}
@@ -107,7 +112,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         type='number'
         {...register('pagesCount')}
         label={t('placeholders:pagesCount')}
-        defaultValue={edit ? propsBook?.pagesCount : ''}
+        defaultValue={isEdit ? propsBook?.pagesCount : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.pagesCount?.message}
@@ -124,7 +129,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         type='number'
         {...register('publishingYear')}
         label={t('placeholders:publishingYear')}
-        defaultValue={edit ? propsBook?.publishingYear : ''}
+        defaultValue={isEdit ? propsBook?.publishingYear : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.publishingYear?.message}

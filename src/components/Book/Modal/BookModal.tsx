@@ -6,7 +6,7 @@ import { BookForm } from '../Form/BookForm';
 import styles from './BookModal.styles';
 
 interface Props {
-  edit: boolean;
+  isEdit: boolean;
   author: AuthorProps;
   book: BookProps;
   isOpenModal: boolean;
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const BookModal = ({
-  edit,
+  isEdit,
   author,
   book,
   isOpenModal,
@@ -29,7 +29,7 @@ export const BookModal = ({
     >
       <Box sx={styles.box}>
         <BookForm
-          edit={edit}
+          isEdit={isEdit}
           author={author}
           book={book}
           setIsOpenModal={setIsOpenModal}

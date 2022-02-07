@@ -6,14 +6,14 @@ import { AuthorForm } from '../Form/AuthorForm';
 import styles from './AuthorModal.styles';
 
 interface Props {
-  edit: boolean;
+  isEdit: boolean;
   author: AuthorProps;
   isOpenModal: boolean;
   setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorModal = ({
-  edit,
+  isEdit,
   author,
   isOpenModal,
   setIsOpenModal,
@@ -27,7 +27,7 @@ export const AuthorModal = ({
     >
       <Box sx={styles.box}>
         <AuthorForm
-          edit={edit}
+          isEdit={isEdit}
           author={author}
           setIsOpenModal={setIsOpenModal}
         />

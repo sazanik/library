@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
-import { Box, CircularProgress, Link, Typography } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -66,9 +65,9 @@ export const Auth = (): JSX.Element => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        user.getIdToken().then((token) => {
-          if (token) {
-            signIn(token, () => navigate(fromPage, { replace: true }));
+        user.getIdToken().then((newToken) => {
+          if (newToken) {
+            signIn(newToken, () => navigate(fromPage, { replace: true }));
           } else {
             logOut();
           }
@@ -108,15 +107,13 @@ export const Auth = (): JSX.Element => {
         <AuthFormSignUp register={register} errors={errors} />
       )}
 
-      <LoadingButton
-        loading={generalLoading}
-        loadingIndicator={<CircularProgress color='inherit' size={16} />}
+      <Button
         sx={styles.buttons.submit}
         onClick={handleSubmit(onSubmit)}
         variant='contained'
       >
         {t('buttons:submit')}
-      </LoadingButton>
+      </Button>
       <Typography align='center' sx={styles.error}>
         {generalError}
       </Typography>

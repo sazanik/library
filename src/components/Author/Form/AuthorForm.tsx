@@ -15,13 +15,13 @@ import { styles } from './AuthorForm.styles';
 import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
-  edit: boolean;
+  isEdit: boolean;
   author: AuthorProps;
   setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
-  const { edit, author, setIsOpenModal } = props;
+  const { isEdit, author, setIsOpenModal } = props;
   const { generalError } = useAppSelector((state) => state.app);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -43,7 +43,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     const day = new Date(birthDate).getDate();
     const formatBirthDate = format(new Date(year, month, day), 'MM/dd/yyyy');
 
-    if (edit) {
+    if (isEdit) {
       dispatch(
         updateAuthor({
           ...data,
@@ -61,7 +61,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     }
     setIsOpenModal(false);
   };
-  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
+  const buttonName: string = isEdit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
@@ -70,7 +70,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         type='text'
         {...register('firstName')}
         label={t('placeholders:firstName')}
-        defaultValue={edit ? author?.firstName : ''}
+        defaultValue={isEdit ? author?.firstName : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.firstName?.message}
@@ -80,7 +80,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         type='text'
         {...register('lastName')}
         label={t('placeholders:lastName')}
-        defaultValue={edit ? author?.lastName : ''}
+        defaultValue={isEdit ? author?.lastName : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.lastName?.message}
@@ -88,7 +88,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
 
       <Controller
         name='birthDate'
-        defaultValue={edit ? author?.birthDate : new Date().toDateString()}
+        defaultValue={isEdit ? author?.birthDate : new Date().toDateString()}
         control={control}
         render={({ field }) => (
           <DateSelect
@@ -107,7 +107,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         sx={styles.textField}
         {...register('country')}
         label={t('placeholders:country')}
-        defaultValue={edit ? author?.country : ''}
+        defaultValue={isEdit ? author?.country : ''}
       />
 
       <Typography align='center' sx={styles.error}>
