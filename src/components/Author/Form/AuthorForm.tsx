@@ -37,7 +37,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   });
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
-    const birthDate = data.birthDate;
+    const { birthDate } = data;
     const year = new Date(birthDate).getFullYear();
     const month = new Date(birthDate).getMonth();
     const day = new Date(birthDate).getDate();
