@@ -67,7 +67,7 @@ export const AuthorsList = (): JSX.Element => {
 
   const editingCell = (): JSX.Element => (
     <>
-      <IconButton onClick={clickHandler} aria-label='isEdit'>
+      <IconButton onClick={clickHandler} aria-label='edit'>
         <EditIcon fontSize='small' />
       </IconButton>
       <IconButton onClick={clickHandler} aria-label='delete'>
@@ -135,6 +135,7 @@ export const AuthorsList = (): JSX.Element => {
       return;
     }
     dispatch(setLoading(checkLoading()));
+    //eslint-disable-next-line
   }, [store.authors.loading, store.books.loading, store.users.loading]);
 
   if (generalLoading) {

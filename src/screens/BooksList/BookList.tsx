@@ -75,7 +75,7 @@ export const BooksList = (): JSX.Element => {
   function editingCell(): JSX.Element {
     return (
       <>
-        <IconButton onClick={clickHandler} aria-label='isEdit'>
+        <IconButton onClick={clickHandler} aria-label='edit'>
           <EditIcon fontSize='small' />
         </IconButton>
         <IconButton onClick={clickHandler} aria-label='delete'>
@@ -151,6 +151,7 @@ export const BooksList = (): JSX.Element => {
       return;
     }
     dispatch(setLoading(checkLoading()));
+    //eslint-disable-next-line
   }, [store.authors.loading, store.books.loading, store.users.loading]);
 
   if (generalLoading) {
