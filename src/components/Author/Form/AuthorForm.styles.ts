@@ -18,10 +18,6 @@ export const styles = {
   },
 
   buttons: {
-    submit: {
-      submit: {
-        mb: 1,
-      },
-    },
+    submit: {},
   },
 };

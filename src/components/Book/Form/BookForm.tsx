@@ -11,9 +11,9 @@ import {
   BookFormProps,
   BookProps,
 } from '../../../types/inerfaces';
-import { styles } from '../../Author/Form/AuthorForm.styles';
 import { AuthorSelect } from '../../Author/Select/AuthorSelect';
 import { Input } from '../../Input/Input';
+import { styles } from './BookForm.styles';
 import { getBookSchema } from './validation';
 
 interface componentProps {

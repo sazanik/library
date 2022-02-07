@@ -1,4 +1,5 @@
-import { Box, Modal } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, IconButton, Modal } from '@mui/material';
 import React from 'react';
 
 import { AuthorProps } from '../../../types/inerfaces';
@@ -26,6 +27,14 @@ export const AuthorModal = ({
       aria-describedby='modal-modal-description'
     >
       <Box sx={styles.box}>
+        <IconButton
+          sx={styles.closeIcon}
+          onClick={() => setIsOpenModal(false)}
+          aria-label='close'
+          color='default'
+        >
+          <CloseIcon />
+        </IconButton>
         <AuthorForm
           isEdit={isEdit}
           author={author}

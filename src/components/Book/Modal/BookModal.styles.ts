@@ -8,6 +8,14 @@ export default {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 6,
+  },
+
+  closeIcon: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    m: 0.5,
+    marginBottom: 20,
   },
 };
