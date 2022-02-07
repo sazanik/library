@@ -3,7 +3,7 @@
   "email": "Электронная почта",
   "password": "Пароль",
   "confirmPassword": "Подтвердите пароль",
-  "authorName": "Автор",
+  "author": "Автор",
   "books": "Книги",
   "firstName": "Имя",
   "lastName": "Фамилия",

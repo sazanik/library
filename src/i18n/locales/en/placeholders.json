@@ -3,7 +3,7 @@
   "email": "Email",
   "password": "Password",
   "confirmPassword": "Confirm password",
-  "authorName": "Author",
+  "author": "Author",
   "books": "Books",
   "firstName": "First name",
   "lastName": "Last name",
