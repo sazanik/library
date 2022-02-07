@@ -2,7 +2,7 @@ import { TFunction } from 'react-i18next';
 import * as yup from 'yup';
 import { AnyObjectSchema } from 'yup';
 
-import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants/constants';
+import { MASKS, MAX_LENGTH, MIN_LENGTH } from '../../../constants';
 
 export const getBookSchema = (t: TFunction): AnyObjectSchema =>
   yup.object().shape({

@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { forwardRef } from 'react';
 
-import { COUNTRIES } from '../../../constants/constants';
+import { COUNTRIES } from '../../../constants';
 
 interface Props {
   label: string;

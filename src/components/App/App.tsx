@@ -6,7 +6,7 @@ import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter } from 'react-router-dom';
 
-import { PAGINATION_LOCALES } from '../../constants/constants';
+import { PAGINATION_LOCALES } from '../../constants';
 import { AuthContextProvider } from '../../context/AuthContextProvider';
 import { useAppSelector } from '../../hooks';
 import { Root } from '../../screens/Root';

@@ -2,12 +2,7 @@ import { TFunction } from 'react-i18next';
 import * as yup from 'yup';
 import { AnyObjectSchema } from 'yup';
 
-import {
-  MASKS,
-  MAX_LENGTH,
-  MIN_LENGTH,
-  MIN_VALUE,
-} from '../../../constants/constants';
+import { MASKS, MAX_LENGTH, MIN_LENGTH, MIN_VALUE } from '../../../constants';
 
 export const getAuthorSchema = (t: TFunction): AnyObjectSchema =>
   yup.object().shape({

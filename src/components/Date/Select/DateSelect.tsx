@@ -7,7 +7,7 @@ import ruLocale from 'date-fns/locale/ru';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { MIN_VALUE } from '../../../constants/constants';
+import { MIN_VALUE } from '../../../constants';
 
 interface Props {
   sx: { mb: number };

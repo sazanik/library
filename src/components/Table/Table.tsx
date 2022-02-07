@@ -1,7 +1,7 @@
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 
-import { ROWS_COUNT } from '../../constants/constants';
+import { ROWS_COUNT } from '../../constants';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
 
