@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { MIN_VALUE } from '../../../constants';
 
 interface Props {
+  sx: { mb: number };
   label: string;
   value: string;
   onChange: (date: Date | null | string) => void;
@@ -33,7 +34,12 @@ const maskMap: MaskMapProps = {
   ru: '__.__.____',
 };
 
-export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
+export const DateSelect = ({
+  label,
+  value,
+  onChange,
+  sx,
+}: Props): JSX.Element => {
   const { i18n } = useTranslation();
 
   return (
@@ -49,7 +55,7 @@ export const DateSelect = ({ label, value, onChange }: Props): JSX.Element => {
         value={value}
         onChange={onChange}
         renderInput={(params) => {
-          return <TextField {...params} type='date' />;
+          return <TextField {...params} type='date' sx={sx} />;
         }}
       />
     </LocalizationProvider>
