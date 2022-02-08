@@ -132,6 +132,7 @@ export const BooksList = (): JSX.Element => {
       headerName: t('placeholders:editing'),
       width: 120,
       renderCell: editingCell,
+      sortable: false,
     },
   ];
 

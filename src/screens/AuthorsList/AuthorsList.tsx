@@ -115,12 +115,14 @@ export const AuthorsList = (): JSX.Element => {
       headerName: t('placeholders:books'),
       flex: 0.7,
       renderCell: () => <BookSelect author={currentAuthor} />,
+      sortable: false,
     },
     {
       field: 'editing',
       headerName: t('placeholders:editing'),
       flex: 0.5,
       renderCell: editingCell,
+      sortable: false,
     },
   ];
 
