@@ -2,7 +2,7 @@ import { TFunction } from 'react-i18next';
 import * as yup from 'yup';
 import { AnyObjectSchema } from 'yup';
 
-import { MAX_LENGTH, MIN_LENGTH } from '../../../../constants';
+import { MAX_LENGTH, MIN_LENGTH } from '../../../../constants/constants';
 
 export const getSignInSchema = (t: TFunction): AnyObjectSchema =>
   yup.object().shape({
