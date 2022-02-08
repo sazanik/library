@@ -7,16 +7,18 @@ import {
   getAllAuthors,
   removeAuthor,
   updateAuthor,
-} from './actions';
+} from './asyncActions';
 
 interface extendedStateProps {
   loading: boolean;
   error: null | string;
+  page: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
+  page: 0,
 };
 
 const actions = [createAuthor, getAllAuthors, removeAuthor, updateAuthor];
@@ -29,7 +31,12 @@ export const authorsAdapter = createEntityAdapter<AuthorProps>({
 export const authorsSlice = createSlice({
   name: 'authors',
   initialState: authorsAdapter.getInitialState(extendedState),
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      const { payload: page } = action;
+      state.page = page;
+    },
+  },
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
@@ -75,3 +82,5 @@ export const authorsSlice = createSlice({
       });
   },
 });
+
+export const { setPage } = authorsSlice.actions;

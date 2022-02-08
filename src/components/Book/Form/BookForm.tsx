@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../hooks';
-import { createBook, updateBook } from '../../../store/books/actions';
+import { createBook, updateBook } from '../../../store/books/asyncActions';
 import {
   AuthorProps,
   BookFormProps,

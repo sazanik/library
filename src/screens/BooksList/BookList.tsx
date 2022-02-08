@@ -24,7 +24,7 @@ import {
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
 import { authorsSelectors } from '../../store/authors/selectors';
-import { Actions, Fields } from '../../types/enums';
+import { Actions, Entities, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { styles } from './BookList.styles';
 
@@ -170,6 +170,7 @@ export const BooksList = (): JSX.Element => {
         </Button>
       ) : (
         <Table
+          entity={Entities.BOOKS}
           buttonTitle={t('buttons:addBook')}
           rows={booksWithAuthors()}
           columns={columns}

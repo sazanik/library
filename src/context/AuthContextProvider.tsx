@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 
 import { useAppDispatch } from '../hooks';
-import { signOutUser } from '../store/users/actions';
+import { signOutUser } from '../store/users/asyncActions';
 import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
