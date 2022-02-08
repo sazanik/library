@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../hooks';
-import { removeBook } from '../../../store/books/actions';
+import { removeBook } from '../../../store/books/asyncActions';
 import { BookProps } from '../../../types/inerfaces';
 import { DialogBox } from '../../DialogBox/DialogBox';
 

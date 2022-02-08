@@ -2,7 +2,12 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
 import { BookProps } from '../../types/inerfaces';
-import { createBook, getAllBooks, removeBook, updateBook } from './actions';
+import {
+  createBook,
+  getAllBooks,
+  removeBook,
+  updateBook,
+} from './asyncActions';
 
 export const booksAdapter = createEntityAdapter<BookProps>({
   selectId: (book) => book.id,
@@ -12,11 +17,13 @@ export const booksAdapter = createEntityAdapter<BookProps>({
 interface extendedStateProps {
   loading: boolean;
   error: null | string;
+  page: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
+  page: 0,
 };
 
 const actions = [createBook, getAllBooks, removeBook, updateBook];
@@ -24,7 +31,12 @@ const actions = [createBook, getAllBooks, removeBook, updateBook];
 export const booksSlice = createSlice({
   name: 'books',
   initialState: booksAdapter.getInitialState(extendedState),
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      const { payload: page } = action;
+      state.page = page;
+    },
+  },
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
@@ -70,3 +82,5 @@ export const booksSlice = createSlice({
       });
   },
 });
+
+export const { setPage } = booksSlice.actions;

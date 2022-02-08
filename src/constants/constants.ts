@@ -7,7 +7,7 @@ export const PAGINATION_LOCALES: PaginationLocales = {
   ru,
 };
 
-export const ROWS_COUNT = 13;
+export const ROWS_COUNT = 14;
 export const MASKS = {
   TEXT: /[a-zA-Zа-яА-Я]/,
   NUMBER: /[\w-]/,

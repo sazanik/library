@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
 import { UserProps } from '../../types/inerfaces';
-import { signInUser, signOutUser, signUpUser } from './actions';
+import { signInUser, signOutUser, signUpUser } from './asyncActions';
 
 interface extendedStateProps {
   loading: boolean;

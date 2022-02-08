@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAllBooks, useAppDispatch } from '../../../hooks';
-import { removeAuthor } from '../../../store/authors/actions';
-import { removeBook } from '../../../store/books/actions';
+import { removeAuthor } from '../../../store/authors/asyncActions';
+import { removeBook } from '../../../store/books/asyncActions';
 import { AuthorProps } from '../../../types/inerfaces';
 import { DialogBox } from '../../DialogBox/DialogBox';
 
