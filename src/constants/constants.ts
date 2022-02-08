@@ -1,4 +1,11 @@
-import { Countries } from '../types/inerfaces';
+import { enUS as en, ruRU as ru } from '@mui/material/locale';
+
+import { Countries, PaginationLocales } from '../types/inerfaces';
+
+export const PAGINATION_LOCALES: PaginationLocales = {
+  en,
+  ru,
+};
 
 export const ROWS_COUNT = 13;
 export const MASKS = {

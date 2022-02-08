@@ -1,4 +1,7 @@
+import { Localization } from '@mui/material/locale';
 import { Dispatch, SetStateAction } from 'react';
+
+import { Locales } from './enums';
 
 export interface UserProps {
   id: string;
@@ -58,3 +61,7 @@ export interface Countries {
   code: string;
   label: string;
 }
+
+export type PaginationLocales = {
+  [key in Locales]: Localization;
+};
