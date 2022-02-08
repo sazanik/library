@@ -26,6 +26,7 @@ export const Table = ({
     <DataGrid
       rows={rows}
       columns={columns}
+      disableColumnMenu
       pageSize={ROWS_COUNT}
       components={{
         Toolbar: () =>
