@@ -4,10 +4,10 @@ import {
   GridColDef,
   GridSortModel,
 } from '@mui/x-data-grid';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ROWS_COUNT } from '../../constants/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getCollectionAuthors } from '../../store/authors/asyncActions';
 import { setPage as setAuthorsPage } from '../../store/authors/authorsSlice';
 import { setPage as setBooksPage } from '../../store/books/booksSlice';
 import { Entities } from '../../types/enums';
@@ -47,12 +47,21 @@ export const Table = ({
   };
 
   const dispatch = useAppDispatch();
+  const [pageSize, setPageSize] = useState<number>(0);
   const [sortModel, setSortModel] = React.useState<GridSortModel>([
     {
       field: columns[0].field,
       sort: 'asc',
     },
   ]);
+
+  const handlePageChange = (newPage: number): void => {
+    dispatch(getCollectionAuthors(pageSize)).then(() => {
+      dispatch(state[entity].setPage(newPage));
+    });
+  };
+
+  console.log(pageSize);
 
   return (
     <DataGrid
@@ -61,9 +70,11 @@ export const Table = ({
       disableColumnMenu
       autoPageSize
       page={state[entity].page}
-      onPageChange={(newPage) => dispatch(state[entity].setPage(newPage))}
+      onPageChange={handlePageChange}
       // sortingMode='server'
       sortModel={sortModel}
+      // paginationMode='server'
+      onPageSizeChange={(count) => setPageSize(count)}
       onSortModelChange={(newModel) => setSortModel(newModel)}
       components={{
         Toolbar: () =>
@@ -73,7 +84,6 @@ export const Table = ({
             setIsOpenModal,
           }),
       }}
-      rowsPerPageOptions={[ROWS_COUNT]}
       disableSelectionOnClick
       onCellClick={onCellClick}
     />

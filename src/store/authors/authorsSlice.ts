@@ -4,7 +4,7 @@ import { AuthError } from 'firebase/auth';
 import { AuthorProps } from '../../types/inerfaces';
 import {
   createAuthor,
-  getAllAuthors,
+  getCollectionAuthors,
   removeAuthor,
   updateAuthor,
 } from './asyncActions';
@@ -21,7 +21,12 @@ const extendedState: extendedStateProps = {
   page: 0,
 };
 
-const actions = [createAuthor, getAllAuthors, removeAuthor, updateAuthor];
+const actions = [
+  createAuthor,
+  getCollectionAuthors,
+  removeAuthor,
+  updateAuthor,
+];
 
 export const authorsAdapter = createEntityAdapter<AuthorProps>({
   selectId: (author) => author.id,
@@ -47,7 +52,7 @@ export const authorsSlice = createSlice({
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
         state.loading = false;
-        state.error = (error as AuthError).message as string;
+        state.error = (error as AuthError)?.message as string;
       });
     });
     builder
@@ -74,9 +79,9 @@ export const authorsSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllAuthors.fulfilled, (state, action) => {
+      .addCase(getCollectionAuthors.fulfilled, (state, action) => {
         const { payload: authors } = action;
-        authorsAdapter.setAll(state, authors);
+        authorsAdapter.setMany(state, authors);
         state.loading = false;
         state.error = null;
       });
