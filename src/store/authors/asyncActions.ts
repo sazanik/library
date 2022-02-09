@@ -6,10 +6,15 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  Query,
   query,
+  QuerySnapshot,
   setDoc,
+  startAfter,
 } from 'firebase/firestore/lite';
 
+import { FIRST_LOAD_ROWS_COUNT } from '../../constants/constants';
 import { db } from '../../firebase';
 import { AuthorFormProps, AuthorProps } from '../../types/inerfaces';
 
@@ -37,17 +42,34 @@ const removeDoc = async (id: string): Promise<string> => {
 
 export const removeAuthor = createAsyncThunk('authors/removeAuthor', removeDoc);
 
-const readDocs = async (): Promise<AuthorProps[]> => {
-  const collectionRef = query(collection(db, 'authors'));
-  const querySnapshot = await getDocs(collectionRef);
+let snapshot: QuerySnapshot;
+let collectionRef: Query;
+let lastVisible;
+
+const readDocs = async (docsCount?: number): Promise<AuthorProps[]> => {
+  if (docsCount === undefined) {
+    console.log('---PATH-1---');
+    collectionRef = query(
+      collection(db, 'authors'),
+      limit(FIRST_LOAD_ROWS_COUNT)
+    );
+    snapshot = await getDocs(collectionRef);
+  } else {
+    console.log('---PATH-2---');
+    lastVisible = snapshot.docs[snapshot.docs.length - 1];
+    collectionRef = query(collectionRef, startAfter(lastVisible));
+    snapshot = await getDocs(collectionRef);
+  }
+
   const authors: AuthorProps[] = [];
-  querySnapshot.forEach((docItem) => {
+  snapshot.forEach((docItem) => {
     authors.push(docItem.data() as AuthorProps);
   });
+  console.log('---authors---', authors);
   return authors;
 };
 
-export const getAllAuthors = createAsyncThunk(
-  'authors/getAllAuthors',
+export const getCollectionAuthors = createAsyncThunk(
+  'authors/getCollectionAuthors',
   readDocs
 );

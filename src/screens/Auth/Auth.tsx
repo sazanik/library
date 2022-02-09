@@ -14,7 +14,7 @@ import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
-import { getAllAuthors } from '../../store/authors/asyncActions';
+import { getCollectionAuthors } from '../../store/authors/asyncActions';
 import { getAllBooks } from '../../store/books/asyncActions';
 import { signInUser, signUpUser } from '../../store/users/asyncActions';
 import { AuthFormProps } from '../../types/inerfaces';
@@ -79,7 +79,7 @@ export const Auth = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    dispatch(getAllAuthors());
+    dispatch(getCollectionAuthors());
     dispatch(getAllBooks());
     // eslint-disable-next-line
   }, []);
