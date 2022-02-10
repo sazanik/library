@@ -46,16 +46,23 @@ let snapshot: QuerySnapshot;
 let collectionRef: Query;
 let lastVisible;
 
-const readDocs = async (docsCount?: number): Promise<AuthorProps[]> => {
+interface ReadDocsProps {
+  authors: AuthorProps[];
+  fullCollectionCount: number;
+}
+
+const readDocs = async (docsCount?: number): Promise<ReadDocsProps> => {
+  const fullCollectionRef = collection(db, 'authors');
+  const fullCollectionSnapshot = await getDocs(fullCollectionRef);
+  const fullCollectionCount = fullCollectionSnapshot.size;
+
   if (docsCount === undefined) {
-    console.log('---PATH-1---');
     collectionRef = query(
       collection(db, 'authors'),
       limit(FIRST_LOAD_ROWS_COUNT)
     );
     snapshot = await getDocs(collectionRef);
   } else {
-    console.log('---PATH-2---');
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
     collectionRef = query(collectionRef, startAfter(lastVisible));
     snapshot = await getDocs(collectionRef);
@@ -65,8 +72,10 @@ const readDocs = async (docsCount?: number): Promise<AuthorProps[]> => {
   snapshot.forEach((docItem) => {
     authors.push(docItem.data() as AuthorProps);
   });
-  console.log('---authors---', authors);
-  return authors;
+  return {
+    authors,
+    fullCollectionCount,
+  };
 };
 
 export const getCollectionAuthors = createAsyncThunk(
