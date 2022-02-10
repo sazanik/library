@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
 import { getCollectionAuthors } from '../../store/authors/asyncActions';
-import { getAllBooks } from '../../store/books/asyncActions';
+import { getCollectionBooks } from '../../store/books/asyncActions';
 import { signInUser, signUpUser } from '../../store/users/asyncActions';
 import { AuthFormProps } from '../../types/inerfaces';
 import { styles } from './Auth.styles';
@@ -80,7 +80,7 @@ export const Auth = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getCollectionAuthors());
-    dispatch(getAllBooks());
+    dispatch(getCollectionBooks());
     // eslint-disable-next-line
   }, []);
 
