@@ -33,7 +33,11 @@ export const Table = ({
   setIsEdit,
   setIsOpenModal,
 }: Props): JSX.Element => {
-  const { authors, books } = useAppSelector((state) => state);
+  const {
+    authors,
+    authors: { count },
+    books,
+  } = useAppSelector((state) => state);
 
   const state = {
     authors: {
@@ -61,8 +65,6 @@ export const Table = ({
     });
   };
 
-  console.log(pageSize);
-
   return (
     <DataGrid
       rows={rows}
@@ -71,10 +73,9 @@ export const Table = ({
       autoPageSize
       page={state[entity].page}
       onPageChange={handlePageChange}
-      // sortingMode='server'
+      rowCount={count}
       sortModel={sortModel}
-      // paginationMode='server'
-      onPageSizeChange={(count) => setPageSize(count)}
+      onPageSizeChange={(value) => setPageSize(value)}
       onSortModelChange={(newModel) => setSortModel(newModel)}
       components={{
         Toolbar: () =>

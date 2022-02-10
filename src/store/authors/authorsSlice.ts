@@ -13,12 +13,14 @@ interface extendedStateProps {
   loading: boolean;
   error: null | string;
   page: number;
+  count: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
   page: 0,
+  count: 0,
 };
 
 const actions = [
@@ -80,8 +82,9 @@ export const authorsSlice = createSlice({
         state.error = null;
       })
       .addCase(getCollectionAuthors.fulfilled, (state, action) => {
-        const { payload: authors } = action;
+        const { authors, fullCollectionCount } = action.payload;
         authorsAdapter.setMany(state, authors);
+        state.count = fullCollectionCount;
         state.loading = false;
         state.error = null;
       });
