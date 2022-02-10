@@ -37,10 +37,10 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
   });
 
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
-    const { birthDate } = data;
-    const year = new Date(birthDate).getFullYear();
-    const month = new Date(birthDate).getMonth();
-    const day = new Date(birthDate).getDate();
+    const birthDate = new Date(data.birthDate);
+    const year = birthDate.getFullYear();
+    const month = birthDate.getMonth();
+    const day = birthDate.getDate();
     const formatBirthDate = format(new Date(year, month, day), 'MM/dd/yyyy');
 
     if (isEdit) {
@@ -72,9 +72,12 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         label={t('placeholders:firstName')}
         defaultValue={isEdit ? author?.firstName : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.firstName?.message}
-      </Typography>
+      {errors?.firstName && (
+        <Typography align='center' sx={styles.error}>
+          {errors.firstName.message}
+        </Typography>
+      )}
+
       <Input
         sx={styles.textField}
         type='text'
@@ -82,9 +85,11 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         label={t('placeholders:lastName')}
         defaultValue={isEdit ? author?.lastName : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.lastName?.message}
-      </Typography>
+      {errors?.lastName && (
+        <Typography align='center' sx={styles.error}>
+          {errors.lastName.message}
+        </Typography>
+      )}
 
       <Controller
         name='birthDate'
@@ -92,16 +97,18 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         control={control}
         render={({ field }) => (
           <DateSelect
+            sx={styles.textField}
             label={t('placeholders:birthDate')}
             value={field.value}
             onChange={field.onChange}
           />
         )}
       />
-
-      <Typography align='center' sx={styles.error}>
-        {errors?.birthDate?.message}
-      </Typography>
+      {errors?.birthDate && (
+        <Typography align='center' sx={styles.error}>
+          {errors.birthDate.message}
+        </Typography>
+      )}
 
       <CountrySelect
         sx={styles.textField}
@@ -109,14 +116,17 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         label={t('placeholders:country')}
         defaultValue={isEdit ? author?.country : ''}
       />
+      {errors?.country && (
+        <Typography align='center' sx={styles.error}>
+          {errors.country.message}
+        </Typography>
+      )}
 
-      <Typography align='center' sx={styles.error}>
-        {errors?.country?.message}
-      </Typography>
-
-      <Typography align='center' sx={styles.error}>
-        {generalError}
-      </Typography>
+      {generalError && (
+        <Typography align='center' sx={styles.error}>
+          {generalError}
+        </Typography>
+      )}
 
       <Button
         sx={styles.buttons.submit}

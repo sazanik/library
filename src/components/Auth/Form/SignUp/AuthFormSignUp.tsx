@@ -25,9 +25,12 @@ export const AuthFormSignUp = ({ errors, register }: Props): JSX.Element => {
         label={t('placeholders:email')}
         variant='standard'
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.email?.message}
-      </Typography>
+      {errors?.email && (
+        <Typography align='center' sx={styles.error}>
+          {errors.email.message}
+        </Typography>
+      )}
+
       <Input
         sx={styles.textField}
         type='password'
@@ -35,9 +38,12 @@ export const AuthFormSignUp = ({ errors, register }: Props): JSX.Element => {
         label={t('placeholders:password')}
         variant='standard'
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.password?.message}
-      </Typography>
+      {errors?.password && (
+        <Typography align='center' sx={styles.error}>
+          {errors.password.message}
+        </Typography>
+      )}
+
       <Input
         sx={styles.textField}
         type='password'
@@ -45,9 +51,11 @@ export const AuthFormSignUp = ({ errors, register }: Props): JSX.Element => {
         label={t('placeholders:confirmPassword')}
         variant='standard'
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.confirmPassword?.message}
-      </Typography>
+      {errors?.confirmPassword && (
+        <Typography align='center' sx={styles.error}>
+          {errors.confirmPassword.message}
+        </Typography>
+      )}
     </>
   );
 };

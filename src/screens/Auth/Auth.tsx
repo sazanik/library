@@ -89,6 +89,7 @@ export const Auth = (): JSX.Element => {
       return;
     }
     dispatch(setLoading(checkLoading()));
+    //eslint-disable-next-line
   }, [store.authors.loading, store.books.loading, store.users.loading]);
 
   if (generalLoading) {

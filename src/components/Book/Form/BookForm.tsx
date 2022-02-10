@@ -11,9 +11,9 @@ import {
   BookFormProps,
   BookProps,
 } from '../../../types/inerfaces';
-import { styles } from '../../Author/Form/AuthorForm.styles';
 import { AuthorSelect } from '../../Author/Select/AuthorSelect';
 import { Input } from '../../Input/Input';
+import { styles } from './BookForm.styles';
 import { getBookSchema } from './validation';
 
 interface componentProps {
@@ -79,9 +79,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         label={t('placeholders:title')}
         defaultValue={isEdit ? propsBook?.title : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.title?.message}
-      </Typography>
+      {errors?.title && (
+        <Typography align='center' sx={styles.error}>
+          {errors.title.message}
+        </Typography>
+      )}
 
       <Input
         sx={styles.textField}
@@ -92,9 +94,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         label={t('placeholders:description')}
         defaultValue={isEdit ? propsBook?.description : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.description?.message}
-      </Typography>
+      {errors?.description && (
+        <Typography align='center' sx={styles.error}>
+          {errors.description.message}
+        </Typography>
+      )}
 
       <Input
         sx={styles.textField}
@@ -103,9 +107,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         label={t('placeholders:code')}
         defaultValue={isEdit ? propsBook?.code : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.code?.message}
-      </Typography>
+      {errors?.code && (
+        <Typography align='center' sx={styles.error}>
+          {errors.code.message}
+        </Typography>
+      )}
 
       <Input
         sx={styles.textField}
@@ -114,9 +120,11 @@ export const BookForm = (props: componentProps): JSX.Element => {
         label={t('placeholders:pagesCount')}
         defaultValue={isEdit ? propsBook?.pagesCount : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.pagesCount?.message}
-      </Typography>
+      {errors?.pagesCount && (
+        <Typography align='center' sx={styles.error}>
+          {errors.pagesCount.message}
+        </Typography>
+      )}
 
       <AuthorSelect
         sx={styles.textField}
@@ -131,9 +139,12 @@ export const BookForm = (props: componentProps): JSX.Element => {
         label={t('placeholders:publishingYear')}
         defaultValue={isEdit ? propsBook?.publishingYear : ''}
       />
-      <Typography align='center' sx={styles.error}>
-        {errors?.publishingYear?.message}
-      </Typography>
+      {errors?.publishingYear && (
+        <Typography align='center' sx={styles.error}>
+          {errors.publishingYear.message}
+        </Typography>
+      )}
+
       <Button
         sx={styles.buttons.submit}
         onClick={handleSubmit(onSubmit)}

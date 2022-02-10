@@ -1,9 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Link } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../hooks';
 import { LanguageSelect } from '../Language/Select/LanguageSelect';
@@ -13,6 +13,7 @@ import { styles } from './MainBar.styles';
 export const MainBar = (): JSX.Element => {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const { logOut } = useAuth();
 
   const handleClick = (): void => {
@@ -22,9 +23,14 @@ export const MainBar = (): JSX.Element => {
     <Box>
       <AppBar position='static'>
         <Toolbar variant='dense'>
-          <Typography variant='h6' noWrap component='div' sx={styles.text}>
+          <Link
+            sx={styles.logo}
+            onClick={() => navigate('/authors')}
+            underline='none'
+          >
             {t('glossary:library')}
-          </Typography>
+          </Link>
+
           <LanguageSelect />
           <Navigation />
           {location.pathname !== '/' && (

@@ -81,7 +81,7 @@ export const BookCard = (): JSX.Element => {
           {t('placeholders:description')}: {book.description}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t('placeholders:authorName')}: {getAuthorName()}
+          {t('placeholders:author')}: {getAuthorName()}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
           {t('placeholders:pagesCount')}: {book.pagesCount}
