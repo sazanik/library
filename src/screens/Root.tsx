@@ -3,12 +3,12 @@ import { Route, Routes } from 'react-router-dom';
 
 import { WithAuthRequirement } from '../components/HOC/WithAuthRequirement';
 import { LayoutMain } from '../components/Layout/Main/LayoutMain';
-import { Auth } from './Auth';
-import { AuthorCard } from './AuthorCard';
-import { AuthorsList } from './AuthorsList';
-import { BookCard } from './BookCard';
-import { BooksList } from './BooksList';
-import { NotFound } from './NotFound';
+import { Auth } from './Auth/Auth';
+import { AuthorCard } from './AuthorCard/AuthorCard';
+import { AuthorsList } from './AuthorsList/AuthorsList';
+import { BookCard } from './BookCard/BookCard';
+import { BooksList } from './BooksList/BookList';
+import { NotFound } from './NotFound/NotFound';
 
 export const Root = (): JSX.Element => {
   return (

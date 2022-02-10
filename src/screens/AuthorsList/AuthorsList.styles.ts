@@ -1,10 +1,7 @@
 export const styles = {
   box: {
-    width: '100vw',
-    height: '88vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   button: {
     fontSize: '26px',

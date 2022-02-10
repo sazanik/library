@@ -10,7 +10,7 @@ interface Props {
   rows: AuthorProps[] | BookProps[];
   columns: GridColDef[];
   onCellClick: (params: GridCellParams) => void;
-  setEdit: (params: boolean) => void;
+  setIsEdit: (params: boolean) => void;
   setIsOpenModal: (params: boolean) => void;
 }
 
@@ -19,7 +19,7 @@ export const Table = ({
   columns,
   onCellClick,
   buttonTitle,
-  setEdit,
+  setIsEdit,
   setIsOpenModal,
 }: Props): JSX.Element => {
   return (
@@ -31,7 +31,7 @@ export const Table = ({
         Toolbar: () =>
           TableToolbar({
             buttonTitle,
-            setEdit,
+            setIsEdit,
             setIsOpenModal,
           }),
       }}

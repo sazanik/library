@@ -1,9 +1,9 @@
 {
-  "invalidData": "Invalid data format",
+  "invalidData": "invalid data format",
   "minLength": "minimum character length: ",
   "maxLength": "maximum character length: ",
+  "date": "invalid date value",
   "required": "the field must be filled",
   "passwordMismatch": "password mismatch",
   "dataCard": "An error occurred, please try again later"
 }
-

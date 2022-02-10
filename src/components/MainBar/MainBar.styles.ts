@@ -1,7 +1,6 @@
 export const styles = {
-  box: {
-    flexGrow: 1,
-  },
+  box: {},
+
   text: {
     minWidth: 140,
     mr: 2,

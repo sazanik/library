@@ -1,8 +1,16 @@
 export const styles = {
-  box: {
+  container: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    height: '100vh',
+  },
+  centerBox: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
-    height: '90vh',
+    justifyContent: 'center',
   },
 };

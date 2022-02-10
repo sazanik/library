@@ -10,8 +10,8 @@ import { authorsSelectors } from '../../store/authors/selectors';
 import { booksSelectors } from '../../store/books/selectors';
 import { store } from '../../store/store';
 import { BookProps } from '../../types/inerfaces';
-import { NotFound } from '../NotFound';
-import { styles } from './styles';
+import { NotFound } from '../NotFound/NotFound';
+import { styles } from './BookCard.styles';
 
 export const BookCard = (): JSX.Element => {
   const navigate = useNavigate();

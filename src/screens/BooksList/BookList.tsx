@@ -7,7 +7,7 @@ import {
   GridColDef,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,20 +15,28 @@ import { BookDialog } from '../../components/Book/Dialog/BookDialog';
 import { BookModal } from '../../components/Book/Modal/BookModal';
 import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
-import { useAllAuthors, useAllBooks, useAppSelector } from '../../hooks';
+import {
+  useAllAuthors,
+  useAllBooks,
+  useAppDispatch,
+  useAppSelector,
+} from '../../hooks';
+import { checkLoading } from '../../services/checkLoading';
+import { setLoading } from '../../store/app/appSlice';
 import { authorsSelectors } from '../../store/authors/selectors';
-import { store } from '../../store/store';
 import { Actions, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
-import { styles } from './styles';
+import { styles } from './BookList.styles';
 
 export const BooksList = (): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { loading } = useAppSelector((state) => state.app);
+  const store = useAppSelector((state) => state);
+  const { generalLoading } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const books = useAllBooks();
-  const [edit, setEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
@@ -37,7 +45,7 @@ export const BooksList = (): JSX.Element => {
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field !== Fields.EDITING) return;
     const book: BookProps = params.row;
-    const author = authorsSelectors.selectById(store.getState(), book.authorId);
+    const author = authorsSelectors.selectById(store, book.authorId);
     setCurrentBook(book);
     setCurrentAuthor(author!);
   };
@@ -46,12 +54,12 @@ export const BooksList = (): JSX.Element => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
       case Actions.ADD:
-        setEdit(false);
+        setIsEdit(false);
         setIsOpenModal(true);
         break;
 
       case Actions.EDIT:
-        setEdit(true);
+        setIsEdit(true);
         setIsOpenModal(true);
         break;
 
@@ -67,7 +75,7 @@ export const BooksList = (): JSX.Element => {
   function editingCell(): JSX.Element {
     return (
       <>
-        <IconButton onClick={clickHandler} aria-label='edit'>
+        <IconButton onClick={clickHandler} aria-label='isEdit'>
           <EditIcon fontSize='small' />
         </IconButton>
         <IconButton onClick={clickHandler} aria-label='delete'>
@@ -129,10 +137,7 @@ export const BooksList = (): JSX.Element => {
 
   const booksWithAuthors = (): BookProps[] => {
     return books.map((book) => {
-      const author = authorsSelectors.selectById(
-        store.getState(),
-        book.authorId
-      );
+      const author = authorsSelectors.selectById(store, book.authorId);
       const authorName = `${author?.firstName} ${author?.lastName}`;
       return {
         ...book,
@@ -141,7 +146,14 @@ export const BooksList = (): JSX.Element => {
     });
   };
 
-  if (loading) {
+  useEffect(() => {
+    if (store.app.generalLoading === checkLoading()) {
+      return;
+    }
+    dispatch(setLoading(checkLoading()));
+  }, [store.authors.loading, store.books.loading, store.users.loading]);
+
+  if (generalLoading) {
     return <Loader />;
   }
 
@@ -160,12 +172,12 @@ export const BooksList = (): JSX.Element => {
           rows={booksWithAuthors()}
           columns={columns}
           onCellClick={cellClickHandler}
-          setEdit={setEdit}
+          setIsEdit={setIsEdit}
           setIsOpenModal={setIsOpenModal}
         />
       )}
       <BookModal
-        edit={edit}
+        isEdit={isEdit}
         author={currentAuthor}
         book={currentBook}
         isOpenModal={isOpenModal}

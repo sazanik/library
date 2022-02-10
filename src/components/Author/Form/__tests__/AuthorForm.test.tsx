@@ -9,7 +9,7 @@ import { AuthorForm, ComponentProps } from '../AuthorForm';
 const mockSetOpenModal = (boolean: boolean): jest.Mock =>
   jest.fn(() => boolean);
 const propsData: ComponentProps = {
-  edit: true,
+  isEdit: true,
   author: {
     id: 'string',
     firstName: 'string',

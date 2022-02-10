@@ -19,7 +19,7 @@ export const MainBar = (): JSX.Element => {
     logOut();
   };
   return (
-    <Box sx={styles.box}>
+    <Box>
       <AppBar position='static'>
         <Toolbar variant='dense'>
           <Typography variant='h6' noWrap component='div' sx={styles.text}>

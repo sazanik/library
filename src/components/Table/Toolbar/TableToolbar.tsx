@@ -7,17 +7,17 @@ import { styles } from './TableToolbar.styles';
 
 interface Props {
   buttonTitle: string;
-  setEdit: (params: boolean) => void;
+  setIsEdit: (params: boolean) => void;
   setIsOpenModal: (params: boolean) => void;
 }
 
 export const TableToolbar = ({
   buttonTitle,
-  setEdit,
+  setIsEdit,
   setIsOpenModal,
 }: Props): JSX.Element => {
   const handleClick = (): void => {
-    setEdit(false);
+    setIsEdit(false);
     setIsOpenModal(true);
   };
 

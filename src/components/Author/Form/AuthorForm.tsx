@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
-import { format, isValid } from 'date-fns';
+import { format } from 'date-fns';
 import React from 'react';
-import { Controller, ControllerRenderProps, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -15,14 +15,14 @@ import { styles } from './AuthorForm.styles';
 import { getAuthorSchema } from './validation';
 
 export interface ComponentProps {
-  edit: boolean;
+  isEdit: boolean;
   author: AuthorProps;
   setIsOpenModal: (params: boolean) => void;
 }
 
 export const AuthorForm = (props: ComponentProps): JSX.Element => {
-  const { edit, author, setIsOpenModal } = props;
-  const { additionalError } = useAppSelector((state) => state.app);
+  const { isEdit, author, setIsOpenModal } = props;
+  const { generalError } = useAppSelector((state) => state.app);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -30,45 +30,38 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
     register,
     handleSubmit,
     control,
-    resetField,
-    watch,
     formState: { errors },
   } = useForm<AuthorFormProps>({
+    mode: 'onSubmit',
     resolver: yupResolver(getAuthorSchema(t)),
   });
 
-  const handleChangeDate = (
-    date: Date,
-    field: ControllerRenderProps<AuthorFormProps, 'birthDate'>
-  ): void => {
-    resetField('birthDate');
-    console.log(date);
-    if (!isValid(date)) {
-      return;
-    }
-    const year = new Date(date).getFullYear();
-    const month = new Date(date).getMonth();
-    const day = new Date(date).getDate();
-    const formatDate = format(new Date(year, month, day), 'MM/dd/yyyy');
-    field.onChange(formatDate);
-  };
-
   const onSubmit = async (data: AuthorFormProps): Promise<void> => {
-    if (edit) {
+    const { birthDate } = data;
+    const year = new Date(birthDate).getFullYear();
+    const month = new Date(birthDate).getMonth();
+    const day = new Date(birthDate).getDate();
+    const formatBirthDate = format(new Date(year, month, day), 'MM/dd/yyyy');
+
+    if (isEdit) {
       dispatch(
         updateAuthor({
           ...data,
+          birthDate: formatBirthDate,
           id: author.id,
         })
       );
     } else {
-      dispatch(createAuthor(data));
+      dispatch(
+        createAuthor({
+          ...data,
+          birthDate: formatBirthDate,
+        })
+      );
     }
     setIsOpenModal(false);
   };
-  const buttonName: string = edit ? t('buttons:confirm') : t('buttons:add');
-
-  console.log(watch('birthDate'));
+  const buttonName: string = isEdit ? t('buttons:confirm') : t('buttons:add');
 
   return (
     <Box component='form' sx={styles.box}>
@@ -77,7 +70,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         type='text'
         {...register('firstName')}
         label={t('placeholders:firstName')}
-        defaultValue={edit ? author?.firstName : ''}
+        defaultValue={isEdit ? author?.firstName : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.firstName?.message}
@@ -87,7 +80,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         type='text'
         {...register('lastName')}
         label={t('placeholders:lastName')}
-        defaultValue={edit ? author?.lastName : ''}
+        defaultValue={isEdit ? author?.lastName : ''}
       />
       <Typography align='center' sx={styles.error}>
         {errors?.lastName?.message}
@@ -95,13 +88,13 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
 
       <Controller
         name='birthDate'
-        defaultValue={edit ? author?.birthDate : ''}
+        defaultValue={isEdit ? author?.birthDate : new Date().toDateString()}
         control={control}
         render={({ field }) => (
           <DateSelect
             label={t('placeholders:birthDate')}
             value={field.value}
-            onChange={(date) => handleChangeDate(date as Date, field)}
+            onChange={field.onChange}
           />
         )}
       />
@@ -111,13 +104,18 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
       </Typography>
 
       <CountrySelect
-        {...register('country')}
         sx={styles.textField}
-        defaultValue={edit ? author?.country : ''}
+        {...register('country')}
+        label={t('placeholders:country')}
+        defaultValue={isEdit ? author?.country : ''}
       />
 
       <Typography align='center' sx={styles.error}>
-        {additionalError}
+        {errors?.country?.message}
+      </Typography>
+
+      <Typography align='center' sx={styles.error}>
+        {generalError}
       </Typography>
 
       <Button
