@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCollectionAuthors } from '../../store/authors/asyncActions';
 import { setPage as setAuthorsPage } from '../../store/authors/authorsSlice';
+import { getCollectionBooks } from '../../store/books/asyncActions';
 import { setPage as setBooksPage } from '../../store/books/booksSlice';
 import { Entities } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
@@ -33,20 +34,20 @@ export const Table = ({
   setIsEdit,
   setIsOpenModal,
 }: Props): JSX.Element => {
-  const {
-    authors,
-    authors: { count },
-    books,
-  } = useAppSelector((state) => state);
+  const { authors, books } = useAppSelector((state) => state);
 
   const state = {
     authors: {
       page: authors.page,
+      count: authors.count,
       setPage: setAuthorsPage,
+      getCollection: getCollectionAuthors,
     },
     books: {
       page: books.page,
+      count: books.count,
       setPage: setBooksPage,
+      getCollection: getCollectionBooks,
     },
   };
 
@@ -60,7 +61,7 @@ export const Table = ({
   ]);
 
   const handlePageChange = (newPage: number): void => {
-    dispatch(getCollectionAuthors(pageSize)).then(() => {
+    dispatch(state[entity].getCollection(pageSize) as any).then(() => {
       dispatch(state[entity].setPage(newPage));
     });
   };
@@ -73,7 +74,7 @@ export const Table = ({
       autoPageSize
       page={state[entity].page}
       onPageChange={handlePageChange}
-      rowCount={count}
+      rowCount={state[entity].count}
       sortModel={sortModel}
       onPageSizeChange={(value) => setPageSize(value)}
       onSortModelChange={(newModel) => setSortModel(newModel)}

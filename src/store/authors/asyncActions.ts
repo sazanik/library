@@ -46,12 +46,12 @@ let snapshot: QuerySnapshot;
 let collectionRef: Query;
 let lastVisible;
 
-interface ReadDocsProps {
+export interface ReadAuthorsDocsProps {
   authors: AuthorProps[];
   fullCollectionCount: number;
 }
 
-const readDocs = async (docsCount?: number): Promise<ReadDocsProps> => {
+const readDocs = async (docsCount?: number): Promise<ReadAuthorsDocsProps> => {
   const fullCollectionRef = collection(db, 'authors');
   const fullCollectionSnapshot = await getDocs(fullCollectionRef);
   const fullCollectionCount = fullCollectionSnapshot.size;

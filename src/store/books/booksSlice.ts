@@ -4,7 +4,7 @@ import { AuthError } from 'firebase/auth';
 import { BookProps } from '../../types/inerfaces';
 import {
   createBook,
-  getAllBooks,
+  getCollectionBooks,
   removeBook,
   updateBook,
 } from './asyncActions';
@@ -18,15 +18,17 @@ interface extendedStateProps {
   loading: boolean;
   error: null | string;
   page: number;
+  count: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
   page: 0,
+  count: 0,
 };
 
-const actions = [createBook, getAllBooks, removeBook, updateBook];
+const actions = [createBook, getCollectionBooks, removeBook, updateBook];
 
 export const booksSlice = createSlice({
   name: 'books',
@@ -74,9 +76,10 @@ export const booksSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllBooks.fulfilled, (state, action) => {
-        const { payload: books } = action;
-        booksAdapter.setAll(state, books);
+      .addCase(getCollectionBooks.fulfilled, (state, action) => {
+        const { books, fullCollectionCount } = action.payload;
+        booksAdapter.setMany(state, books);
+        state.count = fullCollectionCount;
         state.loading = false;
         state.error = null;
       });
