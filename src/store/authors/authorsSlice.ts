@@ -4,7 +4,8 @@ import { AuthError } from 'firebase/auth';
 import { AuthorProps } from '../../types/inerfaces';
 import {
   createAuthor,
-  getCollectionAuthors,
+  getAuthorsCollection,
+  getAuthorsCollectionSize,
   removeAuthor,
   updateAuthor,
 } from './asyncActions';
@@ -13,19 +14,19 @@ interface extendedStateProps {
   loading: boolean;
   error: null | string;
   page: number;
-  count: number;
+  collectionSize: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
   page: 0,
-  count: 0,
+  collectionSize: 0,
 };
 
 const actions = [
   createAuthor,
-  getCollectionAuthors,
+  getAuthorsCollection,
   removeAuthor,
   updateAuthor,
 ];
@@ -81,12 +82,15 @@ export const authorsSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getCollectionAuthors.fulfilled, (state, action) => {
-        const { authors, fullCollectionCount } = action.payload;
+      .addCase(getAuthorsCollection.fulfilled, (state, action) => {
+        const { payload: authors } = action;
         authorsAdapter.setMany(state, authors);
-        state.count = fullCollectionCount;
         state.loading = false;
         state.error = null;
+      })
+      .addCase(getAuthorsCollectionSize.fulfilled, (state, action) => {
+        const { payload: count } = action;
+        state.collectionSize = count;
       });
   },
 });

@@ -19,7 +19,7 @@ import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppDispatch, useAppSelector } from '../../hooks';
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
-import { Actions, Entities, Fields } from '../../types/enums';
+import { Actions, AuthorFields, Entities } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { styles } from './AuthorsList.styles';
 
@@ -36,7 +36,10 @@ export const AuthorsList = (): JSX.Element => {
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field === Fields.EDITING || params.field === Fields.BOOKS) {
+    if (
+      params.field === AuthorFields.EDITING ||
+      params.field === AuthorFields.BOOKS
+    ) {
       setCurrentAuthor(params.row);
     }
   };

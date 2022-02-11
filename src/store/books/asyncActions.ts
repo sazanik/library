@@ -16,7 +16,9 @@ import {
 
 import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
+import { Entities } from '../../types/enums';
 import { BookFormProps, BookProps } from '../../types/inerfaces';
+import { readAllDocs } from '../../utils/readAllDocs';
 
 const createDoc = async (data: BookFormProps): Promise<BookProps> => {
   const docRef = await addDoc(collection(db, 'books'), data);
@@ -46,16 +48,7 @@ let snapshot: QuerySnapshot;
 let collectionRef: Query;
 let lastVisible;
 
-export interface ReadBooksDocsProps {
-  books: BookProps[];
-  fullCollectionCount: number;
-}
-
-const readDocs = async (docsCount?: number): Promise<ReadBooksDocsProps> => {
-  const fullCollectionRef = collection(db, 'books');
-  const fullCollectionSnapshot = await getDocs(fullCollectionRef);
-  const fullCollectionCount = fullCollectionSnapshot.size;
-
+const readDocs = async (docsCount?: number): Promise<BookProps[]> => {
   if (docsCount === undefined) {
     collectionRef = query(
       collection(db, 'books'),
@@ -72,13 +65,15 @@ const readDocs = async (docsCount?: number): Promise<ReadBooksDocsProps> => {
   snapshot.forEach((docItem) => {
     books.push(docItem.data() as BookProps);
   });
-  return {
-    books,
-    fullCollectionCount,
-  };
+  return books;
 };
 
-export const getCollectionBooks = createAsyncThunk(
-  'books/getCollectionBooks',
+export const getBooksCollection = createAsyncThunk(
+  'books/getBooksCollection',
   readDocs
+);
+
+export const getBooksCollectionSize = createAsyncThunk(
+  'books/getBooksCollectionSize',
+  () => readAllDocs(Entities.BOOKS)
 );

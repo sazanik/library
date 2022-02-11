@@ -16,7 +16,9 @@ import {
 
 import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
+import { Entities } from '../../types/enums';
 import { AuthorFormProps, AuthorProps } from '../../types/inerfaces';
+import { readAllDocs } from '../../utils/readAllDocs';
 
 const createDoc = async (data: AuthorFormProps): Promise<AuthorProps> => {
   const docRef = await addDoc(collection(db, 'authors'), data);
@@ -42,20 +44,11 @@ const removeDoc = async (id: string): Promise<string> => {
 
 export const removeAuthor = createAsyncThunk('authors/removeAuthor', removeDoc);
 
-let snapshot: QuerySnapshot;
 let collectionRef: Query;
+let snapshot: QuerySnapshot;
 let lastVisible;
 
-export interface ReadAuthorsDocsProps {
-  authors: AuthorProps[];
-  fullCollectionCount: number;
-}
-
-const readDocs = async (docsCount?: number): Promise<ReadAuthorsDocsProps> => {
-  const fullCollectionRef = collection(db, 'authors');
-  const fullCollectionSnapshot = await getDocs(fullCollectionRef);
-  const fullCollectionCount = fullCollectionSnapshot.size;
-
+const readDocs = async (docsCount?: number): Promise<AuthorProps[]> => {
   if (docsCount === undefined) {
     collectionRef = query(
       collection(db, 'authors'),
@@ -72,13 +65,28 @@ const readDocs = async (docsCount?: number): Promise<ReadAuthorsDocsProps> => {
   snapshot.forEach((docItem) => {
     authors.push(docItem.data() as AuthorProps);
   });
-  return {
-    authors,
-    fullCollectionCount,
-  };
+  return authors;
 };
 
-export const getCollectionAuthors = createAsyncThunk(
-  'authors/getCollectionAuthors',
+export const getAuthorsCollection = createAsyncThunk(
+  'authors/getAuthorsCollection',
   readDocs
 );
+
+export const getAuthorsCollectionSize = createAsyncThunk(
+  'authors/getAuthorsCollectionSize',
+  () => readAllDocs(Entities.AUTHORS)
+);
+
+/*const readSortDocs = async (
+  sortModel: GridSortModel,
+  page: number,
+  pageSize: number
+) => {
+  const sortedCollectionRef = query(collection(db, 'authors'), limit(pageSize));
+};
+
+export const getServerSortedRows = createAsyncThunk(
+  'authors/getServerSortRows',
+  readSortDocs
+);*/

@@ -4,9 +4,23 @@ export enum Actions {
   DELETE = 'delete',
 }
 
-export enum Fields {
-  EDITING = 'editing',
+export enum AuthorFields {
+  FIRST_NAME = 'firstName',
+  LAST_NAME = 'lastName',
+  BIRTH_DATE = 'birthDate',
+  COUNTRY = 'country',
   BOOKS = 'books',
+  EDITING = 'editing',
+}
+
+export enum BookFields {
+  TITLE = 'title',
+  DESCRIPTION = 'description',
+  CODE = 'code',
+  AUTHOR = 'authorName',
+  PAGES_COUNT = 'pagesCount',
+  PUBLISHING_YEAR = 'publishingYear',
+  EDITING = 'editing',
 }
 
 export enum Locales {
