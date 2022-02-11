@@ -85,7 +85,7 @@ export const booksSlice = createSlice({
       })
       .addCase(getBooksCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
-        state.collectionSize = count;
+        // state.collectionSize = count;
       });
   },
 });

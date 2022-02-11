@@ -17,8 +17,13 @@ import {
 import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
 import { Entities } from '../../types/enums';
-import { AuthorFormProps, AuthorProps } from '../../types/inerfaces';
-import { readAllDocs } from '../../utils/readAllDocs';
+import {
+  AuthorFormProps,
+  AuthorProps,
+  ServerSortedRowsParams,
+} from '../../types/inerfaces';
+import { getCollectionRef } from '../../utils/getCollectionRef';
+import { getSortedCollectionArray } from '../../utils/getSortedCollectionSnapshot';
 
 const createDoc = async (data: AuthorFormProps): Promise<AuthorProps> => {
   const docRef = await addDoc(collection(db, 'authors'), data);
@@ -75,18 +80,17 @@ export const getAuthorsCollection = createAsyncThunk(
 
 export const getAuthorsCollectionSize = createAsyncThunk(
   'authors/getAuthorsCollectionSize',
-  () => readAllDocs(Entities.AUTHORS)
+  async () => {
+    const fullCollectionRef = getCollectionRef(Entities.AUTHORS);
+    const fullSnapshot = await getDocs(fullCollectionRef);
+    return fullSnapshot.size;
+  }
 );
 
-/*const readSortDocs = async (
-  sortModel: GridSortModel,
-  page: number,
-  pageSize: number
-) => {
-  const sortedCollectionRef = query(collection(db, 'authors'), limit(pageSize));
-};
-
 export const getServerSortedRows = createAsyncThunk(
-  'authors/getServerSortRows',
-  readSortDocs
-);*/
+  'authors/getServerSortedRows',
+  async (params: ServerSortedRowsParams) => {
+    const authorsCollectionRef = getCollectionRef(Entities.AUTHORS);
+    return await getSortedCollectionArray(authorsCollectionRef, params);
+  }
+);

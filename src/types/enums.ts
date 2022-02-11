@@ -4,16 +4,12 @@ export enum Actions {
   DELETE = 'delete',
 }
 
-export enum AuthorFields {
+export enum Fields {
   FIRST_NAME = 'firstName',
   LAST_NAME = 'lastName',
   BIRTH_DATE = 'birthDate',
   COUNTRY = 'country',
   BOOKS = 'books',
-  EDITING = 'editing',
-}
-
-export enum BookFields {
   TITLE = 'title',
   DESCRIPTION = 'description',
   CODE = 'code',

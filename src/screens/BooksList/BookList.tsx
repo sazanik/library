@@ -24,7 +24,7 @@ import {
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
 import { authorsSelectors } from '../../store/authors/selectors';
-import { Actions, BookFields, Entities } from '../../types/enums';
+import { Actions, Entities, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { styles } from './BookList.styles';
 
@@ -43,7 +43,7 @@ export const BooksList = (): JSX.Element => {
   const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
 
   const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field !== BookFields.EDITING) return;
+    if (params.field !== Fields.EDITING) return;
     const book: BookProps = params.row;
     const author = authorsSelectors.selectById(store, book.authorId);
     setCurrentBook(book);

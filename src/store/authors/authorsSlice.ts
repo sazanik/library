@@ -6,6 +6,7 @@ import {
   createAuthor,
   getAuthorsCollection,
   getAuthorsCollectionSize,
+  getServerSortedRows,
   removeAuthor,
   updateAuthor,
 } from './asyncActions';
@@ -15,6 +16,7 @@ interface extendedStateProps {
   error: null | string;
   page: number;
   collectionSize: number;
+  visibleList: AuthorProps[];
 }
 
 const extendedState: extendedStateProps = {
@@ -22,6 +24,7 @@ const extendedState: extendedStateProps = {
   error: null,
   page: 0,
   collectionSize: 0,
+  visibleList: [],
 };
 
 const actions = [
@@ -91,6 +94,10 @@ export const authorsSlice = createSlice({
       .addCase(getAuthorsCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
         state.collectionSize = count;
+      })
+      .addCase(getServerSortedRows.fulfilled, (state, action) => {
+        const { payload: sortedAuthors } = action;
+        state.visibleList = sortedAuthors as AuthorProps[];
       });
   },
 });

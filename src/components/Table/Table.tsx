@@ -8,12 +8,20 @@ import {
 import React, { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthorsCollection } from '../../store/authors/asyncActions';
+import {
+  getAuthorsCollection,
+  getServerSortedRows,
+} from '../../store/authors/asyncActions';
 import { setPage as setAuthorsPage } from '../../store/authors/authorsSlice';
 import { getBooksCollection } from '../../store/books/asyncActions';
 import { setPage as setBooksPage } from '../../store/books/booksSlice';
 import { Entities } from '../../types/enums';
-import { AuthorProps, BookProps } from '../../types/inerfaces';
+import {
+  AuthorProps,
+  BookProps,
+  FieldsList,
+  Sort,
+} from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
 
 interface Props {
@@ -67,11 +75,19 @@ export const Table = ({
     dispatch(state[entity].setPage(newPage));
   };
 
-  const handleSortModelChange = (newModel: GridSortModel): void => {
-    console.log(newModel);
+  const handleSortModelChange = async (
+    newModel: GridSortModel
+  ): Promise<void> => {
     setSortModel(newModel);
-    //const newRows = dispatch(getServerSortRows(sortModel, page, pageSize))
-    // setCurrentRows(newRows);
+    await dispatch(
+      getServerSortedRows({
+        field: sortModel[0]?.field as FieldsList,
+        pageSize,
+        page: state[entity].page,
+        sort: sortModel[0]?.sort as Sort,
+      })
+    );
+    setCurrentRows(authors.visibleList);
   };
 
   return (
