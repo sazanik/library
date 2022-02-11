@@ -19,7 +19,7 @@ import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppDispatch, useAppSelector } from '../../hooks';
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
-import { Actions, Fields } from '../../types/enums';
+import { Actions, Entities, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { styles } from './AuthorsList.styles';
 
@@ -115,12 +115,14 @@ export const AuthorsList = (): JSX.Element => {
       headerName: t('placeholders:books'),
       flex: 0.7,
       renderCell: () => <BookSelect author={currentAuthor} />,
+      sortable: false,
     },
     {
       field: 'editing',
       headerName: t('placeholders:editing'),
       flex: 0.5,
       renderCell: editingCell,
+      sortable: false,
     },
   ];
 
@@ -151,6 +153,7 @@ export const AuthorsList = (): JSX.Element => {
         </Button>
       ) : (
         <Table
+          entity={Entities.AUTHORS}
           buttonTitle={t('buttons:addAuthor')}
           rows={authors}
           columns={columns}

@@ -18,7 +18,6 @@ export const LanguageSelect = (): JSX.Element => {
     setLanguage(newLanguages);
 
     i18n.changeLanguage(newLanguages).then(() => {
-      console.log('INPUT LOCALE');
       dispatch(setPaginationLocale(newLanguages));
     });
   };

@@ -6,10 +6,15 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  Query,
   query,
+  QuerySnapshot,
   setDoc,
+  startAfter,
 } from 'firebase/firestore/lite';
 
+import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
 import { BookFormProps, BookProps } from '../../types/inerfaces';
 
@@ -37,14 +42,43 @@ const removeDoc = async (id: string): Promise<string> => {
 
 export const removeBook = createAsyncThunk('books/removeBook', removeDoc);
 
-const readDocs = async (): Promise<BookProps[]> => {
-  const collectionRef = query(collection(db, 'books'));
-  const querySnapshot = await getDocs(collectionRef);
+let snapshot: QuerySnapshot;
+let collectionRef: Query;
+let lastVisible;
+
+export interface ReadBooksDocsProps {
+  books: BookProps[];
+  fullCollectionCount: number;
+}
+
+const readDocs = async (docsCount?: number): Promise<ReadBooksDocsProps> => {
+  const fullCollectionRef = collection(db, 'books');
+  const fullCollectionSnapshot = await getDocs(fullCollectionRef);
+  const fullCollectionCount = fullCollectionSnapshot.size;
+
+  if (docsCount === undefined) {
+    collectionRef = query(
+      collection(db, 'books'),
+      limit(FIRST_LOAD_ROWS_COUNT)
+    );
+    snapshot = await getDocs(collectionRef);
+  } else {
+    lastVisible = snapshot.docs[snapshot.docs.length - 1];
+    collectionRef = query(collectionRef, startAfter(lastVisible));
+    snapshot = await getDocs(collectionRef);
+  }
+
   const books: BookProps[] = [];
-  querySnapshot.forEach((docItem) => {
+  snapshot.forEach((docItem) => {
     books.push(docItem.data() as BookProps);
   });
-  return books;
+  return {
+    books,
+    fullCollectionCount,
+  };
 };
 
-export const getAllBooks = createAsyncThunk('books/getAllBooks', readDocs);
+export const getCollectionBooks = createAsyncThunk(
+  'books/getCollectionBooks',
+  readDocs
+);

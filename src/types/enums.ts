@@ -13,3 +13,8 @@ export enum Locales {
   EN = 'en',
   RU = 'ru',
 }
+
+export enum Entities {
+  AUTHORS = 'authors',
+  BOOKS = 'books',
+}

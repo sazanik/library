@@ -2,7 +2,12 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
 import { BookProps } from '../../types/inerfaces';
-import { createBook, getAllBooks, removeBook, updateBook } from './actions';
+import {
+  createBook,
+  getCollectionBooks,
+  removeBook,
+  updateBook,
+} from './asyncActions';
 
 export const booksAdapter = createEntityAdapter<BookProps>({
   selectId: (book) => book.id,
@@ -12,19 +17,28 @@ export const booksAdapter = createEntityAdapter<BookProps>({
 interface extendedStateProps {
   loading: boolean;
   error: null | string;
+  page: number;
+  count: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
+  page: 0,
+  count: 0,
 };
 
-const actions = [createBook, getAllBooks, removeBook, updateBook];
+const actions = [createBook, getCollectionBooks, removeBook, updateBook];
 
 export const booksSlice = createSlice({
   name: 'books',
   initialState: booksAdapter.getInitialState(extendedState),
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      const { payload: page } = action;
+      state.page = page;
+    },
+  },
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
@@ -62,11 +76,14 @@ export const booksSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllBooks.fulfilled, (state, action) => {
-        const { payload: books } = action;
-        booksAdapter.setAll(state, books);
+      .addCase(getCollectionBooks.fulfilled, (state, action) => {
+        const { books, fullCollectionCount } = action.payload;
+        booksAdapter.setMany(state, books);
+        state.count = fullCollectionCount;
         state.loading = false;
         state.error = null;
       });
   },
 });
+
+export const { setPage } = booksSlice.actions;

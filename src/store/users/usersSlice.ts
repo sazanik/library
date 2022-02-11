@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
 import { UserProps } from '../../types/inerfaces';
-import { signInUser, signOutUser, signUpUser } from './actions';
+import { signInUser, signOutUser, signUpUser } from './asyncActions';
 
 interface extendedStateProps {
   loading: boolean;
@@ -35,7 +35,7 @@ export const usersSlice = createSlice({
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
         state.loading = false;
-        state.error = (error as AuthError).message as string;
+        state.error = (error as AuthError)?.message as string;
       });
     });
     actions.forEach((func) => {

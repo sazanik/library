@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
 
+// import logger from 'redux-logger';
+//
 import { appSlice } from './app/appSlice';
 import { authorsSlice } from './authors/authorsSlice';
 import { booksSlice } from './books/booksSlice';
@@ -13,7 +14,7 @@ export const store = configureStore({
     books: booksSlice.reducer,
     users: usersSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

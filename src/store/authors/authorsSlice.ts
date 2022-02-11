@@ -4,22 +4,31 @@ import { AuthError } from 'firebase/auth';
 import { AuthorProps } from '../../types/inerfaces';
 import {
   createAuthor,
-  getAllAuthors,
+  getCollectionAuthors,
   removeAuthor,
   updateAuthor,
-} from './actions';
+} from './asyncActions';
 
 interface extendedStateProps {
   loading: boolean;
   error: null | string;
+  page: number;
+  count: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
+  page: 0,
+  count: 0,
 };
 
-const actions = [createAuthor, getAllAuthors, removeAuthor, updateAuthor];
+const actions = [
+  createAuthor,
+  getCollectionAuthors,
+  removeAuthor,
+  updateAuthor,
+];
 
 export const authorsAdapter = createEntityAdapter<AuthorProps>({
   selectId: (author) => author.id,
@@ -29,7 +38,12 @@ export const authorsAdapter = createEntityAdapter<AuthorProps>({
 export const authorsSlice = createSlice({
   name: 'authors',
   initialState: authorsAdapter.getInitialState(extendedState),
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      const { payload: page } = action;
+      state.page = page;
+    },
+  },
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
@@ -40,7 +54,7 @@ export const authorsSlice = createSlice({
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
         state.loading = false;
-        state.error = (error as AuthError).message as string;
+        state.error = (error as AuthError)?.message as string;
       });
     });
     builder
@@ -67,11 +81,14 @@ export const authorsSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getAllAuthors.fulfilled, (state, action) => {
-        const { payload: authors } = action;
-        authorsAdapter.setAll(state, authors);
+      .addCase(getCollectionAuthors.fulfilled, (state, action) => {
+        const { authors, fullCollectionCount } = action.payload;
+        authorsAdapter.setMany(state, authors);
+        state.count = fullCollectionCount;
         state.loading = false;
         state.error = null;
       });
   },
 });
+
+export const { setPage } = authorsSlice.actions;
