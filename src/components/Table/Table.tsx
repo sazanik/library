@@ -60,10 +60,9 @@ export const Table = ({
     },
   ]);
 
-  const handlePageChange = (newPage: number): void => {
-    dispatch(state[entity].getCollection(pageSize) as any).then(() => {
-      dispatch(state[entity].setPage(newPage));
-    });
+  const handlePageChange = async (newPage: number): Promise<void> => {
+    await dispatch(state[entity].getCollection(pageSize) as any);
+    dispatch(state[entity].setPage(newPage));
   };
 
   return (
