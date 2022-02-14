@@ -6,6 +6,7 @@
   "arrow-body-style": "off",
   "prefer-arrow-callback": "off",
   "singleQuote": true,
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "endOfLine": "auto"
 }
 

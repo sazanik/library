@@ -4,7 +4,8 @@ import { AuthError } from 'firebase/auth';
 import { BookProps } from '../../types/inerfaces';
 import {
   createBook,
-  getCollectionBooks,
+  getBooksCollection,
+  getBooksCollectionSize,
   removeBook,
   updateBook,
 } from './asyncActions';
@@ -18,17 +19,17 @@ interface extendedStateProps {
   loading: boolean;
   error: null | string;
   page: number;
-  count: number;
+  collectionSize: number;
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
   page: 0,
-  count: 0,
+  collectionSize: 0,
 };
 
-const actions = [createBook, getCollectionBooks, removeBook, updateBook];
+const actions = [createBook, getBooksCollection, removeBook, updateBook];
 
 export const booksSlice = createSlice({
   name: 'books',
@@ -49,7 +50,7 @@ export const booksSlice = createSlice({
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
         state.loading = false;
-        state.error = (error as AuthError).message as string;
+        state.error = (error as AuthError)?.message as string;
       });
     });
     builder
@@ -76,12 +77,15 @@ export const booksSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getCollectionBooks.fulfilled, (state, action) => {
-        const { books, fullCollectionCount } = action.payload;
+      .addCase(getBooksCollection.fulfilled, (state, action) => {
+        const { payload: books } = action;
         booksAdapter.setMany(state, books);
-        state.count = fullCollectionCount;
         state.loading = false;
         state.error = null;
+      })
+      .addCase(getBooksCollectionSize.fulfilled, (state, action) => {
+        const { payload: count } = action;
+        state.collectionSize = count;
       });
   },
 });
