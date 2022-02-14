@@ -30,6 +30,8 @@ const extendedState: extendedStateProps = {
 const actions = [
   createAuthor,
   getAuthorsCollection,
+  getAuthorsCollectionSize,
+  getServerSortedRows,
   removeAuthor,
   updateAuthor,
 ];
@@ -94,10 +96,14 @@ export const authorsSlice = createSlice({
       .addCase(getAuthorsCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
         state.collectionSize = count;
+        state.loading = false;
+        state.error = null;
       })
       .addCase(getServerSortedRows.fulfilled, (state, action) => {
         const { payload: sortedAuthors } = action;
         state.visibleList = sortedAuthors as AuthorProps[];
+        state.loading = false;
+        state.error = null;
       });
   },
 });

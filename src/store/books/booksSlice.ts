@@ -50,7 +50,7 @@ export const booksSlice = createSlice({
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
         state.loading = false;
-        state.error = (error as AuthError).message as string;
+        state.error = (error as AuthError)?.message as string;
       });
     });
     builder
@@ -85,7 +85,7 @@ export const booksSlice = createSlice({
       })
       .addCase(getBooksCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
-        // state.collectionSize = count;
+        state.collectionSize = count;
       });
   },
 });
