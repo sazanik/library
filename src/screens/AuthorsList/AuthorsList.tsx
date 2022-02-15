@@ -2,11 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, IconButton } from '@mui/material';
-import {
-  GridCellParams,
-  GridColDef,
-  GridRenderCellParams,
-} from '@mui/x-data-grid';
+import { GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -17,10 +13,10 @@ import { BookSelect } from '../../components/Book/Select/BookSelect';
 import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppDispatch, useAppSelector } from '../../hooks';
-import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
 import { Actions, Entities, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
+import { checkLoading } from '../../utils/checkLoading';
 import { styles } from './AuthorsList.styles';
 
 export const AuthorsList = (): JSX.Element => {
@@ -41,9 +37,7 @@ export const AuthorsList = (): JSX.Element => {
     }
   };
 
-  const clickHandler = (event: {
-    currentTarget: { ariaLabel: string };
-  }): void => {
+  const clickHandler = (event: { currentTarget: { ariaLabel: string } }): void => {
     const action: string = event.currentTarget.ariaLabel;
     switch (action) {
       case Actions.ADD:

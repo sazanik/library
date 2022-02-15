@@ -1,3 +1,4 @@
+import { GridSortModel } from '@mui/x-data-grid';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
@@ -17,14 +18,21 @@ interface extendedStateProps {
   page: number;
   collectionSize: number;
   visibleList: AuthorProps[];
+  sortModel: GridSortModel;
 }
 
 const extendedState: extendedStateProps = {
-  loading: false,
+  loading: true,
   error: null,
   page: 0,
   collectionSize: 0,
   visibleList: [],
+  sortModel: [
+    {
+      field: 'firstName',
+      sort: null,
+    },
+  ],
 };
 
 const actions = [
@@ -90,6 +98,7 @@ export const authorsSlice = createSlice({
       .addCase(getAuthorsCollection.fulfilled, (state, action) => {
         const { payload: authors } = action;
         authorsAdapter.setMany(state, authors);
+        state.visibleList = authors;
         state.loading = false;
         state.error = null;
       })
@@ -100,8 +109,9 @@ export const authorsSlice = createSlice({
         state.error = null;
       })
       .addCase(getServerSortedRows.fulfilled, (state, action) => {
-        const { payload: sortedAuthors } = action;
-        state.visibleList = sortedAuthors as AuthorProps[];
+        const { visibleList, sortModel } = action.payload;
+        state.visibleList = visibleList as AuthorProps[];
+        state.sortModel = [sortModel];
         state.loading = false;
         state.error = null;
       });

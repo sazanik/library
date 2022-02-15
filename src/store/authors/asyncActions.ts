@@ -17,11 +17,7 @@ import {
 import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
 import { Entities } from '../../types/enums';
-import {
-  AuthorFormProps,
-  AuthorProps,
-  ServerSortedRowsParams,
-} from '../../types/inerfaces';
+import { AuthorFormProps, AuthorProps, ServerSortedRowsParams } from '../../types/inerfaces';
 import { getCollectionRef } from '../../utils/getCollectionRef';
 import { getSortedCollectionArray } from '../../utils/getSortedCollectionSnapshot';
 
@@ -55,10 +51,7 @@ let lastVisible;
 
 const readDocs = async (docsCount?: number): Promise<AuthorProps[]> => {
   if (docsCount === undefined) {
-    collectionRef = query(
-      collection(db, 'authors'),
-      limit(FIRST_LOAD_ROWS_COUNT)
-    );
+    collectionRef = query(collection(db, 'authors'), limit(FIRST_LOAD_ROWS_COUNT));
     snapshot = await getDocs(collectionRef);
   } else {
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
@@ -73,10 +66,7 @@ const readDocs = async (docsCount?: number): Promise<AuthorProps[]> => {
   return authors;
 };
 
-export const getAuthorsCollection = createAsyncThunk(
-  'authors/getAuthorsCollection',
-  readDocs
-);
+export const getAuthorsCollection = createAsyncThunk('authors/getAuthorsCollection', readDocs);
 
 export const getAuthorsCollectionSize = createAsyncThunk(
   'authors/getAuthorsCollectionSize',

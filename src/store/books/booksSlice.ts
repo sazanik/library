@@ -23,13 +23,13 @@ interface extendedStateProps {
 }
 
 const extendedState: extendedStateProps = {
-  loading: false,
+  loading: true,
   error: null,
   page: 0,
   collectionSize: 0,
 };
 
-const actions = [createBook, getBooksCollection, removeBook, updateBook];
+const actions = [createBook, getBooksCollection, getBooksCollectionSize, removeBook, updateBook];
 
 export const booksSlice = createSlice({
   name: 'books',
@@ -86,6 +86,8 @@ export const booksSlice = createSlice({
       .addCase(getBooksCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
         state.collectionSize = count;
+        state.loading = false;
+        state.error = null;
       });
   },
 });

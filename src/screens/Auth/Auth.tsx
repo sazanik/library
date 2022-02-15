@@ -12,18 +12,12 @@ import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp
 import { Loader } from '../../components/Loader/Loader';
 import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
-import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
-import {
-  getAuthorsCollection,
-  getAuthorsCollectionSize,
-} from '../../store/authors/asyncActions';
-import {
-  getBooksCollection,
-  getBooksCollectionSize,
-} from '../../store/books/asyncActions';
+import { getAuthorsCollection, getAuthorsCollectionSize } from '../../store/authors/asyncActions';
+import { getBooksCollection, getBooksCollectionSize } from '../../store/books/asyncActions';
 import { signInUser, signUpUser } from '../../store/users/asyncActions';
 import { AuthFormProps } from '../../types/inerfaces';
+import { checkLoading } from '../../utils/checkLoading';
 import { styles } from './Auth.styles';
 
 export const Auth = (): JSX.Element => {
@@ -69,8 +63,17 @@ export const Auth = (): JSX.Element => {
   };
 
   useEffect(() => {
+    dispatch(setLoading(checkLoading()));
+    //eslint-disable-next-line
+  }, [store.authors.loading, store.books.loading, store.users.loading]);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        dispatch(getAuthorsCollection());
+        dispatch(getBooksCollection());
+        dispatch(getAuthorsCollectionSize());
+        dispatch(getBooksCollectionSize());
         user.getIdToken().then((newToken) => {
           if (newToken) {
             signIn(newToken, () => navigate(fromPage, { replace: true }));
@@ -79,26 +82,11 @@ export const Auth = (): JSX.Element => {
           }
         });
       }
+      dispatch(setLoading(false));
     });
     return () => unsubscribe();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    dispatch(getAuthorsCollection());
-    dispatch(getBooksCollection());
-    dispatch(getAuthorsCollectionSize());
-    dispatch(getBooksCollectionSize());
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if (store.app.generalLoading === checkLoading()) {
-      return;
-    }
-    dispatch(setLoading(checkLoading()));
-    //eslint-disable-next-line
-  }, [store.authors.loading, store.books.loading, store.users.loading]);
 
   if (generalLoading) {
     return <Loader />;
@@ -116,11 +104,7 @@ export const Auth = (): JSX.Element => {
         <AuthFormSignUp register={register} errors={errors} />
       )}
 
-      <Button
-        sx={styles.buttons.submit}
-        onClick={handleSubmit(onSubmit)}
-        variant='contained'
-      >
+      <Button sx={styles.buttons.submit} onClick={handleSubmit(onSubmit)} variant='contained'>
         {t('buttons:submit')}
       </Button>
       <Typography align='center' sx={styles.error}>

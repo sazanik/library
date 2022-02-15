@@ -1,27 +1,13 @@
-import {
-  DataGrid,
-  GridCellParams,
-  GridColDef,
-  GridRowsProp,
-  GridSortModel,
-} from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef, GridSortModel } from '@mui/x-data-grid';
 import React, { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-  getAuthorsCollection,
-  getServerSortedRows,
-} from '../../store/authors/asyncActions';
+import { getAuthorsCollection, getServerSortedRows } from '../../store/authors/asyncActions';
 import { setPage as setAuthorsPage } from '../../store/authors/authorsSlice';
 import { getBooksCollection } from '../../store/books/asyncActions';
 import { setPage as setBooksPage } from '../../store/books/booksSlice';
 import { Entities } from '../../types/enums';
-import {
-  AuthorProps,
-  BookProps,
-  FieldsList,
-  Sort,
-} from '../../types/inerfaces';
+import { AuthorProps, BookProps, FieldsList, Sort } from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
 
 interface Props {
@@ -61,45 +47,43 @@ export const Table = ({
   };
 
   const dispatch = useAppDispatch();
-  const [currentRows, setCurrentRows] = React.useState<GridRowsProp>(rows);
+  const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(0);
-  const [sortModel, setSortModel] = React.useState<GridSortModel>([
-    {
-      field: columns[0].field,
-      sort: null,
-    },
-  ]);
 
   const handlePageChange = async (newPage: number): Promise<void> => {
     await dispatch(state[entity].getCollection(pageSize) as never);
     dispatch(state[entity].setPage(newPage));
   };
 
-  const handleSortModelChange = async (
-    newModel: GridSortModel
-  ): Promise<void> => {
-    setSortModel(newModel);
-    await dispatch(
-      getServerSortedRows({
-        field: sortModel[0]?.field as FieldsList,
-        pageSize,
-        page: state[entity].page,
-        sort: sortModel[0]?.sort as Sort,
-      })
-    );
-    setCurrentRows(authors.visibleList);
+  const handleSortModelChange = (newModel: GridSortModel): void => {
+    console.log(newModel);
+    const data = {
+      field: newModel[0]?.field as FieldsList,
+      pageSize,
+      page: state[entity].page,
+      sort: newModel[0]?.sort as Sort,
+    };
+
+    if (!newModel.length) {
+      data.field = authors.sortModel[0].field as FieldsList;
+      data.sort = undefined;
+    }
+
+    console.log(data);
+
+    dispatch(getServerSortedRows(data));
   };
 
   return (
     <DataGrid
-      rows={currentRows}
+      rows={authors.visibleList}
       columns={columns}
       disableColumnMenu
       autoPageSize
       page={state[entity].page}
       onPageChange={handlePageChange}
       rowCount={state[entity].count}
-      sortModel={sortModel}
+      sortModel={authors.sortModel}
       sortingMode='server'
       onPageSizeChange={(value) => setPageSize(value)}
       onSortModelChange={handleSortModelChange}
@@ -111,6 +95,7 @@ export const Table = ({
             setIsOpenModal,
           }),
       }}
+      loading={loading}
       disableSelectionOnClick
       onCellClick={onCellClick}
     />
