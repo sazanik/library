@@ -65,3 +65,26 @@ export interface Countries {
 export type PaginationLocales = {
   [key in Locales]: Localization;
 };
+
+export type FieldsList =
+  | 'firstName'
+  | 'lastName'
+  | 'birthDate'
+  | 'country'
+  | 'books'
+  | 'title'
+  | 'description'
+  | 'code'
+  | 'authorName'
+  | 'pagesCount'
+  | 'publishingYear'
+  | 'editing';
+
+export type Sort = 'asc' | 'desc' | undefined;
+
+export interface ServerSortedRowsParams {
+  field: FieldsList;
+  pageSize: number;
+  page: number;
+  sort: Sort;
+}

@@ -4,7 +4,9 @@ import { AuthError } from 'firebase/auth';
 import { AuthorProps } from '../../types/inerfaces';
 import {
   createAuthor,
-  getCollectionAuthors,
+  getAuthorsCollection,
+  getAuthorsCollectionSize,
+  getServerSortedRows,
   removeAuthor,
   updateAuthor,
 } from './asyncActions';
@@ -13,19 +15,23 @@ interface extendedStateProps {
   loading: boolean;
   error: null | string;
   page: number;
-  count: number;
+  collectionSize: number;
+  visibleList: AuthorProps[];
 }
 
 const extendedState: extendedStateProps = {
   loading: false,
   error: null,
   page: 0,
-  count: 0,
+  collectionSize: 0,
+  visibleList: [],
 };
 
 const actions = [
   createAuthor,
-  getCollectionAuthors,
+  getAuthorsCollection,
+  getAuthorsCollectionSize,
+  getServerSortedRows,
   removeAuthor,
   updateAuthor,
 ];
@@ -81,10 +87,21 @@ export const authorsSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(getCollectionAuthors.fulfilled, (state, action) => {
-        const { authors, fullCollectionCount } = action.payload;
+      .addCase(getAuthorsCollection.fulfilled, (state, action) => {
+        const { payload: authors } = action;
         authorsAdapter.setMany(state, authors);
-        state.count = fullCollectionCount;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getAuthorsCollectionSize.fulfilled, (state, action) => {
+        const { payload: count } = action;
+        state.collectionSize = count;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getServerSortedRows.fulfilled, (state, action) => {
+        const { payload: sortedAuthors } = action;
+        state.visibleList = sortedAuthors as AuthorProps[];
         state.loading = false;
         state.error = null;
       });

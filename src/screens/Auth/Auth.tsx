@@ -14,8 +14,14 @@ import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
 import { checkLoading } from '../../services/checkLoading';
 import { setLoading } from '../../store/app/appSlice';
-import { getCollectionAuthors } from '../../store/authors/asyncActions';
-import { getCollectionBooks } from '../../store/books/asyncActions';
+import {
+  getAuthorsCollection,
+  getAuthorsCollectionSize,
+} from '../../store/authors/asyncActions';
+import {
+  getBooksCollection,
+  getBooksCollectionSize,
+} from '../../store/books/asyncActions';
 import { signInUser, signUpUser } from '../../store/users/asyncActions';
 import { AuthFormProps } from '../../types/inerfaces';
 import { styles } from './Auth.styles';
@@ -79,8 +85,10 @@ export const Auth = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    dispatch(getCollectionAuthors());
-    dispatch(getCollectionBooks());
+    dispatch(getAuthorsCollection());
+    dispatch(getBooksCollection());
+    dispatch(getAuthorsCollectionSize());
+    dispatch(getBooksCollectionSize());
     // eslint-disable-next-line
   }, []);
 
