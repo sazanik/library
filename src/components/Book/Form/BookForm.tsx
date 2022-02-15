@@ -129,7 +129,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
       <AuthorSelect
         sx={styles.textField}
         {...register('authorId')}
-        defaultValue={propsAuthor.id}
+        defaultValue={isEdit ? propsAuthor?.id : ''}
       />
 
       <Input
