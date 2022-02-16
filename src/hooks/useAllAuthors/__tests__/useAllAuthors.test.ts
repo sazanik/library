@@ -4,8 +4,6 @@ import { useAllAuthors } from '../useAllAuthors';
 
 describe('useAllAuthors hook', () => {
   it('should be immutable', () => {
-    expect(useAllAuthors()).toEqual(
-      authorsSelectors.selectAll(store.getState())
-    );
+    expect(useAllAuthors()).toEqual(authorsSelectors.selectAll(store.getState()));
   });
 });

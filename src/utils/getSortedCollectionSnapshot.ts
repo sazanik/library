@@ -6,16 +6,31 @@ import {
   query,
 } from 'firebase/firestore/lite';
 
-import { ServerSortedRowsParams } from '../types/inerfaces';
+import { FieldsList, ServerSortedRowsParams, Sort } from '../types/inerfaces';
+
+interface ReturnObject {
+  sortedList: DocumentData[];
+  sortModel: { field: FieldsList; sort: Sort };
+}
 
 export const getSortedCollectionArray = async (
   collectionRef: CollectionReference,
   params: ServerSortedRowsParams
-): Promise<DocumentData[]> => {
+): Promise<ReturnObject> => {
   const { field, page, pageSize, sort } = params;
   const sortedCollectionRef = query(collectionRef, orderBy(field, sort));
   const snapshot = await getDocs(sortedCollectionRef);
-  return snapshot.docs
-    .slice(page * pageSize, page * pageSize + pageSize)
-    .map((item) => item.data());
+
+  const sortedList = snapshot.docs.slice(0, (page + 1) * pageSize).map((item) => item.data());
+
+  console.log('SORTED LIST', sortedList);
+  sortedList.forEach((item) => console.log(item.firstName));
+
+  return {
+    sortedList,
+    sortModel: {
+      field,
+      sort,
+    },
+  };
 };

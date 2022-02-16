@@ -11,8 +11,7 @@ interface Props {
 
 //todo: there is one bug
 export const CountrySelect = forwardRef((props: Props, ref): JSX.Element => {
-  const removeDefaultValue = ({ defaultValue, ...othersProps }: Props): Props =>
-    othersProps;
+  const removeDefaultValue = ({ defaultValue, ...othersProps }: Props): Props => othersProps;
   const formatProps = removeDefaultValue(props);
 
   return (

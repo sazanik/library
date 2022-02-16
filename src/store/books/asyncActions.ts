@@ -17,8 +17,9 @@ import {
 import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
 import { Entities } from '../../types/enums';
-import { BookFormProps, BookProps } from '../../types/inerfaces';
+import { BookFormProps, BookProps, ServerSortedRowsParams } from '../../types/inerfaces';
 import { getCollectionRef } from '../../utils/getCollectionRef';
+import { getSortedCollectionArray } from '../../utils/getSortedCollectionSnapshot';
 
 const createDoc = async (data: BookFormProps): Promise<BookProps> => {
   const docRef = await addDoc(collection(db, 'books'), data);
@@ -50,10 +51,7 @@ let lastVisible;
 
 const readDocs = async (docsCount?: number): Promise<BookProps[]> => {
   if (docsCount === undefined) {
-    collectionRef = query(
-      collection(db, 'books'),
-      limit(FIRST_LOAD_ROWS_COUNT)
-    );
+    collectionRef = query(collection(db, 'books'), limit(FIRST_LOAD_ROWS_COUNT));
     snapshot = await getDocs(collectionRef);
   } else {
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
@@ -68,16 +66,18 @@ const readDocs = async (docsCount?: number): Promise<BookProps[]> => {
   return books;
 };
 
-export const getBooksCollection = createAsyncThunk(
-  'books/getBooksCollection',
-  readDocs
-);
+export const getBooksCollection = createAsyncThunk('books/getBooksCollection', readDocs);
 
-export const getBooksCollectionSize = createAsyncThunk(
-  'books/getBooksCollectionSize',
-  async () => {
-    const fullCollectionRef = getCollectionRef(Entities.BOOKS);
-    const fullSnapshot = await getDocs(fullCollectionRef);
-    return fullSnapshot.size;
+export const getBooksCollectionSize = createAsyncThunk('books/getBooksCollectionSize', async () => {
+  const fullCollectionRef = getCollectionRef(Entities.BOOKS);
+  const fullSnapshot = await getDocs(fullCollectionRef);
+  return fullSnapshot.size;
+});
+
+export const getBooksSortedCollection = createAsyncThunk(
+  'books/getBooksSortedCollection',
+  async (params: ServerSortedRowsParams) => {
+    const booksCollectionRef = getCollectionRef(Entities.BOOKS);
+    return await getSortedCollectionArray(booksCollectionRef, params);
   }
 );

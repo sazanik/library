@@ -37,12 +37,7 @@ export const BookModal = ({
         >
           <CloseIcon />
         </IconButton>
-        <BookForm
-          isEdit={isEdit}
-          author={author}
-          book={book}
-          setIsOpenModal={setIsOpenModal}
-        />
+        <BookForm isEdit={isEdit} author={author} book={book} setIsOpenModal={setIsOpenModal} />
       </Box>
     </Modal>
   );

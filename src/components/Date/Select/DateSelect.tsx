@@ -34,19 +34,11 @@ const maskMap: MaskMapProps = {
   ru: '__.__.____',
 };
 
-export const DateSelect = ({
-  label,
-  value,
-  onChange,
-  sx,
-}: Props): JSX.Element => {
+export const DateSelect = ({ label, value, onChange, sx }: Props): JSX.Element => {
   const { i18n } = useTranslation();
 
   return (
-    <LocalizationProvider
-      dateAdapter={AdapterDateFns}
-      locale={localeMap[i18n.language]}
-    >
+    <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[i18n.language]}>
       <DatePicker
         minDate={new Date(MIN_VALUE.BIRTH_DAY)}
         maxDate={new Date()}

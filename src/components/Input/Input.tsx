@@ -13,9 +13,7 @@ interface ComponentProps {
 }
 
 export const Input = forwardRef(
-  (props: ComponentProps, ref): JSX.Element => (
-    <TextField inputRef={ref} {...props} />
-  )
+  (props: ComponentProps, ref): JSX.Element => <TextField inputRef={ref} {...props} />
 );
 
 Input.displayName = 'Input';

@@ -35,11 +35,7 @@ export const AuthorModal = ({
         >
           <CloseIcon />
         </IconButton>
-        <AuthorForm
-          isEdit={isEdit}
-          author={author}
-          setIsOpenModal={setIsOpenModal}
-        />
+        <AuthorForm isEdit={isEdit} author={author} setIsOpenModal={setIsOpenModal} />
       </Box>
     </Modal>
   );

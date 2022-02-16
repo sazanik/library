@@ -1,3 +1,4 @@
+import { GridSortModel } from '@mui/x-data-grid';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
@@ -6,46 +7,52 @@ import {
   createAuthor,
   getAuthorsCollection,
   getAuthorsCollectionSize,
-  getServerSortedRows,
+  getAuthorsSortedCollection,
   removeAuthor,
   updateAuthor,
 } from './asyncActions';
 
 interface extendedStateProps {
-  loading: boolean;
+  isLoading: boolean;
   error: null | string;
   page: number;
   collectionSize: number;
-  visibleList: AuthorProps[];
+  sortedList: AuthorProps[];
+  sortModel: GridSortModel;
 }
 
 const extendedState: extendedStateProps = {
-  loading: false,
+  isLoading: true,
   error: null,
   page: 0,
   collectionSize: 0,
-  visibleList: [],
+  sortedList: [],
+  sortModel: [
+    {
+      field: 'firstName',
+      sort: null,
+    },
+  ],
 };
 
 const actions = [
   createAuthor,
   getAuthorsCollection,
   getAuthorsCollectionSize,
-  getServerSortedRows,
+  getAuthorsSortedCollection,
   removeAuthor,
   updateAuthor,
 ];
 
 export const authorsAdapter = createEntityAdapter<AuthorProps>({
   selectId: (author) => author.id,
-  sortComparer: (a, b) => a.lastName.localeCompare(b.lastName),
 });
 
 export const authorsSlice = createSlice({
   name: 'authors',
   initialState: authorsAdapter.getInitialState(extendedState),
   reducers: {
-    setPage: (state, action) => {
+    setAuthorsPage: (state, action) => {
       const { payload: page } = action;
       state.page = page;
     },
@@ -53,13 +60,13 @@ export const authorsSlice = createSlice({
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       });
     });
     actions.forEach((func) => {
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
-        state.loading = false;
+        state.isLoading = false;
         state.error = (error as AuthError)?.message as string;
       });
     });
@@ -67,7 +74,7 @@ export const authorsSlice = createSlice({
       .addCase(createAuthor.fulfilled, (state, action) => {
         const { payload: author } = action;
         authorsAdapter.addOne(state, <AuthorProps>author);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(updateAuthor.fulfilled, (state, action) => {
@@ -78,34 +85,35 @@ export const authorsSlice = createSlice({
             ...author,
           },
         });
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(removeAuthor.fulfilled, (state, action) => {
         const { payload: id } = action;
         authorsAdapter.removeOne(state, id);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(getAuthorsCollection.fulfilled, (state, action) => {
         const { payload: authors } = action;
         authorsAdapter.setMany(state, authors);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(getAuthorsCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
         state.collectionSize = count;
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
-      .addCase(getServerSortedRows.fulfilled, (state, action) => {
-        const { payload: sortedAuthors } = action;
-        state.visibleList = sortedAuthors as AuthorProps[];
-        state.loading = false;
+      .addCase(getAuthorsSortedCollection.fulfilled, (state, action) => {
+        const { sortedList, sortModel } = action.payload;
+        state.sortedList = sortedList as AuthorProps[];
+        state.sortModel = [sortModel];
+        state.isLoading = false;
         state.error = null;
       });
   },
 });
 
-export const { setPage } = authorsSlice.actions;
+export const { setAuthorsPage } = authorsSlice.actions;

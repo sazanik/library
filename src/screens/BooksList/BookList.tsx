@@ -2,11 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import {
-  GridCellParams,
-  GridColDef,
-  GridRenderCellParams,
-} from '@mui/x-data-grid';
+import { GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -15,24 +11,19 @@ import { BookDialog } from '../../components/Book/Dialog/BookDialog';
 import { BookModal } from '../../components/Book/Modal/BookModal';
 import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
-import {
-  useAllAuthors,
-  useAllBooks,
-  useAppDispatch,
-  useAppSelector,
-} from '../../hooks';
-import { checkLoading } from '../../services/checkLoading';
+import { useAllAuthors, useAllBooks, useAppDispatch, useAppSelector } from '../../hooks';
 import { setLoading } from '../../store/app/appSlice';
 import { authorsSelectors } from '../../store/authors/selectors';
 import { Actions, Entities, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
+import { checkLoading } from '../../utils/checkLoading';
 import { styles } from './BookList.styles';
 
 export const BooksList = (): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const store = useAppSelector((state) => state);
-  const { generalLoading } = useAppSelector((state) => state.app);
+  const { isGeneralLoading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const books = useAllBooks();
@@ -148,14 +139,14 @@ export const BooksList = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (store.app.generalLoading === checkLoading()) {
+    if (store.app.isGeneralLoading === checkLoading()) {
       return;
     }
     dispatch(setLoading(checkLoading()));
     //eslint-disable-next-line
-  }, [store.authors.loading, store.books.loading, store.users.loading]);
+  }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
 
-  if (generalLoading) {
+  if (isGeneralLoading) {
     return <Loader />;
   }
 

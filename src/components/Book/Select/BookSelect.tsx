@@ -29,8 +29,7 @@ export const BookSelect = ({ author }: Props): JSX.Element => {
     setAnchorEl(null);
   };
 
-  const getBooks = (): BookProps[] =>
-    books.filter((book) => book.authorId === author?.id);
+  const getBooks = (): BookProps[] => books.filter((book) => book.authorId === author?.id);
 
   return (
     <div>

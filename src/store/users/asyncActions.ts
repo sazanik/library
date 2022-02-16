@@ -1,9 +1,6 @@
 import { Auth } from '@firebase/auth/dist/node-esm';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { auth as authObject } from '../../firebase';
 
@@ -13,21 +10,13 @@ interface Props {
   password: string;
 }
 
-const sigInRequest = async ({
-  auth,
-  email,
-  password,
-}: Props): Promise<void> => {
+const sigInRequest = async ({ auth, email, password }: Props): Promise<void> => {
   await signInWithEmailAndPassword(auth, email, password);
 };
 
 export const signInUser = createAsyncThunk('users/signInUser', sigInRequest);
 
-const sigUpRequest = async ({
-  auth,
-  email,
-  password,
-}: Props): Promise<void> => {
+const sigUpRequest = async ({ auth, email, password }: Props): Promise<void> => {
   await createUserWithEmailAndPassword(auth, email, password);
 };
 
@@ -35,7 +24,4 @@ export const signUpUser = createAsyncThunk('users/signUpUser', sigUpRequest);
 
 const signOutRequest = (): Promise<void> => authObject.signOut();
 
-export const signOutUser = createAsyncThunk(
-  'users/signOutUser',
-  signOutRequest
-);
+export const signOutUser = createAsyncThunk('users/signOutUser', signOutRequest);

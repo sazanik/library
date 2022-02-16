@@ -11,11 +11,7 @@ interface Props {
   setIsOpenModal: (params: boolean) => void;
 }
 
-export const TableToolbar = ({
-  buttonTitle,
-  setIsEdit,
-  setIsOpenModal,
-}: Props): JSX.Element => {
+export const TableToolbar = ({ buttonTitle, setIsEdit, setIsOpenModal }: Props): JSX.Element => {
   const handleClick = (): void => {
     setIsEdit(false);
     setIsOpenModal(true);
@@ -23,12 +19,7 @@ export const TableToolbar = ({
 
   return (
     <GridToolbarContainer>
-      <Button
-        sx={styles.button}
-        onClick={handleClick}
-        variant='outlined'
-        endIcon={<AddIcon />}
-      >
+      <Button sx={styles.button} onClick={handleClick} variant='outlined' endIcon={<AddIcon />}>
         {buttonTitle}
       </Button>
     </GridToolbarContainer>

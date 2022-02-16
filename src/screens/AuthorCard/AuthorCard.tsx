@@ -24,16 +24,12 @@ export const AuthorCard = (): JSX.Element => {
   );
 
   const previousAuthor = (): void => {
-    const previousId = authorsSelectors.selectIds(store.getState())[
-      currentIndex - 1
-    ];
+    const previousId = authorsSelectors.selectIds(store.getState())[currentIndex - 1];
     navigate(`/authors/${previousId}`);
   };
 
   const nextAuthor = (): void => {
-    const nextId = authorsSelectors.selectIds(store.getState())[
-      currentIndex + 1
-    ];
+    const nextId = authorsSelectors.selectIds(store.getState())[currentIndex + 1];
     navigate(`/authors/${nextId}`);
   };
 

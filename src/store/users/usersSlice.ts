@@ -5,12 +5,12 @@ import { UserProps } from '../../types/inerfaces';
 import { signInUser, signOutUser, signUpUser } from './asyncActions';
 
 interface extendedStateProps {
-  loading: boolean;
+  isLoading: boolean;
   error: null | string;
 }
 
 const extendedState: extendedStateProps = {
-  loading: false,
+  isLoading: false,
   error: null,
 };
 
@@ -28,19 +28,19 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       });
     });
     actions.forEach((func) => {
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
-        state.loading = false;
+        state.isLoading = false;
         state.error = (error as AuthError)?.message as string;
       });
     });
     actions.forEach((func) => {
       builder.addCase(func.fulfilled, (state) => {
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       });
     });

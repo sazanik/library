@@ -36,14 +36,10 @@ export const DialogBox = ({
     >
       <DialogTitle id='alert-dialog-title'>{content.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id='alert-dialog-description'>
-          {content.description}
-        </DialogContentText>
+        <DialogContentText id='alert-dialog-description'>{content.description}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setIsOpenDialog(false)}>
-          {t('buttons:cancel')}
-        </Button>
+        <Button onClick={() => setIsOpenDialog(false)}>{t('buttons:cancel')}</Button>
         <Button onClick={handleClickDelete} autoFocus>
           {t('buttons:delete')}
         </Button>

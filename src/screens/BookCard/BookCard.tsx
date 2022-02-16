@@ -33,9 +33,7 @@ export const BookCard = (): JSX.Element => {
   };
 
   const previousBook = (): void => {
-    const previousId = booksSelectors.selectIds(store.getState())[
-      currentIndex - 1
-    ];
+    const previousId = booksSelectors.selectIds(store.getState())[currentIndex - 1];
     navigate(`/books/${previousId}`);
   };
 
