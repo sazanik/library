@@ -1,9 +1,3 @@
-export enum Actions {
-  ADD = 'add',
-  EDIT = 'edit',
-  DELETE = 'delete',
-}
-
 export enum Fields {
   FIRST_NAME = 'firstName',
   LAST_NAME = 'lastName',
@@ -13,7 +7,7 @@ export enum Fields {
   TITLE = 'title',
   DESCRIPTION = 'description',
   CODE = 'code',
-  AUTHOR = 'authorName',
+  AUTHOR = 'author',
   PAGES_COUNT = 'pagesCount',
   PUBLISHING_YEAR = 'publishingYear',
   EDITING = 'editing',

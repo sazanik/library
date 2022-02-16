@@ -1,6 +1,8 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { TFunction } from 'react-i18next';
 
+import { Fields } from '../../types/enums';
+
 interface RenderCells {
   [key: string]: (params: GridRenderCellParams) => JSX.Element;
 }
@@ -10,38 +12,39 @@ export const getColumns = (t: TFunction, renderCells: RenderCells): GridColDef[]
 
   return [
     {
-      field: 'title',
+      field: Fields.TITLE,
       headerName: t('placeholders:title'),
       flex: 1,
       renderCell: renderTitleCells,
     },
     {
-      field: 'description',
+      field: Fields.DESCRIPTION,
       headerName: t('placeholders:description'),
       flex: 1,
+      sortable: false,
     },
     {
-      field: 'code',
+      field: Fields.CODE,
       headerName: t('placeholders:code'),
       flex: 1,
     },
     {
-      field: 'authorName',
+      field: Fields.AUTHOR,
       headerName: t('placeholders:author'),
       flex: 1,
     },
     {
-      field: 'pagesCount',
+      field: Fields.PAGES_COUNT,
       headerName: t('placeholders:pagesCount'),
       flex: 1,
     },
     {
-      field: 'publishingYear',
+      field: Fields.PUBLISHING_YEAR,
       headerName: t('placeholders:publishingYear'),
       flex: 1,
     },
     {
-      field: 'editing',
+      field: Fields.EDITING,
       headerName: t('placeholders:editing'),
       width: 120,
       renderCell: renderEditingCell,

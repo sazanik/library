@@ -81,7 +81,7 @@ export const BooksList = (): JSX.Element => {
       const authorName = `${author?.firstName} ${author?.lastName}`;
       return {
         ...book,
-        authorName,
+        author: authorName,
       };
     });
   };
