@@ -2,8 +2,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, IconButton, Typography } from '@mui/material';
-import { GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import React, { MouseEvent, useEffect, useState } from 'react';
+import { GridCellParams, GridRenderCellParams } from '@mui/x-data-grid';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,10 +14,11 @@ import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAllBooks, useAppDispatch, useAppSelector } from '../../hooks';
 import { setLoading } from '../../store/app/appSlice';
 import { authorsSelectors } from '../../store/authors/selectors';
-import { Actions, Entities, Fields } from '../../types/enums';
+import { Entities, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { checkLoading } from '../../utils/checkLoading';
 import { styles } from './BookList.styles';
+import { getColumns } from './columns';
 
 export const BooksList = (): JSX.Element => {
   const { t } = useTranslation();
@@ -41,43 +42,26 @@ export const BooksList = (): JSX.Element => {
     setCurrentAuthor(author!);
   };
 
-  const clickHandler = (event: MouseEvent<HTMLButtonElement>): void => {
-    const action: string = event.currentTarget.ariaLabel;
-    switch (action) {
-      case Actions.ADD:
-        setIsEdit(false);
-        setIsOpenModal(true);
-        break;
-
-      case Actions.EDIT:
-        setIsEdit(true);
-        setIsOpenModal(true);
-        break;
-
-      case Actions.DELETE:
-        setIsOpenDialog(true);
-        break;
-
-      default:
-        break;
-    }
+  const openBook = (event: GridRenderCellParams): void => {
+    navigate(`/books/${event.id}`);
   };
 
-  function editingCell(): JSX.Element {
+  const renderEditingCell = (): JSX.Element => {
     return (
       <>
-        <IconButton onClick={clickHandler} aria-label='edit'>
+        <IconButton
+          onClick={() => {
+            setIsEdit(true);
+            setIsOpenModal(true);
+          }}
+        >
           <EditIcon fontSize='small' />
         </IconButton>
-        <IconButton onClick={clickHandler} aria-label='delete'>
+        <IconButton onClick={() => setIsOpenDialog(true)}>
           <DeleteIcon fontSize='small' color='error' />
         </IconButton>
       </>
     );
-  }
-
-  const openBook = (event: GridRenderCellParams): void => {
-    navigate(`/books/${event.id}`);
   };
 
   const renderTitleCells = (params: GridRenderCellParams): JSX.Element => (
@@ -86,46 +70,10 @@ export const BooksList = (): JSX.Element => {
     </Button>
   );
 
-  const columns: GridColDef[] = [
-    {
-      field: 'title',
-      headerName: t('placeholders:title'),
-      flex: 1,
-      renderCell: renderTitleCells,
-    },
-    {
-      field: 'description',
-      headerName: t('placeholders:description'),
-      flex: 1,
-    },
-    {
-      field: 'code',
-      headerName: t('placeholders:code'),
-      flex: 1,
-    },
-    {
-      field: 'authorName',
-      headerName: t('placeholders:author'),
-      flex: 1,
-    },
-    {
-      field: 'pagesCount',
-      headerName: t('placeholders:pagesCount'),
-      flex: 1,
-    },
-    {
-      field: 'publishingYear',
-      headerName: t('placeholders:publishingYear'),
-      flex: 1,
-    },
-    {
-      field: 'editing',
-      headerName: t('placeholders:editing'),
-      width: 120,
-      renderCell: editingCell,
-      sortable: false,
-    },
-  ];
+  const columns = getColumns(t, {
+    renderTitleCells,
+    renderEditingCell,
+  });
 
   const booksWithAuthors = (): BookProps[] => {
     return books.map((book) => {
@@ -152,10 +100,16 @@ export const BooksList = (): JSX.Element => {
 
   return (
     <Box sx={styles.box}>
-      {!authors.length ? (
+      {!authors.length && isGeneralLoading ? (
         <Typography>{t('glossary:infoBooks')}</Typography>
       ) : !books?.length ? (
-        <Button onClick={clickHandler} aria-label='add' sx={styles.button}>
+        <Button
+          onClick={() => {
+            setIsEdit(false);
+            setIsOpenModal(true);
+          }}
+          sx={styles.button}
+        >
           <AddIcon fontSize='large' color='primary' />
           {t('buttons:addBook')}
         </Button>
