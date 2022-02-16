@@ -50,10 +50,7 @@ let lastVisible;
 
 const readDocs = async (docsCount?: number): Promise<BookProps[]> => {
   if (docsCount === undefined) {
-    collectionRef = query(
-      collection(db, 'books'),
-      limit(FIRST_LOAD_ROWS_COUNT)
-    );
+    collectionRef = query(collection(db, 'books'), limit(FIRST_LOAD_ROWS_COUNT));
     snapshot = await getDocs(collectionRef);
   } else {
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
@@ -68,16 +65,10 @@ const readDocs = async (docsCount?: number): Promise<BookProps[]> => {
   return books;
 };
 
-export const getBooksCollection = createAsyncThunk(
-  'books/getBooksCollection',
-  readDocs
-);
+export const getBooksCollection = createAsyncThunk('books/getBooksCollection', readDocs);
 
-export const getBooksCollectionSize = createAsyncThunk(
-  'books/getBooksCollectionSize',
-  async () => {
-    const fullCollectionRef = getCollectionRef(Entities.BOOKS);
-    const fullSnapshot = await getDocs(fullCollectionRef);
-    return fullSnapshot.size;
-  }
-);
+export const getBooksCollectionSize = createAsyncThunk('books/getBooksCollectionSize', async () => {
+  const fullCollectionRef = getCollectionRef(Entities.BOOKS);
+  const fullSnapshot = await getDocs(fullCollectionRef);
+  return fullSnapshot.size;
+});

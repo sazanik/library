@@ -43,11 +43,7 @@ export const LayoutCard = ({
         <Button disabled={id === 0} onClick={onPreviousCard} size='small'>
           {content.previousButtonText}
         </Button>
-        <Button
-          disabled={id >= entities.length - 1}
-          onClick={onNextCard}
-          size='small'
-        >
+        <Button disabled={id >= entities.length - 1} onClick={onNextCard} size='small'>
           {content.nextButtonText}
         </Button>
       </CardActions>

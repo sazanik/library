@@ -6,10 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import {
-  createAuthor,
-  updateAuthor,
-} from '../../../store/authors/asyncActions';
+import { createAuthor, updateAuthor } from '../../../store/authors/asyncActions';
 import { AuthorFormProps, AuthorProps } from '../../../types/inerfaces';
 import { CountrySelect } from '../../Country/Select/CountrySelect';
 import { DateSelect } from '../../Date/Select/DateSelect';
@@ -131,11 +128,7 @@ export const AuthorForm = (props: ComponentProps): JSX.Element => {
         </Typography>
       )}
 
-      <Button
-        sx={styles.buttons.submit}
-        onClick={handleSubmit(onSubmit)}
-        variant='contained'
-      >
+      <Button sx={styles.buttons.submit} onClick={handleSubmit(onSubmit)} variant='contained'>
         {buttonName}
       </Button>
     </Box>

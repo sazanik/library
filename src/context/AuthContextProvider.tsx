@@ -33,7 +33,5 @@ export const AuthContextProvider = ({ children }: Props): JSX.Element => {
     logOut,
   };
 
-  return (
-    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
 };

@@ -9,7 +9,7 @@ import {
 import { FieldsList, ServerSortedRowsParams, Sort } from '../types/inerfaces';
 
 interface ReturnObject {
-  visibleList: DocumentData[];
+  sortedList: DocumentData[];
   sortModel: { field: FieldsList; sort: Sort };
 }
 
@@ -21,12 +21,13 @@ export const getSortedCollectionArray = async (
   const sortedCollectionRef = query(collectionRef, orderBy(field, sort));
   const snapshot = await getDocs(sortedCollectionRef);
 
-  const visibleList = snapshot.docs
-    .slice(page * pageSize, page * pageSize + pageSize)
-    .map((item) => item.data());
+  const sortedList = snapshot.docs.slice(0, (page + 1) * pageSize).map((item) => item.data());
+
+  console.log('SORTED LIST', sortedList);
+  sortedList.forEach((item) => console.log(item.firstName));
 
   return {
-    visibleList,
+    sortedList,
     sortModel: {
       field,
       sort,

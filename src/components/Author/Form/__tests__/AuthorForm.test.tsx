@@ -6,8 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { store } from '../../../../store/store';
 import { AuthorForm, ComponentProps } from '../AuthorForm';
 
-const mockSetOpenModal = (boolean: boolean): jest.Mock =>
-  jest.fn(() => boolean);
+const mockSetOpenModal = (boolean: boolean): jest.Mock => jest.fn(() => boolean);
 const propsData: ComponentProps = {
   isEdit: true,
   author: {

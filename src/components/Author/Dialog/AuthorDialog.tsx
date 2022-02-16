@@ -13,11 +13,7 @@ interface Props {
   setIsOpenDialog: (params: boolean) => void;
 }
 
-export const AuthorDialog = ({
-  author,
-  isOpenDialog,
-  setIsOpenDialog,
-}: Props): JSX.Element => {
+export const AuthorDialog = ({ author, isOpenDialog, setIsOpenDialog }: Props): JSX.Element => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const books = useAllBooks();

@@ -17,7 +17,7 @@ interface extendedStateProps {
   error: null | string;
   page: number;
   collectionSize: number;
-  visibleList: AuthorProps[];
+  sortedList: AuthorProps[];
   sortModel: GridSortModel;
 }
 
@@ -26,7 +26,7 @@ const extendedState: extendedStateProps = {
   error: null,
   page: 0,
   collectionSize: 0,
-  visibleList: [],
+  sortedList: [],
   sortModel: [
     {
       field: 'firstName',
@@ -98,7 +98,6 @@ export const authorsSlice = createSlice({
       .addCase(getAuthorsCollection.fulfilled, (state, action) => {
         const { payload: authors } = action;
         authorsAdapter.setMany(state, authors);
-        state.visibleList = authors;
         state.loading = false;
         state.error = null;
       })
@@ -109,8 +108,8 @@ export const authorsSlice = createSlice({
         state.error = null;
       })
       .addCase(getServerSortedRows.fulfilled, (state, action) => {
-        const { visibleList, sortModel } = action.payload;
-        state.visibleList = visibleList as AuthorProps[];
+        const { sortedList, sortModel } = action.payload;
+        state.sortedList = sortedList as AuthorProps[];
         state.sortModel = [sortModel];
         state.loading = false;
         state.error = null;

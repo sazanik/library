@@ -15,14 +15,8 @@ export const getBookSchema = (t: TFunction): AnyObjectSchema =>
       .string()
       .required(t('errors:required'))
       .matches(MASKS.TEXT, t('errors:invalidData'))
-      .min(
-        MIN_LENGTH.DESCRIPTION,
-        t('errors:minLength') + MIN_LENGTH.DESCRIPTION
-      )
-      .max(
-        MAX_LENGTH.DESCRIPTION,
-        t('errors:maxLength') + MAX_LENGTH.DESCRIPTION
-      ),
+      .min(MIN_LENGTH.DESCRIPTION, t('errors:minLength') + MIN_LENGTH.DESCRIPTION)
+      .max(MAX_LENGTH.DESCRIPTION, t('errors:maxLength') + MAX_LENGTH.DESCRIPTION),
     code: yup
       .string()
       .required(t('errors:required'))
@@ -33,24 +27,12 @@ export const getBookSchema = (t: TFunction): AnyObjectSchema =>
       .string()
       .required(t('errors:required'))
       .matches(MASKS.NUMBER, t('errors:invalidData'))
-      .min(
-        MIN_LENGTH.PAGES_COUNT,
-        t('errors:minLength') + MIN_LENGTH.PAGES_COUNT
-      )
-      .max(
-        MAX_LENGTH.PAGES_COUNT,
-        t('errors:maxLength') + MAX_LENGTH.PAGES_COUNT
-      ),
+      .min(MIN_LENGTH.PAGES_COUNT, t('errors:minLength') + MIN_LENGTH.PAGES_COUNT)
+      .max(MAX_LENGTH.PAGES_COUNT, t('errors:maxLength') + MAX_LENGTH.PAGES_COUNT),
     publishingYear: yup
       .string()
       .required(t('errors:required'))
       .matches(MASKS.PUBLISHING_YEAR, t('errors:invalidData'))
-      .min(
-        MIN_LENGTH.PUBLISHING_YEAR,
-        t('errors:minLength') + MIN_LENGTH.PUBLISHING_YEAR
-      )
-      .max(
-        MAX_LENGTH.PUBLISHING_YEAR,
-        t('errors:maxLength') + MAX_LENGTH.PUBLISHING_YEAR
-      ),
+      .min(MIN_LENGTH.PUBLISHING_YEAR, t('errors:minLength') + MIN_LENGTH.PUBLISHING_YEAR)
+      .max(MAX_LENGTH.PUBLISHING_YEAR, t('errors:maxLength') + MAX_LENGTH.PUBLISHING_YEAR),
   });

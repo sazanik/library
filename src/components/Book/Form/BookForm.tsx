@@ -6,11 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '../../../hooks';
 import { createBook, updateBook } from '../../../store/books/asyncActions';
-import {
-  AuthorProps,
-  BookFormProps,
-  BookProps,
-} from '../../../types/inerfaces';
+import { AuthorProps, BookFormProps, BookProps } from '../../../types/inerfaces';
 import { AuthorSelect } from '../../Author/Select/AuthorSelect';
 import { Input } from '../../Input/Input';
 import { styles } from './BookForm.styles';
@@ -34,12 +30,7 @@ interface FormProps {
 
 export const BookForm = (props: componentProps): JSX.Element => {
   const { t } = useTranslation();
-  const {
-    isEdit,
-    author: propsAuthor,
-    book: propsBook,
-    setIsOpenModal,
-  } = props;
+  const { isEdit, author: propsAuthor, book: propsBook, setIsOpenModal } = props;
   const dispatch = useAppDispatch();
 
   const {
@@ -145,11 +136,7 @@ export const BookForm = (props: componentProps): JSX.Element => {
         </Typography>
       )}
 
-      <Button
-        sx={styles.buttons.submit}
-        onClick={handleSubmit(onSubmit)}
-        variant='contained'
-      >
+      <Button sx={styles.buttons.submit} onClick={handleSubmit(onSubmit)} variant='contained'>
         {buttonName}
       </Button>
     </Box>

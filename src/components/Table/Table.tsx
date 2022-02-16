@@ -37,26 +37,23 @@ export const Table = ({
       count: authors.collectionSize,
       setPage: setAuthorsPage,
       getCollection: getAuthorsCollection,
+      loading: authors.loading,
+      sortModel: authors.sortModel,
+      sortedList: authors.sortedList,
     },
     books: {
       page: books.page,
       count: books.collectionSize,
       setPage: setBooksPage,
       getCollection: getBooksCollection,
+      loading: books.loading,
     },
   };
 
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState<number>(0);
 
-  const handlePageChange = async (newPage: number): Promise<void> => {
-    await dispatch(state[entity].getCollection(pageSize) as never);
-    dispatch(state[entity].setPage(newPage));
-  };
-
-  const handleSortModelChange = (newModel: GridSortModel): void => {
-    console.log(newModel);
+  const handleSortModelChange = async (newModel: GridSortModel, page?: number): Promise<void> => {
     const data = {
       field: newModel[0]?.field as FieldsList,
       pageSize,
@@ -69,14 +66,26 @@ export const Table = ({
       data.sort = undefined;
     }
 
-    console.log(data);
+    if (page) {
+      data.page = page;
+    }
 
-    dispatch(getServerSortedRows(data));
+    await dispatch(getServerSortedRows(data));
+  };
+
+  const handlePageChange = async (newPage: number): Promise<void> => {
+    if (state.authors.sortModel[0].sort) {
+      await dispatch(state[entity].setPage(newPage));
+      return handleSortModelChange(state.authors.sortModel, state.authors.page + 1);
+    } else {
+      await dispatch(state[entity].getCollection(pageSize) as never);
+    }
+    await dispatch(state[entity].setPage(newPage));
   };
 
   return (
     <DataGrid
-      rows={authors.visibleList}
+      rows={state.authors.sortModel[0].sort ? (state.authors.sortedList as AuthorProps[]) : rows}
       columns={columns}
       disableColumnMenu
       autoPageSize
@@ -85,8 +94,8 @@ export const Table = ({
       rowCount={state[entity].count}
       sortModel={authors.sortModel}
       sortingMode='server'
-      onPageSizeChange={(value) => setPageSize(value)}
-      onSortModelChange={handleSortModelChange}
+      onPageSizeChange={setPageSize}
+      onSortModelChange={(model) => handleSortModelChange(model)}
       components={{
         Toolbar: () =>
           TableToolbar({
@@ -95,7 +104,6 @@ export const Table = ({
             setIsOpenModal,
           }),
       }}
-      loading={loading}
       disableSelectionOnClick
       onCellClick={onCellClick}
     />

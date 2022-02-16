@@ -23,22 +23,14 @@ export const MainBar = (): JSX.Element => {
     <Box>
       <AppBar position='static'>
         <Toolbar variant='dense'>
-          <Link
-            sx={styles.logo}
-            onClick={() => navigate('/authors')}
-            underline='none'
-          >
+          <Link sx={styles.logo} onClick={() => navigate('/authors')} underline='none'>
             {t('glossary:library')}
           </Link>
 
           <LanguageSelect />
           <Navigation />
           {location.pathname !== '/' && (
-            <Button
-              sx={styles.button}
-              variant='contained'
-              onClick={handleClick}
-            >
+            <Button sx={styles.button} variant='contained' onClick={handleClick}>
               {t('buttons:logOut')}
             </Button>
           )}
