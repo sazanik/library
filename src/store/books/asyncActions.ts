@@ -17,8 +17,9 @@ import {
 import { FIRST_LOAD_ROWS_COUNT } from '../../constants';
 import { db } from '../../firebase';
 import { Entities } from '../../types/enums';
-import { BookFormProps, BookProps } from '../../types/inerfaces';
+import { BookFormProps, BookProps, ServerSortedRowsParams } from '../../types/inerfaces';
 import { getCollectionRef } from '../../utils/getCollectionRef';
+import { getSortedCollectionArray } from '../../utils/getSortedCollectionSnapshot';
 
 const createDoc = async (data: BookFormProps): Promise<BookProps> => {
   const docRef = await addDoc(collection(db, 'books'), data);
@@ -72,3 +73,11 @@ export const getBooksCollectionSize = createAsyncThunk('books/getBooksCollection
   const fullSnapshot = await getDocs(fullCollectionRef);
   return fullSnapshot.size;
 });
+
+export const getBooksSortedCollection = createAsyncThunk(
+  'books/getBooksSortedCollection',
+  async (params: ServerSortedRowsParams) => {
+    const booksCollectionRef = getCollectionRef(Entities.BOOKS);
+    return await getSortedCollectionArray(booksCollectionRef, params);
+  }
+);

@@ -23,7 +23,7 @@ export const BooksList = (): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const store = useAppSelector((state) => state);
-  const { generalLoading } = useAppSelector((state) => state.app);
+  const { isGeneralLoading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const books = useAllBooks();
@@ -139,14 +139,14 @@ export const BooksList = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (store.app.generalLoading === checkLoading()) {
+    if (store.app.isGeneralLoading === checkLoading()) {
       return;
     }
     dispatch(setLoading(checkLoading()));
     //eslint-disable-next-line
-  }, [store.authors.loading, store.books.loading, store.users.loading]);
+  }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
 
-  if (generalLoading) {
+  if (isGeneralLoading) {
     return <Loader />;
   }
 

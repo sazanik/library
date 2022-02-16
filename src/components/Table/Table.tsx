@@ -2,10 +2,10 @@ import { DataGrid, GridCellParams, GridColDef, GridSortModel } from '@mui/x-data
 import React, { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthorsCollection, getServerSortedRows } from '../../store/authors/asyncActions';
-import { setPage as setAuthorsPage } from '../../store/authors/authorsSlice';
-import { getBooksCollection } from '../../store/books/asyncActions';
-import { setPage as setBooksPage } from '../../store/books/booksSlice';
+import { getAuthorsCollection, getAuthorsSortedCollection } from '../../store/authors/asyncActions';
+import { setAuthorsPage } from '../../store/authors/authorsSlice';
+import { getBooksCollection, getBooksSortedCollection } from '../../store/books/asyncActions';
+import { setBooksPage } from '../../store/books/booksSlice';
 import { Entities } from '../../types/enums';
 import { AuthorProps, BookProps, FieldsList, Sort } from '../../types/inerfaces';
 import { TableToolbar } from './Toolbar/TableToolbar';
@@ -35,9 +35,10 @@ export const Table = ({
     authors: {
       page: authors.page,
       count: authors.collectionSize,
+      isLoading: authors.isLoading,
       setPage: setAuthorsPage,
       getCollection: getAuthorsCollection,
-      loading: authors.loading,
+      getSortedCollection: getAuthorsSortedCollection,
       sortModel: authors.sortModel,
       sortedList: authors.sortedList,
     },
@@ -45,8 +46,11 @@ export const Table = ({
       page: books.page,
       count: books.collectionSize,
       setPage: setBooksPage,
+      isLoading: books.isLoading,
       getCollection: getBooksCollection,
-      loading: books.loading,
+      getSortedCollection: getBooksSortedCollection,
+      sortModel: books.sortModel,
+      sortedList: books.sortedList,
     },
   };
 
@@ -62,7 +66,7 @@ export const Table = ({
     };
 
     if (!newModel.length) {
-      data.field = authors.sortModel[0].field as FieldsList;
+      data.field = state[entity].sortModel[0].field as FieldsList;
       data.sort = undefined;
     }
 
@@ -70,13 +74,13 @@ export const Table = ({
       data.page = page;
     }
 
-    await dispatch(getServerSortedRows(data));
+    await dispatch(state[entity].getSortedCollection(data));
   };
 
   const handlePageChange = async (newPage: number): Promise<void> => {
-    if (state.authors.sortModel[0].sort) {
+    if (state[entity].sortModel[0].sort) {
       await dispatch(state[entity].setPage(newPage));
-      return handleSortModelChange(state.authors.sortModel, state.authors.page + 1);
+      return handleSortModelChange(state[entity].sortModel, state[entity].page + 1);
     } else {
       await dispatch(state[entity].getCollection(pageSize) as never);
     }
@@ -85,14 +89,14 @@ export const Table = ({
 
   return (
     <DataGrid
-      rows={state.authors.sortModel[0].sort ? (state.authors.sortedList as AuthorProps[]) : rows}
+      rows={state[entity].sortModel[0].sort ? (state[entity].sortedList as AuthorProps[]) : rows}
       columns={columns}
       disableColumnMenu
       autoPageSize
       page={state[entity].page}
       onPageChange={handlePageChange}
       rowCount={state[entity].count}
-      sortModel={authors.sortModel}
+      sortModel={state[entity].sortModel}
       sortingMode='server'
       onPageSizeChange={setPageSize}
       onSortModelChange={(model) => handleSortModelChange(model)}

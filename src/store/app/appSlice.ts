@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Locales } from '../../types/enums';
 
 interface stateProps {
-  generalLoading: boolean;
+  isGeneralLoading: boolean;
   generalError: string | null;
   locale: Locales;
 }
 
 const initialState: stateProps = {
-  generalLoading: true,
+  isGeneralLoading: true,
   generalError: null,
   locale: Locales.EN,
 };
@@ -27,7 +27,7 @@ export const appSlice = createSlice({
     },
     setLoading: (state, action) => {
       const { payload: status } = action;
-      state.generalLoading = status;
+      state.isGeneralLoading = status;
     },
     setPaginationLocale: (state, action) => {
       const { payload: locale } = action;

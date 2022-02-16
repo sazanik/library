@@ -77,8 +77,8 @@ export const getAuthorsCollectionSize = createAsyncThunk(
   }
 );
 
-export const getServerSortedRows = createAsyncThunk(
-  'authors/getServerSortedRows',
+export const getAuthorsSortedCollection = createAsyncThunk(
+  'authors/getAuthorsSortedCollection',
   async (params: ServerSortedRowsParams) => {
     const authorsCollectionRef = getCollectionRef(Entities.AUTHORS);
     return await getSortedCollectionArray(authorsCollectionRef, params);

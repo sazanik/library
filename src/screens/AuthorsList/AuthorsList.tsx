@@ -21,7 +21,7 @@ import { styles } from './AuthorsList.styles';
 
 export const AuthorsList = (): JSX.Element => {
   const { t } = useTranslation();
-  const { generalLoading, generalError } = useAppSelector((state) => state.app);
+  const { isGeneralLoading, generalError } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const authors = useAllAuthors();
   const dispatch = useAppDispatch();
@@ -127,14 +127,14 @@ export const AuthorsList = (): JSX.Element => {
   }, [generalError]);
 
   useEffect(() => {
-    if (store.app.generalLoading === checkLoading()) {
+    if (store.app.isGeneralLoading === checkLoading()) {
       return;
     }
     dispatch(setLoading(checkLoading()));
     //eslint-disable-next-line
-  }, [store.authors.loading, store.books.loading, store.users.loading]);
+  }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
 
-  if (generalLoading) {
+  if (isGeneralLoading) {
     return <Loader />;
   }
 

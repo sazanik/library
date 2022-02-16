@@ -23,7 +23,7 @@ import { styles } from './Auth.styles';
 export const Auth = (): JSX.Element => {
   const { t } = useTranslation();
   const store = useAppSelector((state) => state);
-  const { generalError, generalLoading } = useAppSelector((state) => state.app);
+  const { generalError, isGeneralLoading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -65,7 +65,7 @@ export const Auth = (): JSX.Element => {
   useEffect(() => {
     dispatch(setLoading(checkLoading()));
     //eslint-disable-next-line
-  }, [store.authors.loading, store.books.loading, store.users.loading]);
+  }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -88,7 +88,7 @@ export const Auth = (): JSX.Element => {
     // eslint-disable-next-line
   }, []);
 
-  if (generalLoading) {
+  if (isGeneralLoading) {
     return <Loader />;
   }
 

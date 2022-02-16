@@ -1,3 +1,4 @@
+import { GridSortModel } from '@mui/x-data-grid';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { AuthError } from 'firebase/auth';
 
@@ -6,36 +7,52 @@ import {
   createBook,
   getBooksCollection,
   getBooksCollectionSize,
+  getBooksSortedCollection,
   removeBook,
   updateBook,
 } from './asyncActions';
 
 export const booksAdapter = createEntityAdapter<BookProps>({
   selectId: (book) => book.id,
-  sortComparer: (a, b) => a.title.localeCompare(b.title),
 });
 
 interface extendedStateProps {
-  loading: boolean;
+  isLoading: boolean;
   error: null | string;
   page: number;
   collectionSize: number;
+  sortedList: BookProps[];
+  sortModel: GridSortModel;
 }
 
 const extendedState: extendedStateProps = {
-  loading: true,
+  isLoading: true,
   error: null,
   page: 0,
   collectionSize: 0,
+  sortedList: [],
+  sortModel: [
+    {
+      field: 'title',
+      sort: null,
+    },
+  ],
 };
 
-const actions = [createBook, getBooksCollection, getBooksCollectionSize, removeBook, updateBook];
+const actions = [
+  createBook,
+  getBooksCollection,
+  getBooksCollectionSize,
+  getBooksSortedCollection,
+  removeBook,
+  updateBook,
+];
 
 export const booksSlice = createSlice({
   name: 'books',
   initialState: booksAdapter.getInitialState(extendedState),
   reducers: {
-    setPage: (state, action) => {
+    setBooksPage: (state, action) => {
       const { payload: page } = action;
       state.page = page;
     },
@@ -43,13 +60,13 @@ export const booksSlice = createSlice({
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       });
     });
     actions.forEach((func) => {
       builder.addCase(func.rejected, (state, action) => {
         const { payload: error } = action;
-        state.loading = false;
+        state.isLoading = false;
         state.error = (error as AuthError)?.message as string;
       });
     });
@@ -57,7 +74,7 @@ export const booksSlice = createSlice({
       .addCase(createBook.fulfilled, (state, action) => {
         const { payload: book } = action;
         booksAdapter.addOne(state, <BookProps>book);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(updateBook.fulfilled, (state, action) => {
@@ -68,28 +85,35 @@ export const booksSlice = createSlice({
             ...book,
           },
         });
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(removeBook.fulfilled, (state, action) => {
         const { payload: id } = action;
         booksAdapter.removeOne(state, id);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(getBooksCollection.fulfilled, (state, action) => {
         const { payload: books } = action;
         booksAdapter.setMany(state, books);
-        state.loading = false;
+        state.isLoading = false;
         state.error = null;
       })
       .addCase(getBooksCollectionSize.fulfilled, (state, action) => {
         const { payload: count } = action;
         state.collectionSize = count;
-        state.loading = false;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(getBooksSortedCollection.fulfilled, (state, action) => {
+        const { sortedList, sortModel } = action.payload;
+        state.sortedList = sortedList as BookProps[];
+        state.sortModel = [sortModel];
+        state.isLoading = false;
         state.error = null;
       });
   },
 });
 
-export const { setPage } = booksSlice.actions;
+export const { setBooksPage } = booksSlice.actions;
