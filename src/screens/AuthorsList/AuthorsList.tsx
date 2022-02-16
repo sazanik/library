@@ -2,7 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, IconButton } from '@mui/material';
-import { GridCellParams, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { GridCellParams, GridRenderCellParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -14,10 +14,11 @@ import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppDispatch, useAppSelector } from '../../hooks';
 import { setLoading } from '../../store/app/appSlice';
-import { Actions, Entities, Fields } from '../../types/enums';
+import { Entities, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { checkLoading } from '../../utils/checkLoading';
 import { styles } from './AuthorsList.styles';
+import { getColumns } from './columns';
 
 export const AuthorsList = (): JSX.Element => {
   const { t } = useTranslation();
@@ -37,39 +38,6 @@ export const AuthorsList = (): JSX.Element => {
     }
   };
 
-  const clickHandler = (event: { currentTarget: { ariaLabel: string } }): void => {
-    const action: string = event.currentTarget.ariaLabel;
-    switch (action) {
-      case Actions.ADD:
-        setIsEdit(false);
-        setIsOpenModal(true);
-        break;
-
-      case Actions.EDIT:
-        setIsEdit(true);
-        setIsOpenModal(true);
-        break;
-
-      case Actions.DELETE:
-        setIsOpenDialog(true);
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const editingCell = (): JSX.Element => (
-    <>
-      <IconButton onClick={clickHandler} aria-label='edit'>
-        <EditIcon fontSize='small' />
-      </IconButton>
-      <IconButton onClick={clickHandler} aria-label='delete'>
-        <DeleteIcon fontSize='small' color='error' />
-      </IconButton>
-    </>
-  );
-
   const openAuthor = (params: GridRenderCellParams): void => {
     navigate(`/authors/${params.id}`);
   };
@@ -80,45 +48,29 @@ export const AuthorsList = (): JSX.Element => {
     </Button>
   );
 
-  const columns: GridColDef[] = [
-    {
-      field: 'firstName',
-      headerName: t('placeholders:firstName'),
-      flex: 1,
-      renderCell: renderNameCells,
-    },
-    {
-      field: 'lastName',
-      headerName: t('placeholders:lastName'),
-      flex: 1,
-      renderCell: renderNameCells,
-    },
-    {
-      field: 'birthDate',
-      headerName: t('placeholders:birthDate'),
-      flex: 1,
-      type: 'date',
-    },
-    {
-      field: 'country',
-      headerName: t('placeholders:country'),
-      flex: 1,
-    },
-    {
-      field: 'books',
-      headerName: t('placeholders:books'),
-      flex: 0.7,
-      renderCell: () => <BookSelect author={currentAuthor} />,
-      sortable: false,
-    },
-    {
-      field: 'editing',
-      headerName: t('placeholders:editing'),
-      flex: 0.5,
-      renderCell: editingCell,
-      sortable: false,
-    },
-  ];
+  const renderBooksCells = (): JSX.Element => <BookSelect author={currentAuthor} />;
+
+  const renderEditingCells = (): JSX.Element => (
+    <>
+      <IconButton
+        onClick={() => {
+          setIsEdit(true);
+          setIsOpenModal(true);
+        }}
+      >
+        <EditIcon fontSize='small' />
+      </IconButton>
+      <IconButton onClick={() => setIsOpenDialog(true)}>
+        <DeleteIcon fontSize='small' color='error' />
+      </IconButton>
+    </>
+  );
+
+  const columns = getColumns(t, {
+    renderNameCells,
+    renderBooksCells,
+    renderEditingCells,
+  });
 
   useEffect(() => {
     if (generalError) {
@@ -140,8 +92,14 @@ export const AuthorsList = (): JSX.Element => {
 
   return (
     <Box sx={styles.box}>
-      {!authors.length ? (
-        <Button onClick={clickHandler} aria-label='add' sx={styles.button}>
+      {!authors.length && isGeneralLoading ? (
+        <Button
+          onClick={() => {
+            setIsEdit(false);
+            setIsOpenModal(true);
+          }}
+          sx={styles.button}
+        >
           <AddIcon fontSize='large' color='primary' />
           {t('buttons:addAuthor')}
         </Button>
