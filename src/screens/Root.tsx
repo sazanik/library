@@ -7,7 +7,7 @@ import { Auth } from './Auth/Auth';
 import { AuthorCard } from './AuthorCard/AuthorCard';
 import { AuthorsList } from './AuthorsList/AuthorsList';
 import { BookCard } from './BookCard/BookCard';
-import { BooksList } from './BooksList/BookList';
+import { BooksList } from './BooksList/BooksList';
 import { NotFound } from './NotFound/NotFound';
 
 export const Root = (): JSX.Element => {

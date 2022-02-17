@@ -20,12 +20,7 @@ export const getSortedCollectionArray = async (
   const { field, page, pageSize, sort } = params;
   const sortedCollectionRef = query(collectionRef, orderBy(field, sort));
   const snapshot = await getDocs(sortedCollectionRef);
-
   const sortedList = snapshot.docs.slice(0, (page + 1) * pageSize).map((item) => item.data());
-
-  console.log('SORTED LIST', sortedList);
-  sortedList.forEach((item) => console.log(item.firstName));
-
   return {
     sortedList,
     sortModel: {
