@@ -15,16 +15,15 @@ const extendedState: extendedStateProps = {
 
 const actions = [signInUser, signUpUser, signOutUser];
 
-export const usersAdapter = createEntityAdapter<UserProps>({
+export const authAdapter = createEntityAdapter<UserProps>({
   selectId: (user) => user.id,
-  sortComparer: (a, b) => a.email.localeCompare(b.email),
 });
 
-export const usersSlice = createSlice({
-  name: 'users',
-  initialState: usersAdapter.getInitialState(extendedState),
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState: authAdapter.getInitialState(extendedState),
   reducers: {
-    setIsUsersLoading: (state, action) => {
+    setIsAuthLoading: (state, action) => {
       const { payload: status } = action;
       state.isLoading = status;
     },
@@ -51,4 +50,4 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { setIsUsersLoading } = usersSlice.actions;
+export const { setIsAuthLoading } = authSlice.actions;

@@ -1,6 +1,10 @@
 import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
 
+import { baseUrl } from '../../config/baseUrl';
 import { config } from './config';
+
+axios.defaults.baseURL = baseUrl;
+axios.defaults.timeout = 1000;
 
 export default ({
   url = '/',

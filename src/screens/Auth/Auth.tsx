@@ -12,10 +12,10 @@ import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp
 import { Loader } from '../../components/Loader/Loader';
 import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
+import { signInUser, signUpUser } from '../../store/auth/asyncActions';
+import { setIsAuthLoading } from '../../store/auth/authSlice';
 import { getAuthorsCollection, getAuthorsCollectionSize } from '../../store/authors/asyncActions';
 import { getBooksCollection, getBooksCollectionSize } from '../../store/books/asyncActions';
-import { signInUser, signUpUser } from '../../store/users/asyncActions';
-import { setIsUsersLoading } from '../../store/users/usersSlice';
 import { AuthFormProps } from '../../types/inerfaces';
 import { styles } from './Auth.styles';
 
@@ -75,18 +75,18 @@ export const Auth = (): JSX.Element => {
           }
         });
       } else {
-        dispatch(setIsUsersLoading(false));
+        dispatch(setIsAuthLoading(false));
       }
     });
 
     return () => {
       unsubscribe();
-      dispatch(setIsUsersLoading(false));
+      dispatch(setIsAuthLoading(false));
     };
     // eslint-disable-next-line
   }, []);
 
-  if (store.users.isLoading) {
+  if (store.auth.isLoading) {
     return <Loader />;
   }
 
@@ -106,7 +106,7 @@ export const Auth = (): JSX.Element => {
         {t('buttons:submit')}
       </Button>
       <Typography align='center' sx={styles.error}>
-        {store.users.error}
+        {store.auth.error}
       </Typography>
       <Typography align='center'>
         {!isRegistered ? t('glossary:goSignIn') : t('glossary:goSignUp')}

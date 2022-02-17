@@ -105,7 +105,7 @@ export const BooksList = (): JSX.Element => {
     }
     dispatch(setIsGeneralLoading(checkLoading()));
     //eslint-disable-next-line
-  }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
+  }, [store.authors.isLoading, store.books.isLoading, store.auth.isLoading]);
 
   if (isGeneralLoading) {
     return <Loader />;

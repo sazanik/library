@@ -14,14 +14,14 @@ const sigInRequest = async ({ auth, email, password }: Props): Promise<void> => 
   await signInWithEmailAndPassword(auth, email, password);
 };
 
-export const signInUser = createAsyncThunk('users/signInUser', sigInRequest);
+export const signInUser = createAsyncThunk('auth/signInUser', sigInRequest);
 
 const sigUpRequest = async ({ auth, email, password }: Props): Promise<void> => {
   await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signUpUser = createAsyncThunk('users/signUpUser', sigUpRequest);
+export const signUpUser = createAsyncThunk('auth/signUpUser', sigUpRequest);
 
 const signOutRequest = (): Promise<void> => authObject.signOut();
 
-export const signOutUser = createAsyncThunk('users/signOutUser', signOutRequest);
+export const signOutUser = createAsyncThunk('auth/signOutUser', signOutRequest);
