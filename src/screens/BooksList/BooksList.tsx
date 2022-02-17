@@ -17,7 +17,7 @@ import { authorsSelectors } from '../../store/authors/selectors';
 import { Entities, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { checkLoading } from '../../utils/checkLoading';
-import { styles } from './BookList.styles';
+import { styles } from './BooksList.styles';
 import { getColumns } from './columns';
 
 export const BooksList = (): JSX.Element => {
@@ -44,9 +44,13 @@ export const BooksList = (): JSX.Element => {
   };
 
   const cellClickHandler = ({ field, row }: GridCellParams): void => {
-    if (field !== Fields.EDITING) return;
+    if (field !== Fields.EDITING) {
+      return;
+    }
+
     const book: BookProps = row;
     const author = authorsSelectors.selectById(store, book.authorId);
+
     setCurrentBook(book);
     setCurrentAuthor(author!);
   };
