@@ -32,21 +32,30 @@ export const AuthorsList = (): JSX.Element => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
+  const openAuthor = (params: GridRenderCellParams): void => {
+    navigate(`/authors/${params.id}`);
+  };
+
   const cellClickHandler = (params: GridCellParams): void => {
     if (params.field === Fields.EDITING || params.field === Fields.BOOKS) {
       setCurrentAuthor(params.row);
     }
   };
 
-  const openAuthor = (params: GridRenderCellParams): void => {
-    navigate(`/authors/${params.id}`);
+  const handlerClickAddAuthor = (): void => {
+    setIsEdit(false);
+    setIsOpenModal(true);
   };
 
-  const renderNameCells = (params: GridRenderCellParams): JSX.Element => (
-    <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
-      {params.value}
-    </Button>
-  );
+  const renderNameCells = (params: GridRenderCellParams): JSX.Element => {
+    const { value } = params;
+
+    return (
+      <Button sx={styles.buttonLeft} onClick={() => openAuthor(params)}>
+        {value}
+      </Button>
+    );
+  };
 
   const renderBooksCells = (): JSX.Element => <BookSelect author={currentAuthor} />;
 
@@ -93,13 +102,7 @@ export const AuthorsList = (): JSX.Element => {
   return (
     <Box sx={styles.box}>
       {!authors.length && isGeneralLoading ? (
-        <Button
-          onClick={() => {
-            setIsEdit(false);
-            setIsOpenModal(true);
-          }}
-          sx={styles.button}
-        >
+        <Button onClick={handlerClickAddAuthor} sx={styles.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons:addAuthor')}
         </Button>

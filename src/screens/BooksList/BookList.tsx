@@ -34,16 +34,21 @@ export const BooksList = (): JSX.Element => {
   const [currentAuthor, setCurrentAuthor] = useState<AuthorProps>(authors[0]);
   const [currentBook, setCurrentBook] = useState<BookProps>(books[0]);
 
-  const cellClickHandler = (params: GridCellParams): void => {
-    if (params.field !== Fields.EDITING) return;
-    const book: BookProps = params.row;
+  const openBook = (event: GridRenderCellParams): void => {
+    navigate(`/books/${event.id}`);
+  };
+
+  const handlerClickAddBook = (): void => {
+    setIsEdit(false);
+    setIsOpenModal(true);
+  };
+
+  const cellClickHandler = ({ field, row }: GridCellParams): void => {
+    if (field !== Fields.EDITING) return;
+    const book: BookProps = row;
     const author = authorsSelectors.selectById(store, book.authorId);
     setCurrentBook(book);
     setCurrentAuthor(author!);
-  };
-
-  const openBook = (event: GridRenderCellParams): void => {
-    navigate(`/books/${event.id}`);
   };
 
   const renderEditingCell = (): JSX.Element => {
@@ -64,11 +69,15 @@ export const BooksList = (): JSX.Element => {
     );
   };
 
-  const renderTitleCells = (params: GridRenderCellParams): JSX.Element => (
-    <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
-      {params.value}
-    </Button>
-  );
+  const renderTitleCells = (params: GridRenderCellParams): JSX.Element => {
+    const { value } = params;
+
+    return (
+      <Button sx={styles.buttonLeft} onClick={() => openBook(params)}>
+        {value}
+      </Button>
+    );
+  };
 
   const columns = getColumns(t, {
     renderTitleCells,
@@ -103,13 +112,7 @@ export const BooksList = (): JSX.Element => {
       {!authors.length && isGeneralLoading ? (
         <Typography>{t('glossary:infoBooks')}</Typography>
       ) : !books?.length ? (
-        <Button
-          onClick={() => {
-            setIsEdit(false);
-            setIsOpenModal(true);
-          }}
-          sx={styles.button}
-        >
+        <Button onClick={handlerClickAddBook} sx={styles.button}>
           <AddIcon fontSize='large' color='primary' />
           {t('buttons:addBook')}
         </Button>
