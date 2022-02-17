@@ -3,6 +3,21 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { Locales } from './enums';
 
+export interface SignInProps {
+  user: {
+    email: string;
+    password: string;
+  };
+}
+
+export interface SignUpProps {
+  user: {
+    email: string;
+    password: string;
+    username: string;
+  };
+}
+
 export interface UserProps {
   id: string;
   email: string;

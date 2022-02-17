@@ -12,10 +12,10 @@ import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp
 import { Loader } from '../../components/Loader/Loader';
 import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
-import { signInUser, signUpUser } from '../../store/auth/asyncActions';
 import { setIsAuthLoading } from '../../store/auth/authSlice';
 import { getAuthorsCollection, getAuthorsCollectionSize } from '../../store/authors/asyncActions';
 import { getBooksCollection, getBooksCollectionSize } from '../../store/books/asyncActions';
+import { signInUser, signUpUser } from '../../store/newAuth/asyncActions';
 import { AuthFormProps } from '../../types/inerfaces';
 import { styles } from './Auth.styles';
 
@@ -46,14 +46,13 @@ export const Auth = (): JSX.Element => {
     isRegistered
       ? dispatch(
           signInUser({
-            auth,
             email: data.email,
             password: data.password,
           })
         )
       : dispatch(
           signUpUser({
-            auth,
+            username: data.email,
             email: data.email,
             password: data.password,
           })
@@ -86,7 +85,7 @@ export const Auth = (): JSX.Element => {
     // eslint-disable-next-line
   }, []);
 
-  if (store.auth.isLoading) {
+  if (store.newAuth.isLoading) {
     return <Loader />;
   }
 
@@ -106,7 +105,7 @@ export const Auth = (): JSX.Element => {
         {t('buttons:submit')}
       </Button>
       <Typography align='center' sx={styles.error}>
-        {store.auth.error}
+        {store.newAuth.error}
       </Typography>
       <Typography align='center'>
         {!isRegistered ? t('glossary:goSignIn') : t('glossary:goSignUp')}

@@ -6,6 +6,7 @@ import { appSlice } from './app/appSlice';
 import { authSlice } from './auth/authSlice';
 import { authorsSlice } from './authors/authorsSlice';
 import { booksSlice } from './books/booksSlice';
+import { newAuthSlice } from './newAuth/newAuthSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     authors: authorsSlice.reducer,
     books: booksSlice.reducer,
     auth: authSlice.reducer,
+    newAuth: newAuthSlice.reducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== 'production',

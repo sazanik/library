@@ -1,16 +1,11 @@
 import { AxiosPromise } from 'axios';
 
+import { SignUpProps } from '../../../../types/inerfaces';
 import makeRequest from '../../makeRequest';
-
-interface SignUpProps {
-  username: string;
-  email: string;
-  password: string;
-}
 
 export const signUp = (data: SignUpProps): AxiosPromise => {
   return makeRequest({
-    url: 'users/login',
+    url: 'users',
     method: 'POST',
     data,
   });
