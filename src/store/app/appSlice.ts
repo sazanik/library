@@ -25,7 +25,7 @@ export const appSlice = createSlice({
     clearError: (state) => {
       state.generalError = null;
     },
-    setLoading: (state, action) => {
+    setIsGeneralLoading: (state, action) => {
       const { payload: status } = action;
       state.isGeneralLoading = status;
     },
@@ -36,4 +36,4 @@ export const appSlice = createSlice({
   },
 });
 
-export const { setLoading, setPaginationLocale } = appSlice.actions;
+export const { setIsGeneralLoading, setPaginationLocale } = appSlice.actions;

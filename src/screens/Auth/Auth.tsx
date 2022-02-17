@@ -12,18 +12,16 @@ import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp
 import { Loader } from '../../components/Loader/Loader';
 import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
-import { setLoading } from '../../store/app/appSlice';
 import { getAuthorsCollection, getAuthorsCollectionSize } from '../../store/authors/asyncActions';
 import { getBooksCollection, getBooksCollectionSize } from '../../store/books/asyncActions';
 import { signInUser, signUpUser } from '../../store/users/asyncActions';
+import { setIsUsersLoading } from '../../store/users/usersSlice';
 import { AuthFormProps } from '../../types/inerfaces';
-import { checkLoading } from '../../utils/checkLoading';
 import { styles } from './Auth.styles';
 
 export const Auth = (): JSX.Element => {
   const { t } = useTranslation();
   const store = useAppSelector((state) => state);
-  const { generalError, isGeneralLoading } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,11 +61,6 @@ export const Auth = (): JSX.Element => {
   };
 
   useEffect(() => {
-    dispatch(setLoading(checkLoading()));
-    //eslint-disable-next-line
-  }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
-
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(getAuthorsCollection());
@@ -81,14 +74,19 @@ export const Auth = (): JSX.Element => {
             logOut();
           }
         });
+      } else {
+        dispatch(setIsUsersLoading(false));
       }
-      dispatch(setLoading(false));
     });
-    return () => unsubscribe();
+
+    return () => {
+      unsubscribe();
+      dispatch(setIsUsersLoading(false));
+    };
     // eslint-disable-next-line
   }, []);
 
-  if (isGeneralLoading) {
+  if (store.users.isLoading) {
     return <Loader />;
   }
 
@@ -108,7 +106,7 @@ export const Auth = (): JSX.Element => {
         {t('buttons:submit')}
       </Button>
       <Typography align='center' sx={styles.error}>
-        {generalError}
+        {store.users.error}
       </Typography>
       <Typography align='center'>
         {!isRegistered ? t('glossary:goSignIn') : t('glossary:goSignUp')}

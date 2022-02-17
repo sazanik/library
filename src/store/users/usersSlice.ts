@@ -1,16 +1,15 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { AuthError } from 'firebase/auth';
 
 import { UserProps } from '../../types/inerfaces';
 import { signInUser, signOutUser, signUpUser } from './asyncActions';
 
 interface extendedStateProps {
   isLoading: boolean;
-  error: null | string;
+  error?: null | string;
 }
 
 const extendedState: extendedStateProps = {
-  isLoading: false,
+  isLoading: true,
   error: null,
 };
 
@@ -24,7 +23,12 @@ export const usersAdapter = createEntityAdapter<UserProps>({
 export const usersSlice = createSlice({
   name: 'users',
   initialState: usersAdapter.getInitialState(extendedState),
-  reducers: {},
+  reducers: {
+    setIsUsersLoading: (state, action) => {
+      const { payload: status } = action;
+      state.isLoading = status;
+    },
+  },
   extraReducers: (builder) => {
     actions.forEach((func) => {
       builder.addCase(func.pending, (state) => {
@@ -33,9 +37,9 @@ export const usersSlice = createSlice({
     });
     actions.forEach((func) => {
       builder.addCase(func.rejected, (state, action) => {
-        const { payload: error } = action;
+        const { error } = action;
         state.isLoading = false;
-        state.error = (error as AuthError)?.message as string;
+        state.error = error.message;
       });
     });
     actions.forEach((func) => {
@@ -46,3 +50,5 @@ export const usersSlice = createSlice({
     });
   },
 });
+
+export const { setIsUsersLoading } = usersSlice.actions;

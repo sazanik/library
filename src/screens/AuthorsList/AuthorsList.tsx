@@ -13,7 +13,7 @@ import { BookSelect } from '../../components/Book/Select/BookSelect';
 import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppDispatch, useAppSelector } from '../../hooks';
-import { setLoading } from '../../store/app/appSlice';
+import { setIsGeneralLoading } from '../../store/app/appSlice';
 import { Entities, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { checkLoading } from '../../utils/checkLoading';
@@ -91,7 +91,7 @@ export const AuthorsList = (): JSX.Element => {
     if (store.app.isGeneralLoading === checkLoading()) {
       return;
     }
-    dispatch(setLoading(checkLoading()));
+    dispatch(setIsGeneralLoading(checkLoading()));
     //eslint-disable-next-line
   }, [store.authors.isLoading, store.books.isLoading, store.users.isLoading]);
 

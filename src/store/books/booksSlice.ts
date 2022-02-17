@@ -1,6 +1,5 @@
 import { GridSortModel } from '@mui/x-data-grid';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { AuthError } from 'firebase/auth';
 
 import { BookProps } from '../../types/inerfaces';
 import {
@@ -18,7 +17,7 @@ export const booksAdapter = createEntityAdapter<BookProps>({
 
 interface extendedStateProps {
   isLoading: boolean;
-  error: null | string;
+  error?: null | string;
   page: number;
   collectionSize: number;
   sortedList: BookProps[];
@@ -26,7 +25,7 @@ interface extendedStateProps {
 }
 
 const extendedState: extendedStateProps = {
-  isLoading: true,
+  isLoading: false,
   error: null,
   page: 0,
   collectionSize: 0,
@@ -65,9 +64,9 @@ export const booksSlice = createSlice({
     });
     actions.forEach((func) => {
       builder.addCase(func.rejected, (state, action) => {
-        const { payload: error } = action;
+        const { error } = action;
         state.isLoading = false;
-        state.error = (error as AuthError)?.message as string;
+        state.error = error.message;
       });
     });
     builder
