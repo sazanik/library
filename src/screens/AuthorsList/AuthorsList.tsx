@@ -83,7 +83,6 @@ export const AuthorsList = (): JSX.Element => {
   });
 
   useEffect(() => {
-    dispatch(getAuthorsCollectionSize());
     dispatch(getAuthorsCollection());
   }, []);
 

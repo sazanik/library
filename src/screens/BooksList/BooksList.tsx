@@ -102,10 +102,12 @@ export const BooksList = (): JSX.Element => {
   };
 
   useEffect(() => {
-    dispatch(getAuthorsCollection());
     dispatch(getBooksCollection());
-    dispatch(getBooksCollectionSize());
   }, []);
+
+  useEffect(() => {
+    dispatch(getAuthorsCollection());
+  }, [books]);
 
   useEffect(() => {
     dispatch(getBooksCollectionSize());
