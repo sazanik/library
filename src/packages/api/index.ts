@@ -1,10 +1,7 @@
-import { setToken } from './config';
-import { signIn } from './rest/users/signIn';
-import { signUp } from './rest/users/signUp';
+import { signIn } from './rest/auth/signIn';
+import { signUp } from './rest/auth/signUp';
 
 export default {
   signIn,
   signUp,
 };
-
-export { setToken };

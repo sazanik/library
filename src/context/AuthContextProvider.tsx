@@ -1,7 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
-import { useAppDispatch } from '../hooks';
-import { signOutUser } from '../store/auth/asyncActions';
+import {
+  getStorageToken,
+  removeStorageToken,
+  setStorageToken,
+} from '../packages/storage/adapters/token';
 import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
@@ -11,26 +14,29 @@ interface Props {
 }
 
 export const AuthContextProvider = ({ children }: Props): JSX.Element => {
-  const dispatch = useAppDispatch();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
 
-  const signIn = (newToken: string, cb: () => void): void => {
+  const handlerSetToken = (newToken: string): void => {
     setToken(newToken);
-    cb();
+    setStorageToken(newToken);
   };
 
-  const logOut = (): void => {
+  const handlerSignOut = (): void => {
     setToken(null);
-    dispatch(signOutUser());
+    removeStorageToken();
   };
+
+  useEffect(() => {
+    getStorageToken().then((oldToken) => setToken(oldToken));
+  }, []);
 
   const context: AuthContextProps = {
-    token,
     isRegistered,
     setIsRegistered,
-    signIn,
-    logOut,
+    token,
+    handlerSetToken,
+    handlerSignOut,
   };
 
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;

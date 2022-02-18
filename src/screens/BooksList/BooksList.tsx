@@ -13,7 +13,9 @@ import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAllBooks, useAppDispatch, useAppSelector } from '../../hooks';
 import { setIsGeneralLoading } from '../../store/app/appSlice';
+import { getAuthorsCollection } from '../../store/authors/asyncActions';
 import { authorsSelectors } from '../../store/authors/selectors';
+import { getBooksCollection, getBooksCollectionSize } from '../../store/books/asyncActions';
 import { Entities, Fields } from '../../types/enums';
 import { AuthorProps, BookProps } from '../../types/inerfaces';
 import { checkLoading } from '../../utils/checkLoading';
@@ -24,7 +26,7 @@ export const BooksList = (): JSX.Element => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const store = useAppSelector((state) => state);
-  const { isGeneralLoading } = useAppSelector((state) => state.app);
+  const { isGeneralLoading, generalError } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   const authors = useAllAuthors();
   const books = useAllBooks();
@@ -98,6 +100,18 @@ export const BooksList = (): JSX.Element => {
       };
     });
   };
+
+  useEffect(() => {
+    dispatch(getAuthorsCollection());
+    dispatch(getBooksCollection());
+    dispatch(getBooksCollectionSize());
+  }, []);
+
+  useEffect(() => {
+    if (generalError) {
+      setIsOpenModal(true);
+    }
+  }, [generalError]);
 
   useEffect(() => {
     if (store.app.isGeneralLoading === checkLoading()) {

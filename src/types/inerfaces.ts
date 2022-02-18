@@ -60,10 +60,10 @@ export interface BookFormProps {
 
 export interface AuthContextProps {
   token: string | null;
+  handlerSetToken: (token: string) => void;
+  handlerSignOut: () => void;
   isRegistered: boolean;
   setIsRegistered: Dispatch<SetStateAction<boolean>>;
-  signIn: (token: string, cb: () => void) => void;
-  logOut: () => void;
 }
 
 export interface AuthFormProps {

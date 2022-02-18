@@ -14,6 +14,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { Table } from '../../components/Table/Table';
 import { useAllAuthors, useAppDispatch, useAppSelector } from '../../hooks';
 import { setIsGeneralLoading } from '../../store/app/appSlice';
+import { getAuthorsCollection, getAuthorsCollectionSize } from '../../store/authors/asyncActions';
 import { Entities, Fields } from '../../types/enums';
 import { AuthorProps } from '../../types/inerfaces';
 import { checkLoading } from '../../utils/checkLoading';
@@ -80,6 +81,11 @@ export const AuthorsList = (): JSX.Element => {
     renderBooksCells,
     renderEditingCells,
   });
+
+  useEffect(() => {
+    dispatch(getAuthorsCollection());
+    dispatch(getAuthorsCollectionSize());
+  }, []);
 
   useEffect(() => {
     if (generalError) {

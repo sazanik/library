@@ -1,11 +1,15 @@
 import storage from '../index';
 
-const setToken = async (token: string): Promise<void> => {
+const setStorageToken = async (token: string): Promise<void> => {
   storage.setItem('token', token);
 };
 
-const getToken = async (): Promise<string | null> => {
-  return storage.getItem('token');
+const getStorageToken = async (): Promise<string | null> => {
+  return await storage.getItem('token');
 };
 
-export { getToken, setToken };
+const removeStorageToken = async (): Promise<void> => {
+  storage.removeItem('token');
+};
+
+export { getStorageToken, removeStorageToken, setStorageToken };

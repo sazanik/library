@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { setToken } from '../../packages/api';
-import { signIn } from '../../packages/api/rest/users/signIn';
-import { signUp } from '../../packages/api/rest/users/signUp';
+import { signIn } from '../../packages/api/rest/auth/signIn';
+import { signUp } from '../../packages/api/rest/auth/signUp';
 
 interface SignInParams {
   email: string;
@@ -13,21 +12,19 @@ interface SignUpProps extends SignInParams {
   username: string;
 }
 
-const sigInRequest = async ({ email, password }: SignInParams): Promise<void> => {
+const sigInRequest = async ({ email, password }: SignInParams): Promise<string | null> => {
   const response = await signIn({
     user: {
       email,
       password,
     },
   });
-
-  const token = response.data.token;
-  setToken(token);
+  return response.data.user.token;
 };
 
 export const signInUser = createAsyncThunk('newAuth/signInUser', sigInRequest);
 
-const sigUpRequest = async ({ username, email, password }: SignUpProps): Promise<void> => {
+const sigUpRequest = async ({ username, email, password }: SignUpProps): Promise<string | null> => {
   const response = await signUp({
     user: {
       username,
@@ -36,14 +33,7 @@ const sigUpRequest = async ({ username, email, password }: SignUpProps): Promise
     },
   });
 
-  const token = response.data.token;
-  setToken(token);
+  return response.data.user.token;
 };
 
 export const signUpUser = createAsyncThunk('newAuth/signUpUser', sigUpRequest);
-
-const signOutRequest = async (): Promise<void> => {
-  console.log('CLEAR SIGN OUT');
-};
-
-export const signOutUser = createAsyncThunk('newAuth/signOutUser', signOutRequest);

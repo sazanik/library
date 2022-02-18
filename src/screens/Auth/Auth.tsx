@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Link, Typography } from '@mui/material';
-import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -10,11 +9,7 @@ import { AuthFormSignIn } from '../../components/Auth/Form/SignIn/AuthFormSignIn
 import { getSignInSchema } from '../../components/Auth/Form/SignIn/validation';
 import { AuthFormSignUp } from '../../components/Auth/Form/SignUp/AuthFormSignUp';
 import { Loader } from '../../components/Loader/Loader';
-import { auth } from '../../firebase';
 import { useAppDispatch, useAppSelector, useAuth } from '../../hooks';
-import { setIsAuthLoading } from '../../store/auth/authSlice';
-import { getAuthorsCollection, getAuthorsCollectionSize } from '../../store/authors/asyncActions';
-import { getBooksCollection, getBooksCollectionSize } from '../../store/books/asyncActions';
 import { signInUser, signUpUser } from '../../store/newAuth/asyncActions';
 import { AuthFormProps } from '../../types/inerfaces';
 import { styles } from './Auth.styles';
@@ -25,7 +20,7 @@ export const Auth = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, logOut, isRegistered, setIsRegistered } = useAuth();
+  const { isRegistered, setIsRegistered, token, handlerSetToken } = useAuth();
 
   const fromPage = (location?.state as Location)?.pathname || '/authors';
 
@@ -49,7 +44,12 @@ export const Auth = (): JSX.Element => {
             email: data.email,
             password: data.password,
           })
-        )
+        ).then(({ payload: newToken }) => {
+          if (newToken) {
+            handlerSetToken(newToken as string);
+            navigate(fromPage, { replace: true });
+          }
+        })
       : dispatch(
           signUpUser({
             username: data.email,
@@ -60,30 +60,10 @@ export const Auth = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(getAuthorsCollection());
-        dispatch(getBooksCollection());
-        dispatch(getAuthorsCollectionSize());
-        dispatch(getBooksCollectionSize());
-        user.getIdToken().then((newToken) => {
-          if (newToken) {
-            signIn(newToken, () => navigate(fromPage, { replace: true }));
-          } else {
-            logOut();
-          }
-        });
-      } else {
-        dispatch(setIsAuthLoading(false));
-      }
-    });
-
-    return () => {
-      unsubscribe();
-      dispatch(setIsAuthLoading(false));
-    };
-    // eslint-disable-next-line
-  }, []);
+    if (token) {
+      navigate(fromPage, { replace: true });
+    }
+  }, [token]);
 
   if (store.newAuth.isLoading) {
     return <Loader />;

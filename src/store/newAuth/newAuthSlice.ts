@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import { UserProps } from '../../types/inerfaces';
-import { signInUser, signOutUser, signUpUser } from './asyncActions';
+import { signInUser, signUpUser } from './asyncActions';
 
 interface extendedStateProps {
   isLoading: boolean;
@@ -9,11 +9,11 @@ interface extendedStateProps {
 }
 
 const extendedState: extendedStateProps = {
-  isLoading: true,
+  isLoading: false,
   error: null,
 };
 
-const actions = [signInUser, signUpUser, signOutUser];
+const actions = [signInUser, signUpUser];
 
 export const newAuthAdapter = createEntityAdapter<UserProps>({
   selectId: (user) => user.id,

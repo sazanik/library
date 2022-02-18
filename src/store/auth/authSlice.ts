@@ -9,7 +9,7 @@ interface extendedStateProps {
 }
 
 const extendedState: extendedStateProps = {
-  isLoading: true,
+  isLoading: false,
   error: null,
 };
 

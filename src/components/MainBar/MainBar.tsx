@@ -14,11 +14,8 @@ export const MainBar = (): JSX.Element => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const { logOut } = useAuth();
+  const { handlerSignOut } = useAuth();
 
-  const handleClick = (): void => {
-    logOut();
-  };
   return (
     <Box>
       <AppBar position='static'>
@@ -30,7 +27,7 @@ export const MainBar = (): JSX.Element => {
           <LanguageSelect />
           <Navigation />
           {location.pathname !== '/' && (
-            <Button sx={styles.button} variant='contained' onClick={handleClick}>
+            <Button sx={styles.button} variant='contained' onClick={handlerSignOut}>
               {t('buttons:logOut')}
             </Button>
           )}
