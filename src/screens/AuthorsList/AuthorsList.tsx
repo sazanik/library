@@ -83,9 +83,13 @@ export const AuthorsList = (): JSX.Element => {
   });
 
   useEffect(() => {
-    dispatch(getAuthorsCollection());
     dispatch(getAuthorsCollectionSize());
+    dispatch(getAuthorsCollection());
   }, []);
+
+  useEffect(() => {
+    dispatch(getAuthorsCollectionSize());
+  }, [authors]);
 
   useEffect(() => {
     if (generalError) {

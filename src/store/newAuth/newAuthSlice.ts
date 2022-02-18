@@ -9,7 +9,7 @@ interface extendedStateProps {
 }
 
 const extendedState: extendedStateProps = {
-  isLoading: false,
+  isLoading: true,
   error: null,
 };
 
@@ -23,7 +23,7 @@ export const newAuthSlice = createSlice({
   name: 'auth',
   initialState: newAuthAdapter.getInitialState(extendedState),
   reducers: {
-    setIsAuthLoading: (state, action) => {
+    setIsNewAuthLoading: (state, action) => {
       const { payload: status } = action;
       state.isLoading = status;
     },
@@ -50,4 +50,4 @@ export const newAuthSlice = createSlice({
   },
 });
 
-export const { setIsAuthLoading } = newAuthSlice.actions;
+export const { setIsNewAuthLoading } = newAuthSlice.actions;

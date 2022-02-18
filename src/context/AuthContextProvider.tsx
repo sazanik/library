@@ -1,10 +1,12 @@
 import React, { createContext, useEffect, useState } from 'react';
 
+import { useAppDispatch } from '../hooks';
 import {
   getStorageToken,
   removeStorageToken,
   setStorageToken,
 } from '../packages/storage/adapters/token';
+import { setIsNewAuthLoading } from '../store/newAuth/newAuthSlice';
 import { AuthContextProps } from '../types/inerfaces';
 
 export const AuthContext = createContext<AuthContextProps>(null!);
@@ -16,6 +18,7 @@ interface Props {
 export const AuthContextProvider = ({ children }: Props): JSX.Element => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const handlerSetToken = (newToken: string): void => {
     setToken(newToken);
@@ -28,7 +31,10 @@ export const AuthContextProvider = ({ children }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    getStorageToken().then((oldToken) => setToken(oldToken));
+    getStorageToken().then((oldToken) => {
+      dispatch(setIsNewAuthLoading(false));
+      setToken(oldToken);
+    });
   }, []);
 
   const context: AuthContextProps = {

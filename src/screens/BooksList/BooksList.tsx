@@ -108,6 +108,10 @@ export const BooksList = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
+    dispatch(getBooksCollectionSize());
+  }, [books]);
+
+  useEffect(() => {
     if (generalError) {
       setIsOpenModal(true);
     }
