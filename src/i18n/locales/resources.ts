@@ -4,4 +4,4 @@ import { ru } from './ru';
 export const resources = {
   en,
   ru,
-};
+} as const;
